@@ -500,152 +500,208 @@ function StepBar({b, steps, current}) {
   );
 }
 
-// ─── IMAGE GENERATOR TAB (DALL-E 3) ───────────────────────────────
-function CarouselTab({b, activeBrand, keys}) {
-  const [prompt, setPrompt] = useState("");
-  const [size, setSize] = useState("1024x1024");
-  const [quality, setQuality] = useState("standard");
-  const [style, setStyle] = useState("vivid");
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({msg:"", type:""});
-  const [result, setResult] = useState(null);
+// ─── CAROUSEL CONTENT PIPELINE ────────────────────────────────────
+function CarouselTab({b, keys}) {
+  const [idea, setIdea] = useState("");
+  const [carouselTitle, setCarouselTitle] = useState("");
+  const [slides, setSlides] = useState([]);
+  const [expandLoading, setExpandLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [expandStatus, setExpandStatus] = useState("");
+  const [sendStatus, setSendStatus] = useState({msg:"", type:""});
+  const [showOutput, setShowOutput] = useState(false);
 
   const apiKey = keys.openai || "";
 
-  const generate = async () => {
-    if (!apiKey) { setStatus({msg:"Add your OpenAI API key in Settings → AI Images (DALL-E 3)", type:"warn"}); return; }
-    if (!prompt.trim()) { setStatus({msg:"Enter a prompt first.", type:"warn"}); return; }
-    setLoading(true); setResult(null); setStatus({msg:"", type:""});
+  const expandIdea = async () => {
+    if (!idea.trim()) { setExpandStatus("Enter an idea first."); return; }
+    setExpandLoading(true);
+    setExpandStatus("Expanding your idea...");
+    setShowOutput(false);
+    setSlides([]);
+    setCarouselTitle("");
+
+    const systemPrompt = `You are a content writer for KCE Trading, a professional crypto trading brand.
+
+OUTPUT FORMAT (strict — no deviation):
+TITLE: [Short title]
+SLIDES:
+1. [Slide text]
+2. [Slide text]
+3. [Slide text]
+4. [Slide text]
+5. [Slide text]
+6. [Slide text]
+7. [Slide text]
+8. [Slide text]
+
+RULES:
+- Max 10-12 words per slide
+- No paragraphs, no emojis, no fluff
+- Confident trading insider tone
+- No design instructions, no visual descriptions
+- Slide 1: hook
+- Slides 2-7: one key insight per slide
+- Slide 8: strong CTA or takeaway
+- Output only the format above, nothing else`;
+
     try {
-      const res = await fetch("https://api.openai.com/v1/images/generations", {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: {"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
-        body: JSON.stringify({model:"dall-e-3", prompt:prompt.trim(), n:1, size, quality, style, response_format:"url"})
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 800,
+          system: systemPrompt,
+          messages: [{role:"user", content:`IDEA: ${idea.trim()}`}]
+        })
       });
       const data = await res.json();
-      if (data.error) { setStatus({msg:data.error.message, type:"err"}); return; }
-      setResult({url: data.data[0].url, revised: data.data[0].revised_prompt||""});
-      setStatus({msg:"Image generated.", type:"ok"});
+      const text = data.content.map(i=>i.text||"").join("\n").trim();
+      const titleMatch = text.match(/TITLE:\s*(.+)/);
+      const title = titleMatch ? titleMatch[1].trim() : "";
+      const lines = text.split("\n").filter(l=>/^\d+\./.test(l.trim()));
+      const parsed = lines.map((l,i)=>({num:i+1, text:l.replace(/^\d+\.\s*/,"").trim()}));
+      setCarouselTitle(title);
+      setSlides(parsed);
+      setShowOutput(true);
+      setExpandStatus("");
     } catch(e) {
-      setStatus({msg:"Request failed: "+e.message, type:"err"});
-    } finally {
-      setLoading(false);
+      setExpandStatus("Error expanding idea. Please try again.");
     }
+    setExpandLoading(false);
   };
 
-  const statusColor = status.type==="err" ? "#ff6060" : status.type==="ok" ? b.accent : b.textMuted;
+  const getFormattedContent = () => {
+    const title = carouselTitle;
+    const slideLines = slides.map(s=>`${s.num}. ${s.text}`).join("\n");
+    return `TITLE: ${title}\nSLIDES:\n${slideLines}`;
+  };
+
+  const copyContent = () => {
+    navigator.clipboard.writeText(getFormattedContent());
+  };
+
+  const sendToOpenAI = async () => {
+    if (!apiKey) { setSendStatus({msg:"Add your OpenAI API key in Settings to enable slide generation.", type:"warn"}); return; }
+    if (slides.length === 0) { setSendStatus({msg:"Expand an idea first.", type:"warn"}); return; }
+    setSendLoading(true);
+    setSendStatus({msg:"Sending to OpenAI...", type:""});
+
+    const content = getFormattedContent();
+    const prompt = `You are a visual carousel designer for KCE Trading, a professional crypto brand.
+
+Apply KCE branding: dark background, neon green accents, glass UI.
+Generate a fully designed carousel for the following content:
+
+${content}
+
+Design each slide with proper layout, icons, and styling. Apply KCE brand identity consistently across all slides.`;
+
+    try {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages: [{role:"user", content:prompt}],
+          max_tokens: 1500
+        })
+      });
+      const data = await res.json();
+      if (data.error) {
+        setSendStatus({msg:"OpenAI error: "+data.error.message, type:"err"});
+      } else {
+        setSendStatus({msg:"Sent successfully. OpenAI is generating your slides.", type:"ok"});
+      }
+    } catch(e) {
+      setSendStatus({msg:"Network error. Check your API key and try again.", type:"err"});
+    }
+    setSendLoading(false);
+  };
+
+  const statusColor = sendStatus.type==="err" ? "#ff6060" : sendStatus.type==="ok" ? b.accent : b.textMuted;
+  const slideTypes = ["hook","content","content","content","content","content","content","cta"];
 
   return (
-    <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:18, animation:"fadeIn 0.3s ease"}}>
-      {/* LEFT — Controls */}
-      <div style={{display:"flex", flexDirection:"column", gap:10}}>
-        <Panel b={b} label="IMAGE GENERATOR — DALL-E 3">
-          {/* Prompt */}
+    <div style={{display:"flex", flexDirection:"column", gap:12, animation:"fadeIn 0.3s ease", maxWidth:720}}>
+
+      {/* STEP 1 — Idea input */}
+      <Panel b={b} label="STEP 1 — DROP YOUR IDEA">
+        <input
+          value={idea}
+          onChange={e=>setIdea(e.target.value)}
+          onKeyDown={e=>{ if(e.key==="Enter") expandIdea(); }}
+          placeholder="e.g. Why most traders blow their account in the first 90 days"
+          style={{width:"100%", background:"#000", border:idea?`1px solid ${b.accentBorder}`:"1px solid #111", borderRadius:7, padding:"9px 11px", color:b.textMain, fontSize:10, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:10}}
+        />
+        <Btn b={b} disabled={!idea.trim()||expandLoading} onClick={expandIdea}
+          label={expandLoading ? "⟳ EXPANDING..." : "✦ EXPAND INTO FULL BREAKDOWN"} />
+        {expandStatus && (
+          <div style={{marginTop:8, fontSize:8.5, color:b.textMuted, textAlign:"center"}}>{expandStatus}</div>
+        )}
+      </Panel>
+
+      {/* STEP 2 — Review & edit */}
+      {showOutput && (
+        <Panel b={b} label="STEP 2 — REVIEW & EDIT CAROUSEL CONTENT">
+          {/* Title */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:7, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>PROMPT</div>
-            <textarea
-              value={prompt}
-              onChange={e=>setPrompt(e.target.value)}
-              onKeyDown={e=>{ if(e.key==="Enter"&&e.metaKey) generate(); }}
-              placeholder="Describe the image you want to generate..."
-              rows={4}
-              style={{width:"100%", background:"#000", border:prompt?`1px solid ${b.accentBorder}`:"1px solid #111", borderRadius:7, padding:"9px 11px", color:b.textMain, fontSize:10, fontFamily:"inherit", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.5}}
+            <div style={{fontSize:7, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>TITLE</div>
+            <input
+              value={carouselTitle}
+              onChange={e=>setCarouselTitle(e.target.value)}
+              style={{width:"100%", background:"#000", border:"1px solid #111", borderRadius:7, padding:"8px 10px", color:b.textMain, fontSize:10, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
             />
           </div>
-
-          {/* Size / Quality / Style row */}
-          <div style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:10}}>
-            {[
-              {label:"SIZE", key:"size", val:size, set:setSize, opts:[{v:"1024x1024",l:"1:1"},{v:"1792x1024",l:"16:9"},{v:"1024x1792",l:"9:16"}]},
-              {label:"QUALITY", key:"quality", val:quality, set:setQuality, opts:[{v:"standard",l:"Standard"},{v:"hd",l:"HD"}]},
-              {label:"STYLE", key:"style", val:style, set:setStyle, opts:[{v:"vivid",l:"Vivid"},{v:"natural",l:"Natural"}]},
-            ].map(({label,val,set,opts})=>(
-              <div key={label}>
-                <div style={{fontSize:7, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>{label}</div>
-                <select value={val} onChange={e=>set(e.target.value)}
-                  style={{width:"100%", background:"#000", border:"1px solid #111", borderRadius:6, padding:"7px 9px", color:b.textMain, fontSize:9, fontFamily:"inherit", outline:"none", appearance:"none", cursor:"pointer", boxSizing:"border-box"}}>
-                  {opts.map(o=><option key={o.v} value={o.v}>{o.l}</option>)}
-                </select>
-              </div>
-            ))}
+          {/* Slides */}
+          <div style={{display:"flex", flexDirection:"column", gap:6}}>
+            {slides.map((s,i)=>{
+              const type = slideTypes[i]||"content";
+              const typeColor = type==="hook"||type==="cta" ? b.accent : b.textMuted;
+              return (
+                <div key={i} style={{display:"flex", alignItems:"center", gap:8}}>
+                  <div style={{minWidth:20, height:20, borderRadius:"50%", background:type==="hook"||type==="cta"?b.accent:"#111", border:type==="hook"||type==="cta"?"none":"1px solid #333", display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, color:type==="hook"||type==="cta"?"#000":b.textMuted, flexShrink:0, fontWeight:600}}>
+                    {s.num}
+                  </div>
+                  <input
+                    value={s.text}
+                    onChange={e=>{const ns=[...slides]; ns[i]={...ns[i],text:e.target.value}; setSlides(ns);}}
+                    style={{flex:1, background:"#000", border:"1px solid #111", borderRadius:6, padding:"7px 10px", color:b.textMain, fontSize:9, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
+                  />
+                  <div style={{fontSize:7, color:typeColor, width:28, textAlign:"right", flexShrink:0, fontFamily:"Courier New,monospace"}}>{type}</div>
+                </div>
+              );
+            })}
           </div>
+        </Panel>
+      )}
 
-          {/* API key warning */}
+      {/* STEP 3 — Send to OpenAI */}
+      {showOutput && (
+        <Panel b={b} label="STEP 3 — SEND TO OPENAI — GENERATE SLIDES">
           {!apiKey && (
             <div style={{marginBottom:10, padding:"8px 10px", borderRadius:7, background:`${b.accent}07`, border:`1px solid ${b.accentBorder}`, fontSize:8.5, color:b.accent}}>
-              ⚠ Add OpenAI API key in Settings → AI Images (DALL-E 3) to enable generation
+              ⚠ Add OpenAI API key in Settings to enable slide generation
             </div>
           )}
-
-          <Btn b={b} disabled={!prompt.trim()||loading} onClick={generate}
-            label={loading ? "⟳ GENERATING..." : "✦ GENERATE IMAGE  ⌘↵"} />
-
-          {status.msg && (
-            <div style={{marginTop:8, fontSize:8.5, color:statusColor, textAlign:"center"}}>{status.msg}</div>
+          <div style={{display:"flex", gap:8}}>
+            <Btn b={b} disabled={sendLoading||slides.length===0||!apiKey} onClick={sendToOpenAI}
+              label={sendLoading ? "⟳ SENDING..." : "► SEND TO OPENAI — GENERATE SLIDES"} />
+            <button onClick={copyContent}
+              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:9, fontFamily:"inherit", cursor:"pointer", whiteSpace:"nowrap"}}>
+              Copy content
+            </button>
+            <button onClick={()=>{setIdea("");setShowOutput(false);setSlides([]);setCarouselTitle("");setSendStatus({msg:"",type:""});}}
+              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:9, fontFamily:"inherit", cursor:"pointer"}}>
+              New
+            </button>
+          </div>
+          {sendStatus.msg && (
+            <div style={{marginTop:8, fontSize:8.5, color:statusColor, textAlign:"center"}}>{sendStatus.msg}</div>
           )}
         </Panel>
-
-        {/* Quick prompt ideas */}
-        <Panel b={b} label="QUICK PROMPTS">
-          <div style={{display:"flex", flexWrap:"wrap", gap:5}}>
-            {(activeBrand==="trading"
-              ? ["Crypto bull market visualization","Bitcoin gold coin 3D render","Trading chart neon dark","DeFi blockchain network","Market volatility abstract","Solana purple gradient 3D"]
-              : ["Wealth building abstract gold","Real estate skyline luxury","Investment portfolio growth","Financial freedom concept","Stock market blue modern","Compound interest visual"]
-            ).map(t=>(
-              <div key={t} onClick={()=>setPrompt(t)}
-                style={{padding:"4px 10px", borderRadius:20, cursor:"pointer", fontSize:8, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, transition:"all 0.15s"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=b.accent;e.currentTarget.style.color=b.accent;}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=b.cardBorder;e.currentTarget.style.color=b.textMuted;}}>
-                {t}
-              </div>
-            ))}
-          </div>
-        </Panel>
-      </div>
-
-      {/* RIGHT — Preview */}
-      <div style={{position:"sticky", top:16, height:"fit-content"}}>
-        <div style={{fontSize:7.5, color:b.textMuted, letterSpacing:"0.2em", marginBottom:8, fontFamily:"Courier New,monospace"}}>RESULT</div>
-        {result ? (
-          <div style={{animation:"fadeIn 0.3s ease"}}>
-            <div style={{borderRadius:12, overflow:"hidden", boxShadow:`0 0 40px ${b.accent}22`, marginBottom:10}}>
-              <img src={result.url} alt="Generated" style={{width:"100%", display:"block"}} />
-            </div>
-            {result.revised && (
-              <div style={{padding:"8px 10px", borderRadius:8, background:b.cardBg, border:`1px solid ${b.cardBorder}`, marginBottom:8}}>
-                <div style={{fontSize:7, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>DALL-E REVISED PROMPT</div>
-                <div style={{fontSize:8, color:b.textSub, lineHeight:1.5}}>{result.revised}</div>
-              </div>
-            )}
-            <div style={{display:"flex", gap:6}}>
-              <a href={result.url} target="_blank" rel="noopener noreferrer"
-                style={{flex:1, padding:"8px 0", borderRadius:7, background:"transparent", border:`1px solid ${b.accentBorder}`, color:b.accent, fontSize:9, fontFamily:"inherit", cursor:"pointer", textAlign:"center", textDecoration:"none", display:"block"}}>
-                ↗ Open full size
-              </a>
-              <button onClick={()=>{setResult(null);setPrompt("");setStatus({msg:"",type:""});}}
-                style={{flex:1, padding:"8px 0", borderRadius:7, background:"transparent", border:"1px solid #111", color:b.textMuted, fontSize:9, fontFamily:"inherit", cursor:"pointer"}}>
-                + New image
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div style={{aspectRatio:"1/1", background:"#030303", borderRadius:12, display:"flex", alignItems:"center", justifyContent:"center", border:`1px solid ${b.cardBorder}`}}>
-            <div style={{textAlign:"center"}}>
-              {loading ? (
-                <>
-                  <div style={{fontSize:22, marginBottom:8, opacity:0.4}}>◌</div>
-                  <div style={{fontSize:8.5, color:b.textMuted}}>Generating with DALL-E 3...</div>
-                </>
-              ) : (
-                <>
-                  <div style={{fontSize:22, marginBottom:8, opacity:0.15}}>◈</div>
-                  <div style={{fontSize:8.5, color:b.textMuted}}>Preview appears here</div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
@@ -3295,7 +3351,7 @@ export default function KCEHub() {
       <div style={{padding:"16px 18px",maxWidth:1100,margin:"0 auto"}}>
         {activeTab==="youtube"   && <YouTubeTab b={b} activeBrand={activeBrand} keys={keys}/>}
         {activeTab==="reels"     && <ReelsTab b={b} activeBrand={activeBrand} keys={keys}/>}
-        {activeTab==="carousel"  && <CarouselTab b={b} activeBrand={activeBrand} keys={keys}/>}
+        {activeTab==="carousel"  && <CarouselTab b={b} keys={keys}/>}
         {activeTab==="schedule"  && <ScheduleTab b={b}/>}
         {activeTab==="analytics" && <AnalyticsTab b={b} keys={keys}/>}
         {activeTab==="settings"  && <SettingsTab b={b} keys={keys} setKeys={setKeys}/>}
