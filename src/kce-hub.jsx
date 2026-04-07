@@ -1617,8 +1617,8 @@ function ReelsTab({b, activeBrand, keys}) {
   const [schedMode, setSchedMode] = useState("now");
   const [schedDate, setSchedDate] = useState("");
   const [schedTime, setSchedTime] = useState("9:00 AM");
-  const videoRef = React.useRef(null);
-  const fileInputRef = React.useRef(null);
+  const videoRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const rb = BRANDS[reelBrand];
 
