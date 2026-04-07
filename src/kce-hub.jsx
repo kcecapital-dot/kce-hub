@@ -40,34 +40,36 @@ const TIMES = ["6:00 AM","7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM",
 // Uses fal.ai instead of Replicate — 2-3x faster inference
 // Model: fal-ai/flux-pro/v1.1-ultra (4MP, 8-10s, best quality)
 // ─── FAL.AI via SDK (handles CORS + auth correctly) ──────────────
-// fal client cached in window scope so it can be reset when key changes
-async function getFalClient(falKey) {
-  if (window.__falClient) return window.__falClient;
-  const { fal } = await import("https://esm.sh/@fal-ai/client@1.2.0");
-  fal.config({ credentials: falKey });
-  window.__falClient = fal;
-  return fal;
-}
-
+// Generate image via Vercel proxy (avoids CORS + exposes key safely)
 async function generateImageFal(prompt, falKey) {
-  const fal = await getFalClient(falKey);
-  const result = await fal.subscribe("fal-ai/flux-pro/v1.1-ultra", {
-    input: {
-      prompt,
-      num_images: 1,
-      enable_safety_checker: false,
-      output_format: "png",
-      aspect_ratio: "1:1",
-    },
-    pollInterval: 1000,
+  const res = await fetch("/api/fal", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "fal-ai/flux-pro/v1.1-ultra",
+      input: {
+        prompt,
+        num_images: 1,
+        enable_safety_checker: false,
+        output_format: "png",
+        aspect_ratio: "1:1",
+      },
+    }),
   });
-  const url = result?.data?.images?.[0]?.url
-           || result?.images?.[0]?.url
-           || result?.data?.image?.url
-           || result?.image?.url;
-  if (!url) throw new Error("fal.ai returned no image URL — check your API key");
+  if (!res.ok) {
+    const e = await res.json();
+    throw new Error(e.error || e.detail || `Image generation failed (${res.status})`);
+  }
+  const data = await res.json();
+  const url = data?.data?.images?.[0]?.url
+           || data?.images?.[0]?.url
+           || data?.data?.image?.url;
+  if (!url) throw new Error("No image URL returned — check your fal.ai key in Vercel env vars");
   return url;
 }
+
+// Keep getFalClient as no-op for any remaining references
+async function getFalClient(falKey) { return null; }
 
 // ─── AI PROMPT BUILDER ────────────────────────────────────────────
 function buildImagePrompt(topic, brandId) {
@@ -144,7 +146,7 @@ Generate exactly ${innerCount} slides.`;
 
   try {
     // Use the Anthropic API — this artifact has built-in access
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("/api/claude", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1143,18 +1145,12 @@ function YouTubeTab({b, activeBrand, keys}) {
       if (keys.fal) {
         setLoadingMsg("🎨 Flux generating YouTube thumbnail...");
         try {
-          const fal = await getFalClient(keys.fal);
-          const result = await fal.subscribe("fal-ai/flux-pro/v1.1-ultra", {
-            input: {
-              prompt: buildImagePrompt(topic, ytBrand),
-              num_images: 1,
-              enable_safety_checker: false,
-              output_format: "png",
-              aspect_ratio: "16:9"  // YouTube thumbnail format
-            },
-            pollInterval: 1000,
+          const falRes2 = await fetch("/api/fal", {
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({model:"fal-ai/flux-pro/v1.1-ultra",input:{prompt:buildImagePrompt(topic,ytBrand),num_images:1,enable_safety_checker:false,output_format:"png",aspect_ratio:"16:9"}}),
           });
-          const imgUrl = result?.data?.images?.[0]?.url || result?.images?.[0]?.url;
+          const falData2 = await falRes2.json();
+          const imgUrl = falData2?.data?.images?.[0]?.url || falData2?.images?.[0]?.url;
           if (imgUrl) setCoverImg(imgUrl);
         } catch(e) { console.warn("Thumbnail gen failed:", e.message); }
       }
@@ -1640,11 +1636,9 @@ function YouTubeTab({b, activeBrand, keys}) {
                       if(!keys.fal)return;
                       setLoading(true);setLoadingMsg("🎨 Regenerating...");
                       try{
-                        const fal=await getFalClient(keys.fal);
-                        const result=await fal.subscribe("fal-ai/flux-pro/v1.1-ultra",{
-                          input:{prompt:buildImagePrompt(topic,ytBrand),num_images:1,enable_safety_checker:false,output_format:"png",aspect_ratio:"16:9"},pollInterval:1000
-                        });
-                        const u=result?.data?.images?.[0]?.url||result?.images?.[0]?.url;
+                        const yr=await fetch("/api/fal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"fal-ai/flux-pro/v1.1-ultra",input:{prompt:buildImagePrompt(topic,ytBrand),num_images:1,enable_safety_checker:false,output_format:"png",aspect_ratio:"16:9"}})});
+                        const yd=await yr.json();
+                        const u=yd?.data?.images?.[0]?.url||yd?.images?.[0]?.url;
                         if(u)setCoverImg(u);
                       }catch(e){setError(e.message);}
                       finally{setLoading(false);setLoadingMsg("");}
@@ -1813,13 +1807,13 @@ function ReelsTab({b, activeBrand, keys}) {
       // Generate cover thumbnail
       setLoadingMsg("🎨 Flux generating branded cover...");
       if(keys.fal) {
-        const fal = await getFalClient(keys.fal);
         const coverPrompt = buildImagePrompt(topic, reelBrand);
-        const result = await fal.subscribe("fal-ai/flux-pro/v1.1-ultra", {
-          input:{prompt:coverPrompt, num_images:1, enable_safety_checker:false, output_format:"png", aspect_ratio:"9:16"},
-          pollInterval:1000,
+        const cr = await fetch("/api/fal", {
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({model:"fal-ai/flux-pro/v1.1-ultra", input:{prompt:coverPrompt, num_images:1, enable_safety_checker:false, output_format:"png", aspect_ratio:"9:16"}}),
         });
-        const imgUrl = result?.data?.images?.[0]?.url || result?.images?.[0]?.url;
+        const cd = await cr.json();
+        const imgUrl = cd?.data?.images?.[0]?.url || cd?.images?.[0]?.url;
         if(imgUrl) setCoverImg(imgUrl);
       }
       setStep(2);
@@ -2175,11 +2169,9 @@ function ReelsTab({b, activeBrand, keys}) {
                     if(!keys.fal) return;
                     setLoading(true);setLoadingMsg("🎨 Regenerating cover...");
                     try {
-                      const fal = await getFalClient(keys.fal);
-                      const result = await fal.subscribe("fal-ai/flux-pro/v1.1-ultra",{
-                        input:{prompt:buildImagePrompt(topic,reelBrand),num_images:1,enable_safety_checker:false,output_format:"png",aspect_ratio:"9:16"},pollInterval:1000
-                      });
-                      const url2 = result?.data?.images?.[0]?.url||result?.images?.[0]?.url;
+                      const rr = await fetch("/api/fal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"fal-ai/flux-pro/v1.1-ultra",input:{prompt:buildImagePrompt(topic,reelBrand),num_images:1,enable_safety_checker:false,output_format:"png",aspect_ratio:"9:16"}})});
+                      const rd = await rr.json();
+                      const url2 = rd?.data?.images?.[0]?.url||rd?.images?.[0]?.url;
                       if(url2) setCoverImg(url2);
                     } catch(e){setError(e.message);}
                     finally{setLoading(false);setLoadingMsg("");}
