@@ -621,7 +621,43 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
     setSendLoading(false);
   };
 
+  const [canvaLoading, setCanvaLoading] = useState(false);
+  const [canvaStatus, setCanvaStatus] = useState({msg:"", type:""});
+
+  const sendToCanva = async () => {
+    if (slides.length === 0) { setCanvaStatus({msg:"Expand an idea first.", type:"warn"}); return; }
+    setCanvaLoading(true);
+    setCanvaStatus({msg:"Sending to Canva...", type:""});
+    try {
+      const payload = {
+        title: carouselTitle,
+        slide_1: slides[0]?.text || "",
+        slide_2: slides[1]?.text || "",
+        slide_3: slides[2]?.text || "",
+        slide_4: slides[3]?.text || "",
+        slide_5: slides[4]?.text || "",
+        slide_6: slides[5]?.text || "",
+        slide_7: slides[6]?.text || "",
+        slide_8: slides[7]?.text || "",
+      };
+      const res = await fetch("https://hook.us2.make.com/fz2w2l6pxnbudm6l1i9zlse2bsnbw7li", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        setCanvaStatus({msg:"✓ Sent to Canva. Check Make.com to see your slides being built.", type:"ok"});
+      } else {
+        setCanvaStatus({msg:"Error sending to Make.com. Check your webhook URL.", type:"err"});
+      }
+    } catch(e) {
+      setCanvaStatus({msg:"Network error: "+e.message, type:"err"});
+    }
+    setCanvaLoading(false);
+  };
+
   const statusColor = sendStatus.type==="err" ? "#ff6060" : sendStatus.type==="ok" ? b.accent : b.textMuted;
+  const canvaStatusColor = canvaStatus.type==="err" ? "#ff6060" : canvaStatus.type==="ok" ? b.accent : b.textMuted;
   const slideTypes = ["hook","content","content","content","content","content","content","cta"];
 
   return (
@@ -678,9 +714,22 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
         </Panel>
       )}
 
-      {/* STEP 3 — Send to OpenAI */}
+      {/* STEP 3 — Send to Canva */}
       {showOutput && (
-        <Panel b={b} label="STEP 3 — SEND TO OPENAI — GENERATE SLIDES">
+        <Panel b={b} label="STEP 3 — SEND TO CANVA">
+          <div style={{marginBottom:14}}>
+            <Btn b={b} disabled={canvaLoading||slides.length===0} onClick={sendToCanva}
+              label={canvaLoading ? "⟳ SENDING TO CANVA..." : "◈ SEND TO CANVA — BUILD SLIDES"} />
+            {canvaStatus.msg && (
+              <div style={{marginTop:10, fontSize:14, color:canvaStatusColor, textAlign:"center"}}>{canvaStatus.msg}</div>
+            )}
+          </div>
+        </Panel>
+      )}
+
+      {/* STEP 4 — Send to OpenAI (fallback) */}
+      {showOutput && (
+        <Panel b={b} label="STEP 4 — SEND TO CHATGPT (FALLBACK)">
           {!apiKey && (
             <div style={{marginBottom:10, padding:"11px 13px", borderRadius:7, background:`${b.accent}07`, border:`1px solid ${b.accentBorder}`, fontSize:14, color:b.accent}}>
               ⚠ Add OpenAI API key in Settings to enable slide generation
