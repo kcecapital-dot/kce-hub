@@ -546,17 +546,18 @@ RULES:
 - Output only the format above, nothing else`;
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/claude", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 800,
           system: systemPrompt,
-          messages: [{role:"user", content:`IDEA: ${idea.trim()}`}]
+          messages: [{role:"user", content:"IDEA: "+idea.trim()}]
         })
       });
       const data = await res.json();
+      if (data.error) { setExpandStatus("Error: "+data.error.message); setExpandLoading(false); return; }
       const text = data.content.map(i=>i.text||"").join("\n").trim();
       const titleMatch = text.match(/TITLE:\s*(.+)/);
       const title = titleMatch ? titleMatch[1].trim() : "";
