@@ -855,7 +855,7 @@ Return ONLY valid JSON, no markdown:
 }`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("/api/claude", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1573,7 +1573,7 @@ Rules:
 - Hashtags: mix of broad (#crypto #trading) + niche (#bitcoineducation) + branded (#${isT?"kcetrading":"kcecapital"})`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("/api/claude", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
@@ -2836,7 +2836,7 @@ Generate 8 content topics to create next. Return ONLY valid JSON:
 }`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("/api/claude", {
       method:"POST", headers:{"Content-Type":"application/json"},
       body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:800, system,
         messages:[{role:"user",content:prompt}] })
