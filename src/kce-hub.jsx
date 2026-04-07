@@ -10,20 +10,20 @@ const BRANDS = {
     disclaimer:"⚠️ Not financial advice. Trading involves risk. Past performance does not guarantee future results. Always DYOR. #kcetrading #NFA",
     accent:"#00e676", accentSoft:"#00c853", accentBorder:"rgba(0,230,118,0.35)",
     glow:"0 0 24px rgba(0,230,118,0.3), 0 0 48px rgba(0,230,118,0.1)",
-    cardBg:"rgba(8,14,10,0.98)", cardBorder:"rgba(0,230,118,0.1)",
-    navBg:"rgba(6,10,8,0.99)", surfaceBg:"rgba(12,20,15,0.97)",
-    textMain:"#f0faf4", textSub:"rgba(240,250,244,0.6)", textMuted:"rgba(240,250,244,0.2)",
-    divider:"rgba(0,230,118,0.08)", highlight:"rgba(0,230,118,0.06)",
+    cardBg:"rgba(14,22,16,0.98)", cardBorder:"rgba(0,230,118,0.18)",
+    navBg:"rgba(10,16,12,0.99)", surfaceBg:"rgba(18,28,20,0.97)",
+    textMain:"#f0faf4", textSub:"rgba(240,250,244,0.6)", textMuted:"rgba(240,250,244,0.35)",
+    divider:"rgba(0,230,118,0.14)", highlight:"rgba(0,230,118,0.06)",
   },
   capital: {
     id:"capital", name:"KCE Capital", handle:"@kcecapital", website:"www.kcecapital.io",
     disclaimer:"⚠️ Not financial advice. All investments carry risk. Consult a licensed financial advisor. #KCECapital #NFA",
     accent:"#4ade80", accentSoft:"#22c55e", accentBorder:"rgba(74,222,128,0.3)",
     glow:"0 0 24px rgba(74,222,128,0.25), 0 0 48px rgba(74,222,128,0.08)",
-    cardBg:"rgba(6,12,8,0.99)", cardBorder:"rgba(74,222,128,0.08)",
-    navBg:"rgba(4,8,5,0.99)", surfaceBg:"rgba(10,18,12,0.98)",
-    textMain:"#edfaf2", textSub:"rgba(237,250,242,0.58)", textMuted:"rgba(237,250,242,0.2)",
-    divider:"rgba(74,222,128,0.07)", highlight:"rgba(74,222,128,0.05)",
+    cardBg:"rgba(12,20,14,0.99)", cardBorder:"rgba(74,222,128,0.15)",
+    navBg:"rgba(8,14,10,0.99)", surfaceBg:"rgba(16,26,18,0.98)",
+    textMain:"#edfaf2", textSub:"rgba(237,250,242,0.58)", textMuted:"rgba(237,250,242,0.35)",
+    divider:"rgba(74,222,128,0.12)", highlight:"rgba(74,222,128,0.05)",
   },
 };
 
@@ -338,7 +338,7 @@ function TradingSlide({slide, size="full", img}) {
       <div style={{position:"absolute",top:p*0.6,left:p*0.6,zIndex:10}}>
         <img src={KCE_LOGO} alt="KCE" style={{height:logoH,width:"auto",mixBlendMode:"screen",filter:"brightness(10)"}}/>
       </div>
-      <div style={{position:"absolute",top:p*0.6,right:p*0.6,zIndex:10,fontSize:ctr,color:"rgba(255,255,255,0.4)",fontWeight:600,background:"rgba(0,0,0,0.4)",padding:isS?"1px 4px":"2px 7px",borderRadius:20}}>1/{slide.total}</div>
+      <div style={{position:"absolute",top:p*0.6,right:p*0.6,zIndex:10,fontSize:ctr,color:"rgba(255,255,255,0.4)",fontWeight:600,background:"rgba(255,255,255,0.04)",padding:isS?"1px 4px":"2px 7px",borderRadius:20}}>1/{slide.total}</div>
       <div style={{position:"absolute",top:"12%",right:p,left:"28%",zIndex:8,textAlign:"right"}}>
         <div style={{fontSize:topLbl,color:"rgba(255,255,255,0.8)",fontWeight:300,fontStyle:"italic",marginBottom:isS?1:3}}>{slide.topLabel}</div>
         <div style={{fontSize:mainW,fontWeight:900,color:"#3dff14",lineHeight:1.0,whiteSpace:"pre-line",textShadow:"0 0 16px #39ff14,0 0 40px rgba(57,255,20,0.45)",marginBottom:isS?2:5}}>{slide.mainWord}</div>
@@ -353,7 +353,7 @@ function TradingSlide({slide, size="full", img}) {
       <div style={{position:"absolute",top:isS?3:7,left:0,right:0,display:"flex",justifyContent:"center",zIndex:10}}>
         <img src={KCE_LOGO} alt="KCE" style={{height:logoH,width:"auto",mixBlendMode:"screen",filter:"brightness(10) sepia(1) saturate(5) hue-rotate(88deg) brightness(1.1)"}}/>
       </div>
-      {slide.num && <div style={{position:"absolute",top:isS?4:9,right:p*0.6,zIndex:10,fontSize:ctr,color:"rgba(255,255,255,0.4)",background:"rgba(0,0,0,0.4)",padding:isS?"1px 4px":"2px 7px",borderRadius:20,fontWeight:600}}>{slide.num}/{slide.total}</div>}
+      {slide.num && <div style={{position:"absolute",top:isS?4:9,right:p*0.6,zIndex:10,fontSize:ctr,color:"rgba(255,255,255,0.4)",background:"rgba(255,255,255,0.04)",padding:isS?"1px 4px":"2px 7px",borderRadius:20,fontWeight:600}}>{slide.num}/{slide.total}</div>}
       <div style={{position:"absolute",top:isS?"28%":isM?"24%":"21%",left:isS?"7%":"6%",right:isS?"7%":"6%",bottom:isS?"8%":"7%",background:"rgba(18,35,18,0.7)",backdropFilter:"blur(18px)",WebkitBackdropFilter:"blur(18px)",borderRadius:cR,border:"1px solid rgba(70,130,70,0.26)",boxShadow:"0 4px 40px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.06)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-between",overflow:"hidden",padding:`${isS?7:isM?12:18}px`,zIndex:6}}>
         <div style={{position:"absolute",top:-6,left:"25%",right:"25%",height:isS?13:24,background:"radial-gradient(ellipse,rgba(255,255,255,0.5) 0%,transparent 70%)",filter:"blur(4px)"}}/>
         <div style={{textAlign:"center",zIndex:2,fontSize:slide.cta?ctit*0.85:(slide.title&&slide.title.length>16?ctit*0.82:ctit),fontWeight:slide.cta?700:400,color:"#fff",lineHeight:1.25}}>{slide.title}</div>
@@ -512,7 +512,7 @@ function StepBar({b, steps, current}) {
 }
 
 // ─── CAROUSEL CONTENT PIPELINE ────────────────────────────────────
-function QueueForm({b, title, slides}) {
+function QueueForm({b, title, slides, uploadedImages}) {
   const today = new Date();
   const pad = n => String(n).padStart(2,'0');
   const defaultDate = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate()+1)}`;
@@ -524,12 +524,16 @@ function QueueForm({b, title, slides}) {
   const [orderedSlides, setOrderedSlides] = useState(slides.map((s,i)=>({...s})));
   const [caption, setCaption] = useState(`Follow @kcetrading for daily crypto insights 👊\n\nSave this before it disappears 📌\n\nwww.kcetrading.io`);
   const [dragIdx, setDragIdx] = useState(null);
-  const [images, setImages] = useState([]); // uploaded carousel images
+  const [images, setImages] = useState(uploadedImages||[]); // uploaded carousel images
 
   // sync if parent slides change
   useEffect(() => {
     setOrderedSlides(slides.map(s=>({...s})));
   }, [slides]);
+
+  useEffect(() => {
+    if (uploadedImages && uploadedImages.length > 0) setImages(uploadedImages);
+  }, [uploadedImages]);
 
   const togglePlat = (id) => {
     setPlatforms(p => p.includes(id) ? p.filter(x=>x!==id) : [...p, id]);
@@ -560,8 +564,8 @@ function QueueForm({b, title, slides}) {
       platforms,
       scheduledFor: new Date(date + 'T' + time).toISOString(),
       status: 'scheduled',
-      thumbnail: images[0] || null,
-      images: images,
+      thumbnail: images[0]?.url || images[0] || null,
+      images: images.map(i=>i.url||i),
     };
     try {
       const existing = JSON.parse(localStorage.getItem('kce_schedule_posts') || '[]');
@@ -624,7 +628,7 @@ function QueueForm({b, title, slides}) {
       <div>
         <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:10, letterSpacing:'0.15em', fontWeight:600}}>CAPTION</div>
         <textarea value={caption} onChange={e=>setCaption(e.target.value)} rows={4}
-          style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px',
+          style={{width:'100%', background:'rgba(255,255,255,0.04)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px',
             color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none',
             resize:'vertical', boxSizing:'border-box', lineHeight:1.7}} />
       </div>
@@ -662,7 +666,7 @@ function QueueForm({b, title, slides}) {
             <div style={{display:'flex', gap:8, flexWrap:'wrap', justifyContent:'center'}}>
               {images.map((img,i)=>(
                 <div key={i} style={{position:'relative'}}>
-                  <img src={img} style={{width:64, height:64, objectFit:'cover', borderRadius:6, border:`1px solid ${b.accentBorder}`}} />
+                  <img src={img.url||img} style={{width:64, height:64, objectFit:'cover', borderRadius:6, border:`1px solid ${b.accentBorder}`}} />
                   <button onClick={e=>{e.preventDefault();e.stopPropagation();setImages(prev=>prev.filter((_,idx)=>idx!==i));}}
                     style={{position:'absolute',top:-6,right:-6,width:18,height:18,borderRadius:'50%',background:'#ff4444',border:'none',color:'#fff',fontSize:10,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>✕</button>
                   <div style={{fontSize:10,color:b.textMuted,textAlign:'center',marginTop:2}}>{i+1}</div>
@@ -679,12 +683,12 @@ function QueueForm({b, title, slides}) {
         <div style={{flex:1, minWidth:140}}>
           <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.15em', fontWeight:600}}>DATE</div>
           <input type='date' value={date} onChange={e=>setDate(e.target.value)}
-            style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
+            style={{width:'100%', background:'rgba(255,255,255,0.04)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
         </div>
         <div style={{flex:1, minWidth:120}}>
           <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.15em', fontWeight:600}}>TIME</div>
           <input type='time' value={time} onChange={e=>setTime(e.target.value)}
-            style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
+            style={{width:'100%', background:'rgba(255,255,255,0.04)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
         </div>
       </div>
 
@@ -728,6 +732,7 @@ function CarouselTab({b, keys}) {
   const [expandStatus, setExpandStatus] = useState("");
   const [sendStatus, setSendStatus] = useState({msg:"", type:""});
   const [showOutput, setShowOutput] = useState(false);
+  const [carouselImages, setCarouselImages] = useState([]);
 
   const apiKey = keys.openai || "";
 
@@ -888,13 +893,62 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
           onChange={e=>setIdea(e.target.value)}
           onKeyDown={e=>{ if(e.key==="Enter") expandIdea(); }}
           placeholder="e.g. Why most traders blow their account in the first 90 days"
-          style={{width:"100%", background:"rgba(0,0,0,0.5)", border:idea?`1px solid ${b.accentBorder}`:"1px solid rgba(255,255,255,0.06)", borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:12, transition:"border-color 0.2s"}}
+          style={{width:"100%", background:"rgba(255,255,255,0.04)", border:idea?`1px solid ${b.accentBorder}`:"1px solid rgba(255,255,255,0.06)", borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:12, transition:"border-color 0.2s"}}
         />
         <Btn b={b} disabled={!idea.trim()||expandLoading} onClick={expandIdea}
           label={expandLoading ? "⟳ EXPANDING..." : "✦ EXPAND INTO FULL BREAKDOWN"} />
         {expandStatus && (
           <div style={{marginTop:10, fontSize:13, color:expandStatus.includes("Error")||expandStatus.includes("error")?"rgba(255,80,80,0.8)":b.textMuted, textAlign:"center", fontFamily:"Courier New,monospace", letterSpacing:"0.05em"}}>{expandStatus}</div>
         )}
+      </Panel>
+
+      {/* UPLOAD FINISHED CAROUSEL IMAGES */}
+      <Panel b={b} label="UPLOAD CAROUSEL IMAGES">
+        <label style={{display:"block", border:`2px dashed ${carouselImages.length?b.accentBorder:"rgba(255,255,255,0.08)"}`, borderRadius:12, padding:"20px", textAlign:"center", cursor:"pointer", transition:"all 0.2s", background:carouselImages.length?b.highlight:"rgba(255,255,255,0.02)"}}
+          onDragOver={e=>{e.preventDefault();e.currentTarget.style.borderColor=b.accent;}}
+          onDragLeave={e=>{e.currentTarget.style.borderColor=carouselImages.length?b.accentBorder:"rgba(255,255,255,0.08)";}}
+          onDrop={e=>{
+            e.preventDefault();
+            e.currentTarget.style.borderColor=carouselImages.length?b.accentBorder:"rgba(255,255,255,0.08)";
+            Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith("image/")).forEach(f=>{
+              const r=new FileReader(); r.onload=ev=>setCarouselImages(prev=>[...prev,{url:ev.target.result,name:f.name}]); r.readAsDataURL(f);
+            });
+          }}>
+          <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{
+            Array.from(e.target.files).forEach(f=>{
+              const r=new FileReader(); r.onload=ev=>setCarouselImages(prev=>[...prev,{url:ev.target.result,name:f.name}]); r.readAsDataURL(f);
+            });
+          }} />
+          {carouselImages.length===0 ? (
+            <div>
+              <div style={{fontSize:28,marginBottom:8,opacity:0.4}}>⊞</div>
+              <div style={{fontSize:14,color:b.textSub,marginBottom:4}}>Drop your finished carousel images here</div>
+              <div style={{fontSize:12,color:b.textMuted}}>PNG or JPG · all slides · from ChatGPT or Canva</div>
+            </div>
+          ) : (
+            <div>
+              <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center",marginBottom:10}}>
+                {carouselImages.map((img,i)=>(
+                  <div key={i} style={{position:"relative"}}>
+                    <img src={img.url} style={{width:72,height:72,objectFit:"cover",borderRadius:8,border:`1px solid ${b.accentBorder}`}} />
+                    <button onClick={e=>{e.preventDefault();e.stopPropagation();setCarouselImages(prev=>prev.filter((_,idx)=>idx!==i));}}
+                      style={{position:"absolute",top:-6,right:-6,width:18,height:18,borderRadius:"50%",background:"rgba(255,60,60,0.9)",border:"none",color:"#fff",fontSize:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1,fontWeight:700}}>✕</button>
+                    <div style={{fontSize:10,color:b.textMuted,textAlign:"center",marginTop:3,fontFamily:"Courier New,monospace"}}>{i+1}</div>
+                  </div>
+                ))}
+                <label style={{width:72,height:72,borderRadius:8,border:`1px dashed ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,color:b.textMuted,cursor:"pointer"}}>
+                  +
+                  <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{
+                    Array.from(e.target.files).forEach(f=>{
+                      const r=new FileReader(); r.onload=ev=>setCarouselImages(prev=>[...prev,{url:ev.target.result,name:f.name}]); r.readAsDataURL(f);
+                    });
+                  }} />
+                </label>
+              </div>
+              <div style={{fontSize:12,color:b.accent,fontFamily:"Courier New,monospace"}}>{carouselImages.length} image{carouselImages.length!==1?"s":""} ready</div>
+            </div>
+          )}
+        </label>
       </Panel>
 
       {/* STEP 2 — Review & edit */}
@@ -906,7 +960,7 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
             <input
               value={carouselTitle}
               onChange={e=>setCarouselTitle(e.target.value)}
-              style={{width:"100%", background:"rgba(0,0,0,0.5)", border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:16, fontWeight:600, fontFamily:"inherit", outline:"none", boxSizing:"border-box", letterSpacing:"0.02em"}}
+              style={{width:"100%", background:"rgba(255,255,255,0.04)", border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:16, fontWeight:600, fontFamily:"inherit", outline:"none", boxSizing:"border-box", letterSpacing:"0.02em"}}
             />
           </div>
           {/* Slides */}
@@ -925,7 +979,7 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
                     <input
                       value={s.text}
                       onChange={e=>{const ns=[...slides]; ns[i]={...ns[i],text:e.target.value}; setSlides(ns);}}
-                      style={{width:"100%", background:"rgba(0,0,0,0.4)", border:`1px solid ${overLimit?"rgba(255,80,80,0.4)":"rgba(255,255,255,0.07)"}`, borderRadius:8, padding:"11px 44px 11px 14px", color:b.textMain, fontSize:14, fontFamily:"inherit", outline:"none", boxSizing:"border-box", transition:"border-color 0.2s"}}
+                      style={{width:"100%", background:"rgba(255,255,255,0.04)", border:`1px solid ${overLimit?"rgba(255,80,80,0.4)":"rgba(255,255,255,0.07)"}`, borderRadius:8, padding:"11px 44px 11px 14px", color:b.textMain, fontSize:14, fontFamily:"inherit", outline:"none", boxSizing:"border-box", transition:"border-color 0.2s"}}
                     />
                     <span style={{position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", fontSize:10, color:overLimit?"rgba(255,80,80,0.8)":b.textMuted, fontFamily:"Courier New,monospace", pointerEvents:"none"}}>{wordCount}w</span>
                   </div>
@@ -962,7 +1016,7 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
       {/* STEP 3b — Add to Queue */}
       {showOutput && (
         <Panel b={b} label="STEP 4 — SCHEDULE & QUEUE">
-          <QueueForm b={b} title={carouselTitle} slides={slides} />
+          <QueueForm b={b} title={carouselTitle} slides={slides} uploadedImages={carouselImages} />
         </Panel>
       )}
 
@@ -1000,7 +1054,7 @@ function SettingsTab({b, keys, setKeys}) {
   const [vals, setVals] = useState({...keys});
   const [show, setShow] = useState({});
   const [saved, setSaved] = useState(false);
-  const save = () => { setKeys({...vals}); setSaved(true); setTimeout(()=>setSaved(false),2000); };
+  const save = () => { setKeys({...vals}); try { localStorage.setItem("kce_api_keys", JSON.stringify({...vals})); } catch {} setSaved(true); setTimeout(()=>setSaved(false),2000); };
 
   const fields = [
     {
@@ -3586,12 +3640,20 @@ function AnalyticsTab({ b, keys }) {
 export default function KCEHub() {
   const [activeBrand, setActiveBrand] = useState("trading");
   const [activeTab, setActiveTab] = useState("carousel");
-  const [keys, setKeys] = useState({
-    fal:"", ayrshare:"", openai:"", cloudinary_name:"", cloudinary_preset:"",
-    elevenlabs:"", elevenlabs_voice:"", heygen:"", heygen_avatar:"",
-    ig_token:"", ig_account_id:"",
-    tiktok_token:"", youtube_token:"", x_token:"", fb_token:"", li_token:"",
+  const [keys, setKeys] = useState(() => {
+    const defaults = {
+      fal:"", ayrshare:"", openai:"", cloudinary_name:"", cloudinary_preset:"",
+      elevenlabs:"", elevenlabs_voice:"", heygen:"", heygen_avatar:"",
+      ig_token:"", ig_account_id:"",
+      tiktok_token:"", youtube_token:"", x_token:"", fb_token:"", li_token:"",
+    };
+    try { const saved = localStorage.getItem("kce_api_keys"); return saved ? {...defaults,...JSON.parse(saved)} : defaults; } catch { return defaults; }
   });
+
+  const setKeysPersist = (newKeys) => {
+    setKeys(newKeys);
+    try { localStorage.setItem("kce_api_keys", JSON.stringify(newKeys)); } catch {}
+  };
   const b = BRANDS[activeBrand];
 
   const tabs = [
@@ -3601,7 +3663,7 @@ export default function KCEHub() {
   ];
 
   return (
-    <div style={{minHeight:"100vh",background:"#060c08",color:"#f0faf4",fontFamily:"'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"}}>
+    <div style={{minHeight:"100vh",background:"#080e0a",color:"#f0faf4",fontFamily:"'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"}}>
       {/* TOP NAV */}
       <nav style={{background:b.navBg,borderBottom:`1px solid ${b.divider}`,padding:"0 28px",display:"flex",alignItems:"center",gap:0,position:"sticky",top:0,zIndex:100,height:58,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)"}}>
         {/* Logo */}
@@ -3659,7 +3721,7 @@ export default function KCEHub() {
         {activeTab==="carousel"  && <CarouselTab b={b} keys={keys}/>}
         {activeTab==="schedule"  && <ScheduleTab b={b}/>}
         {activeTab==="analytics" && <AnalyticsTab b={b} keys={keys}/>}
-        {activeTab==="settings"  && <SettingsTab b={b} keys={keys} setKeys={setKeys}/>}
+        {activeTab==="settings"  && <SettingsTab b={b} keys={keys} setKeys={setKeysPersist}/>}
       </div>
       <style>{`
         @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
