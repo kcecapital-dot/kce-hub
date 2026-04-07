@@ -513,6 +513,7 @@ function QueueForm({b, title, slides}) {
   const [orderedSlides, setOrderedSlides] = useState(slides.map((s,i)=>({...s})));
   const [caption, setCaption] = useState(`Follow @kcetrading for daily crypto insights 👊\n\nSave this before it disappears 📌\n\nwww.kcetrading.io`);
   const [dragIdx, setDragIdx] = useState(null);
+  const [images, setImages] = useState([]); // uploaded carousel images
 
   // sync if parent slides change
   useEffect(() => {
@@ -548,7 +549,8 @@ function QueueForm({b, title, slides}) {
       platforms,
       scheduledFor: new Date(date + 'T' + time).toISOString(),
       status: 'scheduled',
-      thumbnail: null,
+      thumbnail: images[0] || null,
+      images: images,
     };
     try {
       const existing = JSON.parse(localStorage.getItem('kce_schedule_posts') || '[]');
@@ -614,6 +616,51 @@ function QueueForm({b, title, slides}) {
           style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'11px 13px',
             color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none',
             resize:'vertical', boxSizing:'border-box', lineHeight:1.6}} />
+      </div>
+
+      {/* Image Upload */}
+      <div>
+        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>UPLOAD CAROUSEL IMAGES ({images.length} added)</div>
+        <label style={{display:'block', border:'2px dashed #222', borderRadius:9, padding:'20px', textAlign:'center', cursor:'pointer', transition:'all 0.2s', background:images.length?b.accent+'08':'transparent'}}
+          onDragOver={e=>{e.preventDefault();e.currentTarget.style.borderColor=b.accent;}}
+          onDragLeave={e=>{e.currentTarget.style.borderColor='#222';}}
+          onDrop={e=>{
+            e.preventDefault();
+            e.currentTarget.style.borderColor='#222';
+            const files = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+            files.forEach(f=>{
+              const r=new FileReader();
+              r.onload=ev=>setImages(prev=>[...prev,ev.target.result]);
+              r.readAsDataURL(f);
+            });
+          }}>
+          <input type='file' accept='image/*' multiple style={{display:'none'}} onChange={e=>{
+            Array.from(e.target.files).forEach(f=>{
+              const r=new FileReader();
+              r.onload=ev=>setImages(prev=>[...prev,ev.target.result]);
+              r.readAsDataURL(f);
+            });
+          }} />
+          {images.length===0 ? (
+            <div>
+              <div style={{fontSize:24, marginBottom:6}}>⊞</div>
+              <div style={{fontSize:14, color:b.textMuted}}>Drop carousel images here or click to upload</div>
+              <div style={{fontSize:12, color:'#333', marginTop:4}}>PNG, JPG — all 8 slides</div>
+            </div>
+          ) : (
+            <div style={{display:'flex', gap:8, flexWrap:'wrap', justifyContent:'center'}}>
+              {images.map((img,i)=>(
+                <div key={i} style={{position:'relative'}}>
+                  <img src={img} style={{width:64, height:64, objectFit:'cover', borderRadius:6, border:`1px solid ${b.accentBorder}`}} />
+                  <button onClick={e=>{e.preventDefault();e.stopPropagation();setImages(prev=>prev.filter((_,idx)=>idx!==i));}}
+                    style={{position:'absolute',top:-6,right:-6,width:18,height:18,borderRadius:'50%',background:'#ff4444',border:'none',color:'#fff',fontSize:10,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>✕</button>
+                  <div style={{fontSize:10,color:b.textMuted,textAlign:'center',marginTop:2}}>{i+1}</div>
+                </div>
+              ))}
+              <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:64,height:64,borderRadius:6,border:'1px dashed #333',fontSize:20,color:'#333'}}>+</div>
+            </div>
+          )}
+        </label>
       </div>
 
       {/* Date + Time */}
