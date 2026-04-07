@@ -501,6 +501,166 @@ function StepBar({b, steps, current}) {
 }
 
 // ─── CAROUSEL CONTENT PIPELINE ────────────────────────────────────
+function QueueForm({b, title, slides}) {
+  const today = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const defaultDate = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate()+1)}`;
+
+  const [date, setDate] = useState(defaultDate);
+  const [time, setTime] = useState('09:00');
+  const [platforms, setPlatforms] = useState(['ig_carousel']);
+  const [queued, setQueued] = useState(false);
+  const [orderedSlides, setOrderedSlides] = useState(slides.map((s,i)=>({...s})));
+  const [caption, setCaption] = useState(`Follow @kcetrading for daily crypto insights 👊\n\nSave this before it disappears 📌\n\nwww.kcetrading.io`);
+  const [dragIdx, setDragIdx] = useState(null);
+
+  // sync if parent slides change
+  React.useEffect(() => {
+    setOrderedSlides(slides.map(s=>({...s})));
+  }, [slides]);
+
+  const togglePlat = (id) => {
+    setPlatforms(p => p.includes(id) ? p.filter(x=>x!==id) : [...p, id]);
+  };
+
+  const moveSlide = (from, to) => {
+    if (to < 0 || to >= orderedSlides.length) return;
+    const arr = [...orderedSlides];
+    const [moved] = arr.splice(from, 1);
+    arr.splice(to, 0, moved);
+    setOrderedSlides(arr.map((s,i)=>({...s, num:i+1})));
+  };
+
+  const onDragStart = (i) => setDragIdx(i);
+  const onDragOver  = (e, i) => { e.preventDefault(); if (dragIdx !== null && dragIdx !== i) moveSlide(dragIdx, i); setDragIdx(i); };
+  const onDragEnd   = () => setDragIdx(null);
+
+  const addToQueue = () => {
+    if (!title) return;
+    const slideText = orderedSlides.map((s,i) => `${i+1}. ${s.text}`).join('\n');
+    const fullCaption = `${title}\n\n${slideText}\n\n${caption}`;
+    const post = {
+      id: 'q_' + Date.now(),
+      brand: 'trading',
+      type: 'carousel',
+      title,
+      caption: fullCaption,
+      platforms,
+      scheduledFor: new Date(date + 'T' + time).toISOString(),
+      status: 'scheduled',
+      thumbnail: null,
+    };
+    try {
+      const existing = JSON.parse(localStorage.getItem('kce_schedule_posts') || '[]');
+      existing.push(post);
+      localStorage.setItem('kce_schedule_posts', JSON.stringify(existing));
+      setQueued(true);
+      setTimeout(() => setQueued(false), 3000);
+    } catch(e) {}
+  };
+
+  const platOptions = [
+    {id:'ig_carousel', label:'IG Carousel', icon:'⊞'},
+    {id:'tiktok',      label:'TikTok',      icon:'♪'},
+    {id:'twitter_x',   label:'X',           icon:'✕'},
+    {id:'facebook',    label:'Facebook',    icon:'f'},
+  ];
+
+  const slideTypeLabel = (i, total) => i===0 ? 'HOOK' : i===total-1 ? 'CTA' : 'SLIDE';
+
+  return (
+    <div style={{display:'flex', flexDirection:'column', gap:16}}>
+
+      {/* Slide reorder */}
+      <div>
+        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>REORDER SLIDES — drag or use arrows</div>
+        <div style={{display:'flex', flexDirection:'column', gap:6}}>
+          {orderedSlides.map((s, i) => (
+            <div key={s.num+'-'+i}
+              draggable
+              onDragStart={()=>onDragStart(i)}
+              onDragOver={e=>onDragOver(e,i)}
+              onDragEnd={onDragEnd}
+              style={{display:'flex', alignItems:'center', gap:10, padding:'10px 12px', borderRadius:8,
+                background:dragIdx===i?b.accent+'11':'#080808',
+                border:dragIdx===i?`1px solid ${b.accent}`:'1px solid #181818',
+                cursor:'grab', transition:'all 0.15s'}}>
+              <div style={{color:'#333', fontSize:13, cursor:'grab', userSelect:'none'}}>⠿</div>
+              <div style={{minWidth:22, height:22, borderRadius:'50%',
+                background:i===0||i===orderedSlides.length-1?b.accent:'#111',
+                border:i===0||i===orderedSlides.length-1?'none':'1px solid #333',
+                display:'flex', alignItems:'center', justifyContent:'center',
+                fontSize:12, fontWeight:700,
+                color:i===0||i===orderedSlides.length-1?'#000':b.textMuted, flexShrink:0}}>
+                {i+1}
+              </div>
+              <div style={{flex:1, fontSize:14, color:b.textMain}}>{s.text}</div>
+              <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginRight:4}}>{slideTypeLabel(i, orderedSlides.length)}</div>
+              <div style={{display:'flex', flexDirection:'column', gap:2}}>
+                <button onClick={()=>moveSlide(i, i-1)} disabled={i===0}
+                  style={{background:'none', border:'none', color:i===0?'#222':b.textMuted, cursor:i===0?'default':'pointer', fontSize:11, padding:'1px 4px', lineHeight:1}}>▲</button>
+                <button onClick={()=>moveSlide(i, i+1)} disabled={i===orderedSlides.length-1}
+                  style={{background:'none', border:'none', color:i===orderedSlides.length-1?'#222':b.textMuted, cursor:i===orderedSlides.length-1?'default':'pointer', fontSize:11, padding:'1px 4px', lineHeight:1}}>▼</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Caption */}
+      <div>
+        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>CAPTION</div>
+        <textarea value={caption} onChange={e=>setCaption(e.target.value)} rows={4}
+          style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'11px 13px',
+            color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none',
+            resize:'vertical', boxSizing:'border-box', lineHeight:1.6}} />
+      </div>
+
+      {/* Date + Time */}
+      <div style={{display:'flex', gap:12, flexWrap:'wrap'}}>
+        <div style={{flex:1, minWidth:140}}>
+          <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:6, letterSpacing:'0.1em'}}>DATE</div>
+          <input type='date' value={date} onChange={e=>setDate(e.target.value)}
+            style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'10px 12px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark'}} />
+        </div>
+        <div style={{flex:1, minWidth:120}}>
+          <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:6, letterSpacing:'0.1em'}}>TIME</div>
+          <input type='time' value={time} onChange={e=>setTime(e.target.value)}
+            style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'10px 12px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark'}} />
+        </div>
+      </div>
+
+      {/* Platforms */}
+      <div>
+        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>PLATFORMS</div>
+        <div style={{display:'flex', gap:8, flexWrap:'wrap'}}>
+          {platOptions.map(p => (
+            <button key={p.id} onClick={()=>togglePlat(p.id)}
+              style={{padding:'8px 14px', borderRadius:20,
+                background:platforms.includes(p.id)?b.accent+'22':'transparent',
+                border:platforms.includes(p.id)?`1px solid ${b.accent}`:'1px solid #222',
+                color:platforms.includes(p.id)?b.accent:'#444',
+                fontSize:13, fontFamily:'inherit', cursor:'pointer'}}>
+              {p.icon} {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Submit */}
+      <button onClick={addToQueue} disabled={!title || platforms.length===0}
+        style={{width:'100%', padding:'16px', borderRadius:10, fontFamily:'inherit', fontWeight:900, fontSize:15,
+          background:queued?b.accent+'33':`linear-gradient(135deg,${b.accentSoft}cc,${b.accent}77)`,
+          border:queued?`1px solid ${b.accent}`:'none',
+          color:'#000', cursor:'pointer', letterSpacing:'0.08em', transition:'all 0.3s',
+          boxShadow:b.glow}}>
+        {queued ? '✓ ADDED TO QUEUE — CHECK SCHEDULE TAB' : '+ ADD TO QUEUE'}
+      </button>
+    </div>
+  );
+}
+
+
 function CarouselTab({b, keys}) {
   const [idea, setIdea] = useState("");
   const [carouselTitle, setCarouselTitle] = useState("");
@@ -724,6 +884,13 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
               <div style={{marginTop:10, fontSize:14, color:canvaStatusColor, textAlign:"center"}}>{canvaStatus.msg}</div>
             )}
           </div>
+        </Panel>
+      )}
+
+      {/* STEP 3b — Add to Queue */}
+      {showOutput && (
+        <Panel b={b} label="ADD TO QUEUE">
+          <QueueForm b={b} title={carouselTitle} slides={slides} />
         </Panel>
       )}
 
