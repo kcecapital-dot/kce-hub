@@ -456,16 +456,16 @@ function CapitalSlide({slide, size="full", img}) {
 // ─── SHARED UI ────────────────────────────────────────────────────
 function Panel({b, label, children}) {
   return (
-    <div style={{background:b.cardBg,border:`1px solid ${b.cardBorder}`,borderRadius:11,padding:14}}>
-      <div style={{fontSize:7.5,letterSpacing:"0.2em",color:b.accent,marginBottom:10,fontFamily:"Courier New,monospace"}}>{label}</div>
+    <div style={{background:b.cardBg,border:`1px solid ${b.cardBorder}`,borderRadius:14,padding:22}}>
+      <div style={{fontSize:11,letterSpacing:"0.2em",color:b.accent,marginBottom:14,fontFamily:"Courier New,monospace",fontWeight:700}}>{label}</div>
       {children}
     </div>
   );
 }
 function Btn({b, disabled, onClick, label, secondary}) {
   return (
-    <button onClick={onClick} disabled={disabled} style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",
-      fontWeight:900,fontSize:10,letterSpacing:"0.08em",cursor:disabled?"not-allowed":"pointer",
+    <button onClick={onClick} disabled={disabled} style={{width:"100%",padding:"16px",borderRadius:10,fontFamily:"inherit",
+      fontWeight:900,fontSize:15,letterSpacing:"0.08em",cursor:disabled?"not-allowed":"pointer",
       background:disabled?"#050505":secondary?`${b.accent}10`:`linear-gradient(135deg,${b.accentSoft}cc,${b.accent}77)`,
       border:disabled?"1px solid #0a0a0a":secondary?`1px solid ${b.accentBorder}`:"none",
       color:disabled?"#111":secondary?b.accent:"#000",
@@ -486,12 +486,12 @@ function StepBar({b, steps, current}) {
               background:i<current?"#000":i===current?b.accent:"#0a0a0a",
               border:i<current?`1px solid ${b.accent}`:i===current?`2px solid ${b.accent}`:"1px solid #111",
               display:"flex",alignItems:"center",justifyContent:"center",
-              fontSize:8,fontWeight:900,
+              fontSize:18,fontWeight:900,
               color:i<current?b.accent:i===current?"#000":"#1a1a1a",
               transition:"all 0.3s"}}>
               {i<current?"✓":i+1}
             </div>
-            <div style={{fontSize:6.5,color:i<=current?b.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace",letterSpacing:"0.05em"}}>{s}</div>
+            <div style={{fontSize:16,color:i<=current?b.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace",letterSpacing:"0.05em"}}>{s}</div>
           </div>
           {i<steps.length-1 && <div style={{flex:1,height:1,background:i<current?b.accent:"#0a0a0a",margin:"0 3px",marginBottom:14,transition:"all 0.3s"}}/>}
         </div>
@@ -634,12 +634,12 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
           onChange={e=>setIdea(e.target.value)}
           onKeyDown={e=>{ if(e.key==="Enter") expandIdea(); }}
           placeholder="e.g. Why most traders blow their account in the first 90 days"
-          style={{width:"100%", background:"#000", border:idea?`1px solid ${b.accentBorder}`:"1px solid #111", borderRadius:7, padding:"9px 11px", color:b.textMain, fontSize:10, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:10}}
+          style={{width:"100%", background:"#000", border:idea?`1px solid ${b.accentBorder}`:"1px solid #111", borderRadius:7, padding:"12px 14px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:10}}
         />
         <Btn b={b} disabled={!idea.trim()||expandLoading} onClick={expandIdea}
           label={expandLoading ? "⟳ EXPANDING..." : "✦ EXPAND INTO FULL BREAKDOWN"} />
         {expandStatus && (
-          <div style={{marginTop:8, fontSize:8.5, color:b.textMuted, textAlign:"center"}}>{expandStatus}</div>
+          <div style={{marginTop:8, fontSize:14, color:b.textMuted, textAlign:"center"}}>{expandStatus}</div>
         )}
       </Panel>
 
@@ -648,29 +648,29 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
         <Panel b={b} label="STEP 2 — REVIEW & EDIT CAROUSEL CONTENT">
           {/* Title */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:7, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>TITLE</div>
+            <div style={{fontSize:17, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>TITLE</div>
             <input
               value={carouselTitle}
               onChange={e=>setCarouselTitle(e.target.value)}
-              style={{width:"100%", background:"#000", border:"1px solid #111", borderRadius:7, padding:"8px 10px", color:b.textMain, fontSize:10, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
+              style={{width:"100%", background:"#000", border:"1px solid #111", borderRadius:7, padding:"11px 13px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
             />
           </div>
           {/* Slides */}
-          <div style={{display:"flex", flexDirection:"column", gap:6}}>
+          <div style={{display:"flex", flexDirection:"column", gap:10}}>
             {slides.map((s,i)=>{
               const type = slideTypes[i]||"content";
               const typeColor = type==="hook"||type==="cta" ? b.accent : b.textMuted;
               return (
-                <div key={i} style={{display:"flex", alignItems:"center", gap:8}}>
-                  <div style={{minWidth:20, height:20, borderRadius:"50%", background:type==="hook"||type==="cta"?b.accent:"#111", border:type==="hook"||type==="cta"?"none":"1px solid #333", display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, color:type==="hook"||type==="cta"?"#000":b.textMuted, flexShrink:0, fontWeight:600}}>
+                <div key={i} style={{display:"flex", alignItems:"center", gap:12}}>
+                  <div style={{minWidth:20, height:20, borderRadius:"50%", background:type==="hook"||type==="cta"?b.accent:"#111", border:type==="hook"||type==="cta"?"none":"1px solid #333", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, color:type==="hook"||type==="cta"?"#000":b.textMuted, flexShrink:0, fontWeight:600}}>
                     {s.num}
                   </div>
                   <input
                     value={s.text}
                     onChange={e=>{const ns=[...slides]; ns[i]={...ns[i],text:e.target.value}; setSlides(ns);}}
-                    style={{flex:1, background:"#000", border:"1px solid #111", borderRadius:6, padding:"7px 10px", color:b.textMain, fontSize:9, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
+                    style={{flex:1, background:"#000", border:"1px solid #111", borderRadius:6, padding:"10px 13px", color:b.textMain, fontSize:14, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
                   />
-                  <div style={{fontSize:7, color:typeColor, width:28, textAlign:"right", flexShrink:0, fontFamily:"Courier New,monospace"}}>{type}</div>
+                  <div style={{fontSize:17, color:typeColor, width:28, textAlign:"right", flexShrink:0, fontFamily:"Courier New,monospace"}}>{type}</div>
                 </div>
               );
             })}
@@ -682,24 +682,24 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
       {showOutput && (
         <Panel b={b} label="STEP 3 — SEND TO OPENAI — GENERATE SLIDES">
           {!apiKey && (
-            <div style={{marginBottom:10, padding:"8px 10px", borderRadius:7, background:`${b.accent}07`, border:`1px solid ${b.accentBorder}`, fontSize:8.5, color:b.accent}}>
+            <div style={{marginBottom:10, padding:"11px 13px", borderRadius:7, background:`${b.accent}07`, border:`1px solid ${b.accentBorder}`, fontSize:14, color:b.accent}}>
               ⚠ Add OpenAI API key in Settings to enable slide generation
             </div>
           )}
-          <div style={{display:"flex", gap:8}}>
+          <div style={{display:"flex", gap:12}}>
             <Btn b={b} disabled={sendLoading||slides.length===0||!apiKey} onClick={sendToOpenAI}
               label={sendLoading ? "⟳ SENDING..." : "► SEND TO OPENAI — GENERATE SLIDES"} />
             <button onClick={copyContent}
-              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:9, fontFamily:"inherit", cursor:"pointer", whiteSpace:"nowrap"}}>
+              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:14, fontFamily:"inherit", cursor:"pointer", whiteSpace:"nowrap"}}>
               Copy content
             </button>
             <button onClick={()=>{setIdea("");setShowOutput(false);setSlides([]);setCarouselTitle("");setSendStatus({msg:"",type:""});}}
-              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:9, fontFamily:"inherit", cursor:"pointer"}}>
+              style={{padding:"8px 14px", borderRadius:7, background:"transparent", border:`1px solid ${b.cardBorder}`, color:b.textMuted, fontSize:14, fontFamily:"inherit", cursor:"pointer"}}>
               New
             </button>
           </div>
           {sendStatus.msg && (
-            <div style={{marginTop:8, fontSize:8.5, color:statusColor, textAlign:"center"}}>{sendStatus.msg}</div>
+            <div style={{marginTop:8, fontSize:14, color:statusColor, textAlign:"center"}}>{sendStatus.msg}</div>
           )}
         </Panel>
       )}
@@ -773,17 +773,17 @@ function SettingsTab({b, keys, setKeys}) {
     <div style={{maxWidth:580,display:"flex",flexDirection:"column",gap:12}}>
       {fields.map((f,fi)=>(
         <Panel key={fi} b={b} label={f.section}>
-          <div style={{fontSize:8.5,color:b.textMuted,lineHeight:1.65,marginBottom:10}}>
+          <div style={{fontSize:14,color:b.textMuted,lineHeight:1.65,marginBottom:10}}>
             {f.desc} → <span style={{color:b.accent}}>{f.link}</span>
           </div>
           {f.items.map(item=>(
             <div key={item.key} style={{marginBottom:8}}>
-              <div style={{fontSize:7,color:b.textMuted,marginBottom:4,fontFamily:"Courier New,monospace"}}>{item.label}</div>
+              <div style={{fontSize:17,color:b.textMuted,marginBottom:4,fontFamily:"Courier New,monospace"}}>{item.label}</div>
               <div style={{position:"relative"}}>
                 <input type={item.type||(show[item.key]?"text":"password")} value={vals[item.key]||""}
                   onChange={e=>setVals(v=>({...v,[item.key]:e.target.value}))}
                   placeholder={item.placeholder}
-                  style={{width:"100%",background:"#000",border:`1px solid ${vals[item.key]?b.accentBorder:"#111"}`,borderRadius:7,padding:`9px ${item.type==="text"?"12px":"36px 12px 9px 12px"}`,color:"#fff",fontSize:11,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
+                  style={{width:"100%",background:"#000",border:`1px solid ${vals[item.key]?b.accentBorder:"#111"}`,borderRadius:7,padding:`9px ${item.type==="text"?"12px":"36px 12px 9px 12px"}`,color:"#fff",fontSize:16,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
                 {!item.type && <button onClick={()=>setShow(s=>({...s,[item.key]:!s[item.key]}))}
                   style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#444",cursor:"pointer",fontSize:13}}>
                   {show[item.key]?"🙈":"👁"}
@@ -793,11 +793,11 @@ function SettingsTab({b, keys, setKeys}) {
           ))}
         </Panel>
       ))}
-      <button onClick={save} style={{padding:"13px",borderRadius:9,background:`linear-gradient(135deg,${b.accentSoft}cc,${b.accent}77)`,border:"none",color:"#000",fontWeight:900,fontSize:11,cursor:"pointer",fontFamily:"inherit",boxShadow:b.glow,letterSpacing:"0.08em",transition:"all 0.3s"}}>
+      <button onClick={save} style={{padding:"13px",borderRadius:9,background:`linear-gradient(135deg,${b.accentSoft}cc,${b.accent}77)`,border:"none",color:"#000",fontWeight:900,fontSize:16,cursor:"pointer",fontFamily:"inherit",boxShadow:b.glow,letterSpacing:"0.08em",transition:"all 0.3s"}}>
         {saved?"✓ SAVED":"SAVE ALL SETTINGS"}
       </button>
       <div style={{padding:"12px 14px",borderRadius:9,background:"#030303",border:"1px solid #0e0e0e"}}>
-        <div style={{fontSize:7.5,color:b.textMuted,letterSpacing:"0.12em",marginBottom:8,fontFamily:"Courier New,monospace"}}>FULL PIPELINE — WHAT EACH KEY DOES</div>
+        <div style={{fontSize:18,color:b.textMuted,letterSpacing:"0.12em",marginBottom:8,fontFamily:"Courier New,monospace"}}>FULL PIPELINE — WHAT EACH KEY DOES</div>
         {[
           {icon:"✍️",step:"1",label:"Claude API (built-in)",desc:"Writes brand-specific slide copy. No key needed — uses this app."},
           {icon:"🎨",step:"2",label:"fal.ai → Flux Pro Ultra",desc:"Generates 4MP 3D renders in ~8-10s. Fastest + highest quality available."},
@@ -805,11 +805,11 @@ function SettingsTab({b, keys, setKeys}) {
           {icon:"☁️",step:"4",label:"Cloudinary",desc:"Hosts PNGs publicly so Instagram can fetch them via URL."},
           {icon:"📤",step:"5",label:"Ayrshare",desc:"One API call posts carousel to IG + TikTok + X + YouTube simultaneously."},
         ].map((item,i)=>(
-          <div key={i} style={{display:"flex",gap:10,marginBottom:10,alignItems:"flex-start"}}>
-            <div style={{width:18,height:18,borderRadius:"50%",background:`${b.accent}15`,border:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:b.accent,flexShrink:0,marginTop:1}}>{item.step}</div>
+          <div key={i} style={{display:"flex",gap:16,marginBottom:10,alignItems:"flex-start"}}>
+            <div style={{width:18,height:18,borderRadius:"50%",background:`${b.accent}15`,border:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,color:b.accent,flexShrink:0,marginTop:1}}>{item.step}</div>
             <div>
-              <div style={{fontSize:8,fontWeight:700,color:b.textSub,marginBottom:2}}>{item.icon} {item.label}</div>
-              <div style={{fontSize:7.5,color:b.textMuted,lineHeight:1.5}}>{item.desc}</div>
+              <div style={{fontSize:18,fontWeight:700,color:b.textSub,marginBottom:2}}>{item.icon} {item.label}</div>
+              <div style={{fontSize:18,color:b.textMuted,lineHeight:1.5}}>{item.desc}</div>
             </div>
           </div>
         ))}
@@ -1153,18 +1153,18 @@ function YouTubeTab({b, activeBrand, keys}) {
                 background:i<step?"#000":i===step?yb.accent:"#0a0a0a",
                 border:i<step?`1px solid ${yb.accent}`:i===step?`2px solid ${yb.accent}`:"1px solid #111",
                 display:"flex",alignItems:"center",justifyContent:"center",
-                fontSize:8,fontWeight:900,color:i<step?yb.accent:i===step?"#000":"#1a1a1a"}}>
+                fontSize:18,fontWeight:900,color:i<step?yb.accent:i===step?"#000":"#1a1a1a"}}>
                 {i<step?"✓":i+1}
               </div>
-              <div style={{fontSize:6.5,color:i<=step?yb.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace"}}>{s}</div>
+              <div style={{fontSize:16,color:i<=step?yb.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace"}}>{s}</div>
             </div>
             {i<STEPS.length-1&&<div style={{flex:1,height:1,background:i<step?yb.accent:"#0a0a0a",margin:"0 3px",marginBottom:14}}/>}
           </div>
         ))}
       </div>
 
-      {error && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:8.5,color:"#ff7777",lineHeight:1.6}}>{error}</div>}
-      {loading && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:`${yb.accent}07`,border:`1px solid ${yb.accentBorder}`,fontSize:8.5,color:yb.accent}}>{loadingMsg}</div>}
+      {error && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:14,color:"#ff7777",lineHeight:1.6}}>{error}</div>}
+      {loading && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:`${yb.accent}07`,border:`1px solid ${yb.accentBorder}`,fontSize:14,color:yb.accent}}>{loadingMsg}</div>}
 
       <div style={{display:"grid",gridTemplateColumns:videoInfo?"1fr 280px":"1fr",gap:16}}>
         {/* LEFT */}
@@ -1175,11 +1175,11 @@ function YouTubeTab({b, activeBrand, keys}) {
             <Panel b={yb} label="STEP 1 — YOUTUBE URL">
               {/* Brand selector */}
               <div style={{marginBottom:14}}>
-                <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:6}}>POST AS BRAND</div>
-                <div style={{display:"flex",gap:6}}>
+                <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:6}}>POST AS BRAND</div>
+                <div style={{display:"flex",gap:10}}>
                   {Object.values(BRANDS).map(br=>(
                     <div key={br.id} onClick={()=>setYtBrand(br.id)}
-                      style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:9,fontWeight:ytBrand===br.id?900:400,
+                      style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:14,fontWeight:ytBrand===br.id?900:400,
                         border:ytBrand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,
                         background:ytBrand===br.id?`${br.accent}10`:"transparent",
                         color:ytBrand===br.id?br.accent:"#333",transition:"all 0.2s"}}>
@@ -1188,36 +1188,36 @@ function YouTubeTab({b, activeBrand, keys}) {
                   ))}
                 </div>
               </div>
-              <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>YOUTUBE VIDEO URL</div>
+              <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>YOUTUBE VIDEO URL</div>
               <input value={ytUrl} onChange={e=>{setYtUrl(e.target.value);setError("");}}
                 onKeyDown={e=>e.key==="Enter"&&loadVideoInfo()}
                 placeholder="https://www.youtube.com/watch?v=xxxxx"
                 style={{width:"100%",background:"#000",border:ytUrl?`1px solid ${yb.accentBorder}`:"1px solid #111",
-                  borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:11,fontFamily:"monospace",
+                  borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:16,fontFamily:"monospace",
                   outline:"none",boxSizing:"border-box",marginBottom:8}}/>
-              <div style={{fontSize:8,color:yb.textMuted,lineHeight:1.65,marginBottom:14}}>
+              <div style={{fontSize:18,color:yb.textMuted,lineHeight:1.65,marginBottom:14}}>
                 Paste any public YouTube video URL. The hub will transcribe the audio with ElevenLabs Scribe, rewrite the script in KCE brand voice, then replace the voice with your ElevenLabs clone and the avatar with your HeyGen Digital Twin.
               </div>
               <div style={{padding:"10px 12px",borderRadius:8,background:"#080808",border:"1px solid #0e0e0e",marginBottom:14}}>
-                <div style={{fontSize:7.5,color:yb.textMuted,letterSpacing:"0.1em",marginBottom:6,fontFamily:"Courier New,monospace"}}>WHAT GETS REPLACED</div>
+                <div style={{fontSize:18,color:yb.textMuted,letterSpacing:"0.1em",marginBottom:6,fontFamily:"Courier New,monospace"}}>WHAT GETS REPLACED</div>
                 {[
                   {icon:"🎤", label:"Voice", desc:"ElevenLabs clones your voice, narrates the rewritten script"},
                   {icon:"🎬", label:"Avatar", desc:"HeyGen replaces the on-screen face with your Digital Twin"},
                   {icon:"🖼️", label:"Thumbnail", desc:"Flux generates a new KCE-branded 16:9 thumbnail"},
                   {icon:"✍️", label:"Script", desc:"Claude rewrites in KCE Trading or Capital brand voice"},
                 ].map((item,i)=>(
-                  <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",padding:"5px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}}>
-                    <span style={{fontSize:12,flexShrink:0}}>{item.icon}</span>
+                  <div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"5px 0",borderBottom:"1px solid rgba(255,255,255,0.03)"}}>
+                    <span style={{fontSize:17,flexShrink:0}}>{item.icon}</span>
                     <div>
-                      <div style={{fontSize:8.5,fontWeight:700,color:yb.textSub}}>{item.label}</div>
-                      <div style={{fontSize:7.5,color:yb.textMuted,lineHeight:1.4}}>{item.desc}</div>
+                      <div style={{fontSize:14,fontWeight:700,color:yb.textSub}}>{item.label}</div>
+                      <div style={{fontSize:18,color:yb.textMuted,lineHeight:1.4}}>{item.desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
               <button onClick={loadVideoInfo} disabled={loading||!ytUrl.trim()}
                 style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,
-                  fontSize:10,letterSpacing:"0.08em",cursor:loading||!ytUrl.trim()?"not-allowed":"pointer",
+                  fontSize:15,letterSpacing:"0.08em",cursor:loading||!ytUrl.trim()?"not-allowed":"pointer",
                   background:loading||!ytUrl.trim()?"#050505":`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                   border:"none",color:loading||!ytUrl.trim()?"#111":"#000",boxShadow:yb.glow}}>
                 {loading?loadingMsg:"→ LOAD VIDEO"}
@@ -1229,31 +1229,31 @@ function YouTubeTab({b, activeBrand, keys}) {
           {step===1 && (
             <Panel b={yb} label="STEP 2 — TRANSCRIBE">
               <div style={{marginBottom:12}}>
-                <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>TOPIC / TITLE CONTEXT</div>
+                <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>TOPIC / TITLE CONTEXT</div>
                 <input value={topic} onChange={e=>setTopic(e.target.value)}
                   placeholder="e.g. Bitcoin market analysis, crypto trading strategy..."
                   style={{width:"100%",background:"#000",border:topic?`1px solid ${yb.accentBorder}`:"1px solid #111",
-                    borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:11,fontFamily:"inherit",
+                    borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:16,fontFamily:"inherit",
                     outline:"none",boxSizing:"border-box"}}/>
-                <div style={{fontSize:7.5,color:yb.textMuted,marginTop:4}}>Used by Claude to rewrite the script in context. Pre-filled from video title.</div>
+                <div style={{fontSize:18,color:yb.textMuted,marginTop:4}}>Used by Claude to rewrite the script in context. Pre-filled from video title.</div>
               </div>
               <div style={{padding:"10px 12px",borderRadius:8,background:`${yb.accent}07`,border:`1px solid ${yb.accentBorder}`,marginBottom:12}}>
-                <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TRANSCRIPTION ENGINE</div>
-                <div style={{fontSize:9,fontWeight:700,color:yb.accent}}>ElevenLabs Scribe v1</div>
-                <div style={{fontSize:7.5,color:yb.textMuted,marginTop:3,lineHeight:1.5}}>90+ languages · 150ms latency · Best-in-class accuracy for financial/technical content</div>
+                <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TRANSCRIPTION ENGINE</div>
+                <div style={{fontSize:14,fontWeight:700,color:yb.accent}}>ElevenLabs Scribe v1</div>
+                <div style={{fontSize:18,color:yb.textMuted,marginTop:3,lineHeight:1.5}}>90+ languages · 150ms latency · Best-in-class accuracy for financial/technical content</div>
               </div>
               {!keys.elevenlabs && (
-                <div style={{marginBottom:12,padding:"8px 10px",borderRadius:7,background:`${yb.accent}07`,border:`1px solid ${yb.accentBorder}`,fontSize:8.5,color:yb.accent}}>
+                <div style={{marginBottom:12,padding:"11px 13px",borderRadius:7,background:`${yb.accent}07`,border:`1px solid ${yb.accentBorder}`,fontSize:14,color:yb.accent}}>
                   ⚠ Add ElevenLabs API key in Settings to enable transcription
                 </div>
               )}
-              <div style={{display:"flex",gap:8}}>
+              <div style={{display:"flex",gap:12}}>
                 <button onClick={()=>setStep(0)}
-                  style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                  style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                   ← Back
                 </button>
                 <button onClick={transcribeVideo} disabled={loading||!keys.elevenlabs}
-                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     cursor:loading||!keys.elevenlabs?"not-allowed":"pointer",letterSpacing:"0.06em",
                     background:loading||!keys.elevenlabs?"#050505":`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                     border:"none",color:loading||!keys.elevenlabs?"#111":"#000",boxShadow:yb.glow}}>
@@ -1267,52 +1267,52 @@ function YouTubeTab({b, activeBrand, keys}) {
           {step===2 && (
             <>
               <Panel b={yb} label="TRANSCRIPT — REVIEW & EDIT">
-                <div style={{fontSize:7.5,color:yb.textMuted,lineHeight:1.6,marginBottom:8}}>
+                <div style={{fontSize:18,color:yb.textMuted,lineHeight:1.6,marginBottom:8}}>
                   Review the transcript below. Edit any errors before Claude rewrites it in KCE voice.
                 </div>
                 <textarea value={transcript} onChange={e=>setTranscript(e.target.value)} rows={8}
                   style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:7,
-                    padding:"10px 12px",color:yb.textMain,fontSize:9,fontFamily:"monospace",
+                    padding:"10px 12px",color:yb.textMain,fontSize:14,fontFamily:"monospace",
                     outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7,marginBottom:4}}/>
-                <div style={{fontSize:7.5,color:yb.textMuted}}>{transcript.split(" ").filter(Boolean).length} words · ~{Math.ceil(transcript.split(" ").filter(Boolean).length/150)} min read</div>
+                <div style={{fontSize:18,color:yb.textMuted}}>{transcript.split(" ").filter(Boolean).length} words · ~{Math.ceil(transcript.split(" ").filter(Boolean).length/150)} min read</div>
               </Panel>
 
               {rewrittenData && (
                 <Panel b={yb} label="REWRITTEN SCRIPT — KCE VOICE">
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}}>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:10}}>
                     <div>
-                      <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>YOUTUBE TITLE</div>
+                      <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>YOUTUBE TITLE</div>
                       <input value={rewrittenData.title} onChange={e=>setRewrittenData(d=>({...d,title:e.target.value}))}
-                        style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:10,fontFamily:"inherit",outline:"none",boxSizing:"border-box"}}/>
+                        style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:15,fontFamily:"inherit",outline:"none",boxSizing:"border-box"}}/>
                     </div>
                     <div>
-                      <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TAGS</div>
+                      <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TAGS</div>
                       <input value={rewrittenData.tags} onChange={e=>setRewrittenData(d=>({...d,tags:e.target.value}))}
-                        style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:9,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
+                        style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:14,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
                     </div>
                   </div>
                   <div style={{marginBottom:10}}>
-                    <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>REWRITTEN SCRIPT</div>
+                    <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>REWRITTEN SCRIPT</div>
                     <textarea value={rewrittenData.script} onChange={e=>setRewrittenData(d=>({...d,script:e.target.value}))} rows={6}
-                      style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:yb.textMain,fontSize:9,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
+                      style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:yb.textMain,fontSize:14,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
                   </div>
                   <div>
-                    <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>DESCRIPTION</div>
+                    <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>DESCRIPTION</div>
                     <textarea value={rewrittenData.description} onChange={e=>setRewrittenData(d=>({...d,description:e.target.value}))} rows={4}
-                      style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:yb.textMain,fontSize:9,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
+                      style={{width:"100%",background:"#000",border:`1px solid ${yb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:yb.textMain,fontSize:14,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
                   </div>
                 </Panel>
               )}
 
-              <div style={{display:"flex",gap:8}}>
+              <div style={{display:"flex",gap:12}}>
                 {!rewrittenData ? (
                   <>
                     <button onClick={()=>setStep(1)}
-                      style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                      style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                       ← Back
                     </button>
                     <button onClick={rewriteScript} disabled={loading||!transcript.trim()}
-                      style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                      style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                         cursor:loading||!transcript.trim()?"not-allowed":"pointer",letterSpacing:"0.06em",
                         background:loading||!transcript.trim()?"#050505":`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                         border:"none",color:loading||!transcript.trim()?"#111":"#000",boxShadow:yb.glow}}>
@@ -1322,11 +1322,11 @@ function YouTubeTab({b, activeBrand, keys}) {
                 ) : (
                   <>
                     <button onClick={async()=>{setRewrittenData(null);await rewriteScript();}}
-                      style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                      style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                       ↺ Rewrite Again
                     </button>
                     <button onClick={()=>setStep(3)}
-                      style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                      style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                         cursor:"pointer",letterSpacing:"0.06em",
                         background:`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                         border:"none",color:"#000",boxShadow:yb.glow}}>
@@ -1342,7 +1342,7 @@ function YouTubeTab({b, activeBrand, keys}) {
           {step===3 && (
             <Panel b={yb} label="STEP 4 — PROCESS VIDEO">
               <div style={{marginBottom:14}}>
-                <div style={{fontSize:7.5,color:yb.textMuted,lineHeight:1.65,marginBottom:12}}>
+                <div style={{fontSize:18,color:yb.textMuted,lineHeight:1.65,marginBottom:12}}>
                   This step runs three processes simultaneously — ElevenLabs generates your cloned voice, HeyGen renders your avatar on the video, and Flux generates the new thumbnail. HeyGen rendering takes 4–8 minutes but runs in the background.
                 </div>
                 {[
@@ -1350,24 +1350,24 @@ function YouTubeTab({b, activeBrand, keys}) {
                   {key:"avatar", icon:"🎬", label:"HeyGen Digital Twin",       desc:"Replaces on-screen presenter with your avatar",   req:keys.heygen&&keys.heygen_avatar},
                   {key:"thumbnail",icon:"🖼️",label:"Flux Pro Ultra Thumbnail",  desc:"16:9 branded thumbnail generated",              req:!!coverImg},
                 ].map(item=>(
-                  <div key={item.key} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:8,background:"#070707",border:"1px solid #0d0d0d",marginBottom:6}}>
+                  <div key={item.key} style={{display:"flex",alignItems:"center",gap:16,padding:"10px 12px",borderRadius:8,background:"#070707",border:"1px solid #0d0d0d",marginBottom:6}}>
                     <span style={{fontSize:16,flexShrink:0}}>{item.icon}</span>
                     <div style={{flex:1}}>
-                      <div style={{fontSize:9,fontWeight:700,color:yb.textSub,marginBottom:2}}>{item.label}</div>
-                      <div style={{fontSize:7.5,color:yb.textMuted}}>{item.desc}</div>
+                      <div style={{fontSize:14,fontWeight:700,color:yb.textSub,marginBottom:2}}>{item.label}</div>
+                      <div style={{fontSize:18,color:yb.textMuted}}>{item.desc}</div>
                     </div>
                     <div style={{flexShrink:0}}>
                       {processingSteps[item.key]
-                        ? <div style={{fontSize:9,color:yb.accent,fontWeight:700}}>✓</div>
+                        ? <div style={{fontSize:14,color:yb.accent,fontWeight:700}}>✓</div>
                         : item.req
-                          ? <div style={{fontSize:8,color:yb.textMuted,fontFamily:"Courier New,monospace"}}>READY</div>
-                          : <div style={{fontSize:8,color:"#ff6b6b"}}>⚠ KEY MISSING</div>
+                          ? <div style={{fontSize:18,color:yb.textMuted,fontFamily:"Courier New,monospace"}}>READY</div>
+                          : <div style={{fontSize:18,color:"#ff6b6b"}}>⚠ KEY MISSING</div>
                       }
                     </div>
                   </div>
                 ))}
                 {(!keys.elevenlabs_voice || !keys.heygen_avatar) && (
-                  <div style={{padding:"8px 10px",borderRadius:7,background:"rgba(255,107,107,0.06)",border:"1px solid rgba(255,107,107,0.18)",fontSize:8,color:"#ff8888",lineHeight:1.6,marginTop:8}}>
+                  <div style={{padding:"11px 13px",borderRadius:7,background:"rgba(255,107,107,0.06)",border:"1px solid rgba(255,107,107,0.18)",fontSize:18,color:"#ff8888",lineHeight:1.6,marginTop:8}}>
                     ⚠ Add missing keys in ⚙ Settings:
                     {!keys.elevenlabs && " ElevenLabs API key,"}
                     {!keys.elevenlabs_voice && " ElevenLabs Voice ID,"}
@@ -1376,13 +1376,13 @@ function YouTubeTab({b, activeBrand, keys}) {
                   </div>
                 )}
               </div>
-              <div style={{display:"flex",gap:8}}>
+              <div style={{display:"flex",gap:12}}>
                 <button onClick={()=>setStep(2)}
-                  style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                  style={{flex:1,padding:"11px",borderRadius:9,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                   ← Back
                 </button>
                 <button onClick={processVideo} disabled={loading}
-                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     cursor:loading?"not-allowed":"pointer",letterSpacing:"0.06em",
                     background:loading?"#050505":`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                     border:"none",color:loading?"#111":"#000",boxShadow:yb.glow}}>
@@ -1395,23 +1395,23 @@ function YouTubeTab({b, activeBrand, keys}) {
           {/* STEP 4 — PUBLISH */}
           {step===4 && (
             <Panel b={yb} label="STEP 5 — PUBLISH">
-              <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PLATFORMS</div>
+              <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PLATFORMS</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:5,marginBottom:12}}>
                 {YT_PLATFORMS.map(pl=>(
                   <div key={pl.id} onClick={()=>setPlatforms(prev=>prev.includes(pl.id)?prev.filter(x=>x!==pl.id):[...prev,pl.id])}
-                    style={{display:"flex",alignItems:"center",gap:7,padding:"8px 10px",borderRadius:7,cursor:"pointer",
+                    style={{display:"flex",alignItems:"center",gap:7,padding:"11px 13px",borderRadius:7,cursor:"pointer",
                       background:platforms.includes(pl.id)?`${pl.color}12`:"transparent",
                       border:platforms.includes(pl.id)?`1px solid ${pl.color}44`:"1px solid #111",transition:"all 0.2s"}}>
-                    <span style={{fontSize:12,color:platforms.includes(pl.id)?pl.color:"#1a1a1a"}}>{pl.icon}</span>
-                    <span style={{fontSize:9,color:platforms.includes(pl.id)?pl.color:"#1a1a1a",fontWeight:platforms.includes(pl.id)?700:400}}>{pl.label}</span>
-                    {platforms.includes(pl.id)&&<span style={{marginLeft:"auto",fontSize:8,color:pl.color}}>✓</span>}
+                    <span style={{fontSize:17,color:platforms.includes(pl.id)?pl.color:"#1a1a1a"}}>{pl.icon}</span>
+                    <span style={{fontSize:14,color:platforms.includes(pl.id)?pl.color:"#1a1a1a",fontWeight:platforms.includes(pl.id)?700:400}}>{pl.label}</span>
+                    {platforms.includes(pl.id)&&<span style={{marginLeft:"auto",fontSize:18,color:pl.color}}>✓</span>}
                   </div>
                 ))}
               </div>
               <div style={{display:"flex",gap:5,marginBottom:10}}>
                 {[{id:"now",l:"Post Now"},{id:"schedule",l:"Schedule"}].map(m=>(
                   <div key={m.id} onClick={()=>setSchedMode(m.id)}
-                    style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:9,
+                    style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:14,
                       border:schedMode===m.id?`1px solid ${yb.accentBorder}`:"1px solid #111",
                       background:schedMode===m.id?`${yb.accent}10`:"transparent",
                       color:schedMode===m.id?yb.accent:"#333"}}>
@@ -1420,24 +1420,24 @@ function YouTubeTab({b, activeBrand, keys}) {
                 ))}
               </div>
               {schedMode==="schedule"&&(
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
                   <input type="date" value={schedDate} onChange={e=>setSchedDate(e.target.value)}
-                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"7px 9px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
+                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"10px 12px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
                   <select value={schedTime} onChange={e=>setSchedTime(e.target.value)}
-                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"7px 9px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
+                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"10px 12px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
                     {TIMES.map(t=><option key={t}>{t}</option>)}
                   </select>
                 </div>
               )}
-              <div style={{padding:"8px 10px",borderRadius:7,background:"#080808",border:`1px solid ${yb.cardBorder}`,marginBottom:10}}>
-                <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
-                  <span style={{fontSize:7,color:yb.accent,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER</span>
-                  <div style={{marginLeft:"auto",padding:"1px 7px",borderRadius:10,background:`${yb.accent}10`,border:`1px solid ${yb.accentBorder}`,fontSize:6.5,color:yb.accent}}>LOCKED ON</div>
+              <div style={{padding:"11px 13px",borderRadius:7,background:"#080808",border:`1px solid ${yb.cardBorder}`,marginBottom:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:3}}>
+                  <span style={{fontSize:17,color:yb.accent,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER</span>
+                  <div style={{marginLeft:"auto",padding:"1px 7px",borderRadius:10,background:`${yb.accent}10`,border:`1px solid ${yb.accentBorder}`,fontSize:16,color:yb.accent}}>LOCKED ON</div>
                 </div>
-                <div style={{fontSize:7.5,color:yb.textMuted,lineHeight:1.5}}>{yb.disclaimer}</div>
+                <div style={{fontSize:18,color:yb.textMuted,lineHeight:1.5}}>{yb.disclaimer}</div>
               </div>
               <button onClick={publish} disabled={loading||platforms.length===0}
-                style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                   letterSpacing:"0.08em",cursor:loading?"not-allowed":"pointer",
                   background:loading?"#050505":`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                   border:"none",color:loading?"#111":"#000",boxShadow:yb.glow}}>
@@ -1454,17 +1454,17 @@ function YouTubeTab({b, activeBrand, keys}) {
                 <div style={{fontSize:14,fontWeight:900,color:yb.accent,marginBottom:6}}>
                   {schedMode==="now"?"VIDEO LIVE":"VIDEO SCHEDULED"}
                 </div>
-                <div style={{fontSize:9,color:yb.textSub,marginBottom:16}}>
+                <div style={{fontSize:14,color:yb.textSub,marginBottom:16}}>
                   Posted as <span style={{color:yb.accent}}>{yb.name}</span> · Voice + avatar replaced · New thumbnail applied
                 </div>
                 <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center",marginBottom:22}}>
                   {platforms.map(id=>{
                     const pl=YT_PLATFORMS.find(p=>p.id===id);
-                    return pl?<div key={id} style={{padding:"3px 10px",borderRadius:20,background:`${pl.color}15`,border:`1px solid ${pl.color}40`,fontSize:8,color:pl.color}}>{pl.icon} {pl.label}</div>:null;
+                    return pl?<div key={id} style={{padding:"3px 10px",borderRadius:20,background:`${pl.color}15`,border:`1px solid ${pl.color}40`,fontSize:18,color:pl.color}}>{pl.icon} {pl.label}</div>:null;
                   })}
                 </div>
                 <button onClick={reset}
-                  style={{padding:"11px 28px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{padding:"11px 28px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     cursor:"pointer",background:`linear-gradient(135deg,${yb.accentSoft}cc,${yb.accent}77)`,
                     border:"none",color:"#000",boxShadow:yb.glow,letterSpacing:"0.06em"}}>
                   + PROCESS ANOTHER VIDEO
@@ -1476,23 +1476,23 @@ function YouTubeTab({b, activeBrand, keys}) {
 
         {/* RIGHT — Video info + thumbnail preview */}
         {videoInfo && (
-          <div style={{position:"sticky",top:16,height:"fit-content",display:"flex",flexDirection:"column",gap:10}}>
+          <div style={{position:"sticky",top:16,height:"fit-content",display:"flex",flexDirection:"column",gap:16}}>
             {/* Video info card */}
             <div style={{borderRadius:10,overflow:"hidden",border:`1px solid ${yb.accentBorder}`}}>
               <img src={videoInfo.thumbnail} alt={videoInfo.title}
                 style={{width:"100%",aspectRatio:"16/9",objectFit:"cover",display:"block",background:"#030303"}}
                 onError={e=>{e.target.style.display="none";}}/>
               <div style={{padding:"10px 12px",background:yb.cardBg}}>
-                <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>SOURCE VIDEO</div>
+                <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>SOURCE VIDEO</div>
                 <div style={{fontSize:9.5,fontWeight:700,color:yb.textSub,lineHeight:1.4,marginBottom:4}}>{videoInfo.title}</div>
-                <div style={{fontSize:7.5,color:yb.textMuted,wordBreak:"break-all",fontFamily:"monospace"}}>{videoInfo.url?.slice(0,45)}...</div>
+                <div style={{fontSize:18,color:yb.textMuted,wordBreak:"break-all",fontFamily:"monospace"}}>{videoInfo.url?.slice(0,45)}...</div>
               </div>
             </div>
 
             {/* New thumbnail preview */}
             {coverImg && (
               <div>
-                <div style={{fontSize:7.5,color:yb.textMuted,letterSpacing:"0.2em",marginBottom:6,fontFamily:"Courier New,monospace"}}>NEW THUMBNAIL</div>
+                <div style={{fontSize:18,color:yb.textMuted,letterSpacing:"0.2em",marginBottom:6,fontFamily:"Courier New,monospace"}}>NEW THUMBNAIL</div>
                 <div style={{borderRadius:8,overflow:"hidden",border:`1px solid ${yb.accentBorder}`,boxShadow:yb.glow}}>
                   <img src={coverImg} alt="new thumbnail" style={{width:"100%",aspectRatio:"16/9",objectFit:"cover",display:"block"}}/>
                 </div>
@@ -1508,11 +1508,11 @@ function YouTubeTab({b, activeBrand, keys}) {
                       }catch(e){setError(e.message);}
                       finally{setLoading(false);setLoadingMsg("");}
                     }}
-                    style={{flex:1,padding:"6px",borderRadius:6,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                    style={{flex:1,padding:"6px",borderRadius:6,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:18,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                     ↺ New Thumbnail
                   </button>
                   <a href={coverImg} target="_blank" rel="noopener noreferrer"
-                    style={{flex:1,padding:"6px",borderRadius:6,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700,textDecoration:"none",textAlign:"center"}}>
+                    style={{flex:1,padding:"6px",borderRadius:6,background:"transparent",border:`1px solid ${yb.accentBorder}`,color:yb.accent,fontSize:18,cursor:"pointer",fontFamily:"inherit",fontWeight:700,textDecoration:"none",textAlign:"center"}}>
                     ↓ Download
                   </a>
                 </div>
@@ -1522,16 +1522,16 @@ function YouTubeTab({b, activeBrand, keys}) {
             {/* Processing status */}
             {(processingSteps.voice||processingSteps.avatar)&&(
               <div style={{padding:"10px 12px",borderRadius:8,background:yb.cardBg,border:`1px solid ${yb.accentBorder}`}}>
-                <div style={{fontSize:7,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PROCESSING STATUS</div>
+                <div style={{fontSize:17,color:yb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PROCESSING STATUS</div>
                 {[
                   {key:"voice",label:"Voice Clone",icon:"🎙️"},
                   {key:"avatar",label:"HeyGen Avatar",icon:"🎬"},
                   {key:"thumbnail",label:"Thumbnail",icon:"🖼️"},
                 ].map(item=>(
-                  <div key={item.key} style={{display:"flex",alignItems:"center",gap:6,marginBottom:5}}>
-                    <span style={{fontSize:10}}>{item.icon}</span>
-                    <span style={{fontSize:8,color:processingSteps[item.key]?yb.accent:yb.textMuted,flex:1}}>{item.label}</span>
-                    <span style={{fontSize:9,color:processingSteps[item.key]?yb.accent:"#1a1a1a"}}>{processingSteps[item.key]?"✓":"…"}</span>
+                  <div key={item.key} style={{display:"flex",alignItems:"center",gap:10,marginBottom:5}}>
+                    <span style={{fontSize:15}}>{item.icon}</span>
+                    <span style={{fontSize:18,color:processingSteps[item.key]?yb.accent:yb.textMuted,flex:1}}>{item.label}</span>
+                    <span style={{fontSize:14,color:processingSteps[item.key]?yb.accent:"#1a1a1a"}}>{processingSteps[item.key]?"✓":"…"}</span>
                   </div>
                 ))}
               </div>
@@ -1725,17 +1725,17 @@ function ReelsTab({b, activeBrand, keys}) {
                 background:i<step?"#000":i===step?rb.accent:"#0a0a0a",
                 border:i<step?`1px solid ${rb.accent}`:i===step?`2px solid ${rb.accent}`:"1px solid #111",
                 display:"flex",alignItems:"center",justifyContent:"center",
-                fontSize:8,fontWeight:900,color:i<step?rb.accent:i===step?"#000":"#1a1a1a"}}>
+                fontSize:18,fontWeight:900,color:i<step?rb.accent:i===step?"#000":"#1a1a1a"}}>
                 {i<step?"✓":i+1}
               </div>
-              <div style={{fontSize:6.5,color:i<=step?rb.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace"}}>{s}</div>
+              <div style={{fontSize:16,color:i<=step?rb.accent:"#1a1a1a",whiteSpace:"nowrap",fontFamily:"Courier New,monospace"}}>{s}</div>
             </div>
             {i<stepLabels.length-1 && <div style={{flex:1,height:1,background:i<step?rb.accent:"#0a0a0a",margin:"0 3px",marginBottom:14}}/>}
           </div>
         ))}
       </div>
 
-      {error && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:8.5,color:"#ff7777"}}>{error}</div>}
+      {error && <div style={{marginBottom:12,padding:"9px 12px",borderRadius:8,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:14,color:"#ff7777"}}>{error}</div>}
 
       <div style={{display:"grid",gridTemplateColumns:step>=1&&videoPreviewUrl?"1fr 260px":"1fr",gap:16}}>
         {/* LEFT */}
@@ -1746,11 +1746,11 @@ function ReelsTab({b, activeBrand, keys}) {
             <Panel b={rb} label="STEP 1 — VIDEO SOURCE">
               {/* Brand selector */}
               <div style={{marginBottom:12}}>
-                <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:6}}>POST AS BRAND</div>
-                <div style={{display:"flex",gap:6}}>
+                <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:6}}>POST AS BRAND</div>
+                <div style={{display:"flex",gap:10}}>
                   {Object.values(BRANDS).map(br=>(
                     <div key={br.id} onClick={()=>setReelBrand(br.id)}
-                      style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:9,fontWeight:reelBrand===br.id?900:400,
+                      style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:14,fontWeight:reelBrand===br.id?900:400,
                         border:reelBrand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,
                         background:reelBrand===br.id?`${br.accent}10`:"transparent",
                         color:reelBrand===br.id?br.accent:"#333",transition:"all 0.2s"}}>
@@ -1761,13 +1761,13 @@ function ReelsTab({b, activeBrand, keys}) {
               </div>
 
               {/* Mode tabs */}
-              <div style={{display:"flex",gap:6,marginBottom:14}}>
+              <div style={{display:"flex",gap:10,marginBottom:14}}>
                 {[{id:"url",label:"📎 Paste URL"},{id:"upload",label:"📁 Upload File"}].map(m=>(
                   <div key={m.id} onClick={()=>setMode(m.id)}
                     style={{flex:1,padding:"9px 12px",borderRadius:9,cursor:"pointer",textAlign:"center",
                       background:mode===m.id?`${rb.accent}10`:"rgba(5,5,5,0.8)",
                       border:mode===m.id?`1px solid ${rb.accent}`:`1px solid ${rb.cardBorder}`,
-                      color:mode===m.id?rb.accent:"#333",fontSize:10,fontWeight:mode===m.id?900:400,transition:"all 0.2s"}}>
+                      color:mode===m.id?rb.accent:"#333",fontSize:15,fontWeight:mode===m.id?900:400,transition:"all 0.2s"}}>
                     {m.label}
                   </div>
                 ))}
@@ -1775,29 +1775,29 @@ function ReelsTab({b, activeBrand, keys}) {
 
               {mode==="url" ? (
                 <div>
-                  <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>INSTAGRAM REEL URL</div>
+                  <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>INSTAGRAM REEL URL</div>
                   <input value={url} onChange={handleUrlInput}
                     placeholder="https://www.instagram.com/reel/xxxxx/"
                     style={{width:"100%",background:"#000",border:url?`1px solid ${rb.accentBorder}`:"1px solid #111",
-                      borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:11,fontFamily:"monospace",
+                      borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:16,fontFamily:"monospace",
                       outline:"none",boxSizing:"border-box",marginBottom:8}}/>
-                  <div style={{fontSize:8,color:rb.textMuted,lineHeight:1.6}}>
+                  <div style={{fontSize:18,color:rb.textMuted,lineHeight:1.6}}>
                     Paste any public Instagram Reel URL. The video will be downloaded and reposted to KCE's account with a new caption and cover.
                   </div>
                 </div>
               ) : (
                 <div>
-                  <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>UPLOAD VIDEO FILE</div>
+                  <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>UPLOAD VIDEO FILE</div>
                   <div onClick={()=>fileInputRef.current?.click()}
                     style={{padding:"24px 18px",textAlign:"center",
                       background:`radial-gradient(ellipse at bottom,${rb.accent}06,#000)`,
                       border:`2px dashed ${videoFile?rb.accent:rb.accentBorder}`,
                       borderRadius:10,cursor:"pointer",transition:"all 0.2s"}}>
                     <div style={{fontSize:20,marginBottom:8}}>{videoFile?"🎬":"📁"}</div>
-                    <div style={{fontSize:10,color:videoFile?rb.accent:rb.textMuted,fontWeight:700}}>
+                    <div style={{fontSize:15,color:videoFile?rb.accent:rb.textMuted,fontWeight:700}}>
                       {videoFile ? videoFile.name : "CLICK TO UPLOAD VIDEO"}
                     </div>
-                    <div style={{fontSize:7.5,color:rb.textMuted,marginTop:4}}>MP4 · MOV · AVI · up to 500MB</div>
+                    <div style={{fontSize:18,color:rb.textMuted,marginTop:4}}>MP4 · MOV · AVI · up to 500MB</div>
                   </div>
                   <input ref={fileInputRef} type="file" accept="video/*" onChange={handleFileUpload} style={{display:"none"}}/>
                 </div>
@@ -1806,7 +1806,7 @@ function ReelsTab({b, activeBrand, keys}) {
               <div style={{marginTop:14}}>
                 <button onClick={proceedToTrim}
                   style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,
-                    fontSize:10,letterSpacing:"0.08em",cursor:"pointer",
+                    fontSize:15,letterSpacing:"0.08em",cursor:"pointer",
                     background:`linear-gradient(135deg,${rb.accentSoft}cc,${rb.accent}77)`,
                     border:"none",color:"#000",boxShadow:rb.glow}}>
                   → NEXT: TRIM VIDEO
@@ -1820,8 +1820,8 @@ function ReelsTab({b, activeBrand, keys}) {
             <Panel b={rb} label="STEP 2 — TRIM VIDEO">
               {mode==="url" && (
                 <div style={{padding:"14px",borderRadius:8,background:`${rb.accent}06`,border:`1px solid ${rb.accentBorder}`,marginBottom:12}}>
-                  <div style={{fontSize:8,color:rb.accent,marginBottom:4,fontFamily:"Courier New,monospace"}}>SOURCE URL</div>
-                  <div style={{fontSize:9,color:rb.textSub,wordBreak:"break-all"}}>{url}</div>
+                  <div style={{fontSize:18,color:rb.accent,marginBottom:4,fontFamily:"Courier New,monospace"}}>SOURCE URL</div>
+                  <div style={{fontSize:14,color:rb.textSub,wordBreak:"break-all"}}>{url}</div>
                 </div>
               )}
               {videoPreviewUrl && (
@@ -1833,51 +1833,51 @@ function ReelsTab({b, activeBrand, keys}) {
               {!videoPreviewUrl && mode==="url" && (
                 <div style={{padding:"20px",textAlign:"center",background:"#030303",borderRadius:8,border:`1px dashed ${rb.accentBorder}`,marginBottom:12}}>
                   <div style={{fontSize:20,marginBottom:6}}>🎬</div>
-                  <div style={{fontSize:9,color:rb.textMuted}}>Video preview loads after posting — URL is passed directly to the platform</div>
+                  <div style={{fontSize:14,color:rb.textMuted}}>Video preview loads after posting — URL is passed directly to the platform</div>
                 </div>
               )}
               {/* Trim controls */}
               {videoDuration>0 && (
                 <div style={{marginBottom:12}}>
-                  <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>TRIM (seconds)</div>
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                  <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>TRIM (seconds)</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
                     <div>
-                      <div style={{fontSize:7,color:rb.textMuted,marginBottom:4}}>START</div>
+                      <div style={{fontSize:17,color:rb.textMuted,marginBottom:4}}>START</div>
                       <input type="number" value={trimStart} min={0} max={trimEnd-1}
                         onChange={e=>setTrimStart(Math.max(0,parseInt(e.target.value)||0))}
-                        style={{width:"100%",background:"#000",border:`1px solid ${rb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:12,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
+                        style={{width:"100%",background:"#000",border:`1px solid ${rb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:17,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
                     </div>
                     <div>
-                      <div style={{fontSize:7,color:rb.textMuted,marginBottom:4}}>END</div>
+                      <div style={{fontSize:17,color:rb.textMuted,marginBottom:4}}>END</div>
                       <input type="number" value={trimEnd} min={trimStart+1} max={videoDuration}
                         onChange={e=>setTrimEnd(Math.min(videoDuration,parseInt(e.target.value)||videoDuration))}
-                        style={{width:"100%",background:"#000",border:`1px solid ${rb.accentBorder}`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:12,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
+                        style={{width:"100%",background:"#000",border:`1px solid ${rb.accentBorder}`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:17,fontFamily:"monospace",outline:"none",boxSizing:"border-box"}}/>
                     </div>
                   </div>
-                  <div style={{marginTop:8,fontSize:8,color:rb.textMuted,fontFamily:"Courier New,monospace"}}>
+                  <div style={{marginTop:8,fontSize:18,color:rb.textMuted,fontFamily:"Courier New,monospace"}}>
                     DURATION: {trimEnd-trimStart}s of {videoDuration}s total
                   </div>
                 </div>
               )}
               {/* Topic input */}
               <div style={{marginBottom:12}}>
-                <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>TOPIC / DESCRIPTION <span style={{color:rb.accent}}>*</span></div>
+                <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:5}}>TOPIC / DESCRIPTION <span style={{color:rb.accent}}>*</span></div>
                 <input value={topic} onChange={e=>{setTopic(e.target.value);setError("");}}
                   placeholder='e.g. "Bitcoin breaking resistance" or "How to DCA into crypto"'
                   style={{width:"100%",background:"#000",border:topic?`1px solid ${rb.accentBorder}`:"1px solid #111",
-                    borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:11,fontFamily:"inherit",
+                    borderRadius:7,padding:"10px 12px",color:"#fff",fontSize:16,fontFamily:"inherit",
                     outline:"none",boxSizing:"border-box"}}/>
-                <div style={{fontSize:7.5,color:rb.textMuted,marginTop:4,lineHeight:1.5}}>
+                <div style={{fontSize:18,color:rb.textMuted,marginTop:4,lineHeight:1.5}}>
                   Claude uses this to write the KCE-branded caption and generate a matching cover image.
                 </div>
               </div>
-              <div style={{display:"flex",gap:8}}>
+              <div style={{display:"flex",gap:12}}>
                 <button onClick={()=>setStep(0)}
-                  style={{flex:1,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:700,fontSize:10,cursor:"pointer",background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent}}>
+                  style={{flex:1,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:700,fontSize:15,cursor:"pointer",background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent}}>
                   ← Back
                 </button>
                 <button onClick={proceedToCaption} disabled={loading||!topic.trim()}
-                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{flex:2,padding:"11px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     cursor:loading||!topic.trim()?"not-allowed":"pointer",letterSpacing:"0.06em",
                     background:loading||!topic.trim()?"#050505":`linear-gradient(135deg,${rb.accentSoft}cc,${rb.accent}77)`,
                     border:"none",color:loading||!topic.trim()?"#111":"#000",boxShadow:rb.glow}}>
@@ -1895,27 +1895,27 @@ function ReelsTab({b, activeBrand, keys}) {
                   style={{width:"100%",background:"#000",border:`1px solid ${rb.accentBorder}`,borderRadius:7,
                     padding:"10px 12px",color:rb.textMain,fontSize:9.5,fontFamily:"inherit",
                     outline:"none",resize:"vertical",marginBottom:10,boxSizing:"border-box",lineHeight:1.7}}/>
-                <div style={{padding:"8px 10px",borderRadius:7,background:"#080808",border:`1px solid ${rb.cardBorder}`}}>
-                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
-                    <span style={{fontSize:7,color:rb.accent,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER</span>
-                    <div style={{marginLeft:"auto",padding:"1px 7px",borderRadius:10,background:`${rb.accent}10`,border:`1px solid ${rb.accentBorder}`,fontSize:6.5,color:rb.accent}}>LOCKED ON</div>
+                <div style={{padding:"11px 13px",borderRadius:7,background:"#080808",border:`1px solid ${rb.cardBorder}`}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:3}}>
+                    <span style={{fontSize:17,color:rb.accent,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER</span>
+                    <div style={{marginLeft:"auto",padding:"1px 7px",borderRadius:10,background:`${rb.accent}10`,border:`1px solid ${rb.accentBorder}`,fontSize:16,color:rb.accent}}>LOCKED ON</div>
                   </div>
-                  <div style={{fontSize:7.5,color:rb.textMuted,lineHeight:1.5}}>{rb.disclaimer}</div>
+                  <div style={{fontSize:18,color:rb.textMuted,lineHeight:1.5}}>{rb.disclaimer}</div>
                 </div>
-                <div style={{marginTop:10,display:"flex",gap:6}}>
+                <div style={{marginTop:10,display:"flex",gap:10}}>
                   <button onClick={async()=>{
                       setLoading(true);setLoadingMsg("✍️ Regenerating...");
                       const cap = await generateReelCaption(topic,reelBrand);
                       setCaption(cap);setLoading(false);setLoadingMsg("");
                     }}
-                    style={{flex:1,padding:"8px",borderRadius:7,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:8.5,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                    style={{flex:1,padding:"8px",borderRadius:7,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                     {loading?loadingMsg:"↺ Regenerate Caption"}
                   </button>
                 </div>
               </Panel>
               <button onClick={()=>setStep(3)}
                 style={{width:"100%",padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,
-                  fontSize:10,letterSpacing:"0.08em",cursor:"pointer",
+                  fontSize:15,letterSpacing:"0.08em",cursor:"pointer",
                   background:`linear-gradient(135deg,${rb.accentSoft}cc,${rb.accent}77)`,
                   border:"none",color:"#000",boxShadow:rb.glow}}>
                 → NEXT: PUBLISH
@@ -1926,23 +1926,23 @@ function ReelsTab({b, activeBrand, keys}) {
           {/* STEP 3 — PUBLISH */}
           {step===3 && (
             <Panel b={rb} label="STEP 4 — PUBLISH REEL">
-              <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PLATFORMS</div>
+              <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:8}}>PLATFORMS</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:5,marginBottom:14}}>
                 {REEL_PLATFORMS.map(pl=>(
                   <div key={pl.id} onClick={()=>setPlatforms(prev=>prev.includes(pl.id)?prev.filter(x=>x!==pl.id):[...prev,pl.id])}
-                    style={{display:"flex",alignItems:"center",gap:7,padding:"8px 10px",borderRadius:7,cursor:"pointer",
+                    style={{display:"flex",alignItems:"center",gap:7,padding:"11px 13px",borderRadius:7,cursor:"pointer",
                       background:platforms.includes(pl.id)?`${pl.color}12`:"transparent",
                       border:platforms.includes(pl.id)?`1px solid ${pl.color}44`:"1px solid #111",transition:"all 0.2s"}}>
-                    <span style={{fontSize:12,color:platforms.includes(pl.id)?pl.color:"#1a1a1a"}}>{pl.icon}</span>
-                    <span style={{fontSize:9,color:platforms.includes(pl.id)?pl.color:"#1a1a1a",fontWeight:platforms.includes(pl.id)?700:400}}>{pl.label}</span>
-                    {platforms.includes(pl.id)&&<span style={{marginLeft:"auto",fontSize:8,color:pl.color}}>✓</span>}
+                    <span style={{fontSize:17,color:platforms.includes(pl.id)?pl.color:"#1a1a1a"}}>{pl.icon}</span>
+                    <span style={{fontSize:14,color:platforms.includes(pl.id)?pl.color:"#1a1a1a",fontWeight:platforms.includes(pl.id)?700:400}}>{pl.label}</span>
+                    {platforms.includes(pl.id)&&<span style={{marginLeft:"auto",fontSize:18,color:pl.color}}>✓</span>}
                   </div>
                 ))}
               </div>
               <div style={{display:"flex",gap:5,marginBottom:10}}>
                 {[{id:"now",l:"Post Now"},{id:"schedule",l:"Schedule"}].map(m=>(
                   <div key={m.id} onClick={()=>setSchedMode(m.id)}
-                    style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:9,
+                    style={{padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:14,
                       border:schedMode===m.id?`1px solid ${rb.accentBorder}`:"1px solid #111",
                       background:schedMode===m.id?`${rb.accent}10`:"transparent",
                       color:schedMode===m.id?rb.accent:"#333"}}>
@@ -1951,23 +1951,23 @@ function ReelsTab({b, activeBrand, keys}) {
                 ))}
               </div>
               {schedMode==="schedule"&&(
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
                   <input type="date" value={schedDate} onChange={e=>setSchedDate(e.target.value)}
-                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"7px 9px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
+                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"10px 12px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
                   <select value={schedTime} onChange={e=>setSchedTime(e.target.value)}
-                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"7px 9px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
+                    style={{background:"#000",border:"1px solid #111",borderRadius:6,padding:"10px 12px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
                     {TIMES.map(t=><option key={t}>{t}</option>)}
                   </select>
                 </div>
               )}
-              {!keys.ayrshare&&<div style={{marginBottom:10,padding:"8px 10px",borderRadius:7,background:`${rb.accent}07`,border:`1px solid ${rb.accentBorder}`,fontSize:8.5,color:rb.accent}}>⚠ Add publishing key in Settings to go live</div>}
-              <div style={{display:"flex",gap:8}}>
+              {!keys.ayrshare&&<div style={{marginBottom:10,padding:"11px 13px",borderRadius:7,background:`${rb.accent}07`,border:`1px solid ${rb.accentBorder}`,fontSize:14,color:rb.accent}}>⚠ Add publishing key in Settings to go live</div>}
+              <div style={{display:"flex",gap:12}}>
                 <button onClick={()=>setStep(2)}
-                  style={{flex:1,padding:"12px",borderRadius:9,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                  style={{flex:1,padding:"12px",borderRadius:9,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                   ← Back
                 </button>
                 <button onClick={publish} disabled={loading||platforms.length===0}
-                  style={{flex:2,padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{flex:2,padding:"12px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     letterSpacing:"0.06em",cursor:loading?"not-allowed":"pointer",
                     background:loading?"#050505":`linear-gradient(135deg,${rb.accentSoft}cc,${rb.accent}77)`,
                     border:"none",color:loading?"#111":"#000",boxShadow:rb.glow}}>
@@ -1985,17 +1985,17 @@ function ReelsTab({b, activeBrand, keys}) {
                 <div style={{fontSize:14,fontWeight:900,color:rb.accent,marginBottom:6}}>
                   {schedMode==="now"?"REEL LIVE":"REEL SCHEDULED"}
                 </div>
-                <div style={{fontSize:9,color:rb.textSub,marginBottom:16}}>
+                <div style={{fontSize:14,color:rb.textSub,marginBottom:16}}>
                   Posted as <span style={{color:rb.accent}}>{rb.name}</span> to {platforms.length} platform{platforms.length!==1?"s":""}
                 </div>
                 <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center",marginBottom:22}}>
                   {platforms.map(id=>{
                     const pl=REEL_PLATFORMS.find(p=>p.id===id);
-                    return pl?<div key={id} style={{padding:"3px 10px",borderRadius:20,background:`${pl.color}15`,border:`1px solid ${pl.color}40`,fontSize:8,color:pl.color}}>{pl.icon} {pl.label}</div>:null;
+                    return pl?<div key={id} style={{padding:"3px 10px",borderRadius:20,background:`${pl.color}15`,border:`1px solid ${pl.color}40`,fontSize:18,color:pl.color}}>{pl.icon} {pl.label}</div>:null;
                   })}
                 </div>
                 <button onClick={reset}
-                  style={{padding:"11px 28px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:10,
+                  style={{padding:"11px 28px",borderRadius:9,fontFamily:"inherit",fontWeight:900,fontSize:15,
                     cursor:"pointer",background:`linear-gradient(135deg,${rb.accentSoft}cc,${rb.accent}77)`,
                     border:"none",color:"#000",boxShadow:rb.glow,letterSpacing:"0.06em"}}>
                   + POST ANOTHER REEL
@@ -2008,7 +2008,7 @@ function ReelsTab({b, activeBrand, keys}) {
         {/* RIGHT — Cover preview */}
         {step>=1 && (
           <div style={{position:"sticky",top:16,height:"fit-content"}}>
-            <div style={{fontSize:7.5,color:rb.textMuted,letterSpacing:"0.2em",marginBottom:8,fontFamily:"Courier New,monospace"}}>COVER THUMBNAIL</div>
+            <div style={{fontSize:18,color:rb.textMuted,letterSpacing:"0.2em",marginBottom:8,fontFamily:"Courier New,monospace"}}>COVER THUMBNAIL</div>
             <div style={{borderRadius:12,overflow:"hidden",aspectRatio:"9/16",background:"#030303",
               border:`1px solid ${rb.accentBorder}`,
               boxShadow:rb.glow,
@@ -2016,15 +2016,15 @@ function ReelsTab({b, activeBrand, keys}) {
               {coverImg
                 ? <img src={coverImg} alt="cover" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                 : <div style={{textAlign:"center",padding:16}}>
-                    <div style={{fontSize:24,marginBottom:8,opacity:0.2}}>◈</div>
-                    <div style={{fontSize:8,color:rb.textMuted,lineHeight:1.6}}>Cover generates<br/>after you enter topic</div>
+                    <div style={{fontSize:32,marginBottom:8,opacity:0.2}}>◈</div>
+                    <div style={{fontSize:18,color:rb.textMuted,lineHeight:1.6}}>Cover generates<br/>after you enter topic</div>
                   </div>
               }
               {coverImg && (
                 <div style={{position:"absolute",bottom:0,left:0,right:0,padding:"12px 10px",
                   background:"linear-gradient(0deg,rgba(0,0,0,0.9),transparent)"}}>
-                  <div style={{fontSize:7,color:rb.accent,fontFamily:"Courier New,monospace",letterSpacing:"0.15em",marginBottom:2}}>{rb.name.toUpperCase()}</div>
-                  <div style={{fontSize:8.5,fontWeight:700,color:"#fff",lineHeight:1.3}}>{topic}</div>
+                  <div style={{fontSize:17,color:rb.accent,fontFamily:"Courier New,monospace",letterSpacing:"0.15em",marginBottom:2}}>{rb.name.toUpperCase()}</div>
+                  <div style={{fontSize:14,fontWeight:700,color:"#fff",lineHeight:1.3}}>{topic}</div>
                 </div>
               )}
             </div>
@@ -2041,15 +2041,15 @@ function ReelsTab({b, activeBrand, keys}) {
                     } catch(e){setError(e.message);}
                     finally{setLoading(false);setLoadingMsg("");}
                   }}
-                  style={{width:"100%",padding:"8px",borderRadius:7,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+                  style={{width:"100%",padding:"8px",borderRadius:7,background:"transparent",border:`1px solid ${rb.accentBorder}`,color:rb.accent,fontSize:18,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
                   {loading&&loadingMsg.includes("cover") ? loadingMsg : "↺ Regenerate Cover"}
                 </button>
               </div>
             )}
             {topic && (
-              <div style={{marginTop:10,padding:"8px 10px",borderRadius:7,background:rb.cardBg,border:`1px solid ${rb.cardBorder}`}}>
-                <div style={{fontSize:7,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TOPIC</div>
-                <div style={{fontSize:9,color:rb.textSub,lineHeight:1.5}}>{topic}</div>
+              <div style={{marginTop:10,padding:"11px 13px",borderRadius:7,background:rb.cardBg,border:`1px solid ${rb.cardBorder}`}}>
+                <div style={{fontSize:17,color:rb.textMuted,fontFamily:"Courier New,monospace",marginBottom:4}}>TOPIC</div>
+                <div style={{fontSize:14,color:rb.textSub,lineHeight:1.5}}>{topic}</div>
               </div>
             )}
           </div>
@@ -2178,40 +2178,40 @@ function ScheduleTab({ b }) {
       <div style={{background:"rgba(4,10,4,0.98)",border:`1px solid ${isPub?"rgba(255,255,255,0.04)":"rgba(57,255,20,0.1)"}`,
         borderLeft:`3px solid ${bc}`,borderRadius:9,padding:"12px 14px",
         opacity:isPub?0.55:1,transition:"opacity 0.2s"}}>
-        <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
+        <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
           <div style={{width:32,height:32,borderRadius:7,background:`${bc}12`,border:`1px solid ${bc}22`,
             display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,flexShrink:0}}>
             {TYPE_ICONS[post.type]||"⊞"}
           </div>
           <div style={{flex:1,minWidth:0}}>
-            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4,flexWrap:"wrap"}}>
-              <span style={{fontSize:10,fontWeight:700,color:"#e8f5e8"}}>{post.title}</span>
-              <span style={{fontSize:7.5,color:bc,padding:"1px 6px",borderRadius:3,background:`${bc}10`,border:`1px solid ${bc}22`}}>{brandName(post.brand)}</span>
-              <span style={{fontSize:7.5,color:"rgba(255,255,255,0.3)",padding:"1px 6px",borderRadius:3,background:"rgba(255,255,255,0.04)"}}>{TYPE_LABELS[post.type]}</span>
-              {isPub && <span style={{fontSize:7.5,color:"#2ecc71",padding:"1px 6px",borderRadius:3,background:"rgba(46,204,113,0.08)"}}>✓ Published</span>}
+            <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4,flexWrap:"wrap"}}>
+              <span style={{fontSize:15,fontWeight:700,color:"#e8f5e8"}}>{post.title}</span>
+              <span style={{fontSize:18,color:bc,padding:"1px 6px",borderRadius:3,background:`${bc}10`,border:`1px solid ${bc}22`}}>{brandName(post.brand)}</span>
+              <span style={{fontSize:18,color:"rgba(255,255,255,0.3)",padding:"1px 6px",borderRadius:3,background:"rgba(255,255,255,0.04)"}}>{TYPE_LABELS[post.type]}</span>
+              {isPub && <span style={{fontSize:18,color:"#2ecc71",padding:"1px 6px",borderRadius:3,background:"rgba(46,204,113,0.08)"}}>✓ Published</span>}
             </div>
-            <div style={{fontSize:8,color:"rgba(255,255,255,0.35)",marginBottom:6,fontFamily:"Courier New,monospace"}}>
+            <div style={{fontSize:18,color:"rgba(255,255,255,0.35)",marginBottom:6,fontFamily:"Courier New,monospace"}}>
               {isPub?"Published":"Scheduled"}: {fmtDate(post.scheduledFor)}
             </div>
             <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
               {(post.platforms||[]).map(pid=>{
                 const pl=ALL_PLATFORMS.find(p=>p.id===pid);
-                return pl?<span key={pid} style={{fontSize:7.5,color:pl.color,padding:"1px 7px",borderRadius:3,border:`1px solid ${pl.color}30`,background:`${pl.color}0a`}}>{pl.icon} {pl.label}</span>:null;
+                return pl?<span key={pid} style={{fontSize:18,color:pl.color,padding:"1px 7px",borderRadius:3,border:`1px solid ${pl.color}30`,background:`${pl.color}0a`}}>{pl.icon} {pl.label}</span>:null;
               })}
             </div>
           </div>
           {!isPub && (
             <div style={{display:"flex",gap:5,flexShrink:0}}>
               <button onClick={()=>setViewPost(post)}
-                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:`1px solid ${bc}33`,color:bc,fontSize:8,cursor:"pointer",fontFamily:"inherit"}}>
+                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:`1px solid ${bc}33`,color:bc,fontSize:18,cursor:"pointer",fontFamily:"inherit"}}>
                 View
               </button>
               <button onClick={()=>setEditPost({...post})}
-                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:"1px solid rgba(255,255,255,0.08)",color:"rgba(255,255,255,0.4)",fontSize:8,cursor:"pointer",fontFamily:"inherit"}}>
+                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:"1px solid rgba(255,255,255,0.08)",color:"rgba(255,255,255,0.4)",fontSize:18,cursor:"pointer",fontFamily:"inherit"}}>
                 Edit
               </button>
               <button onClick={()=>deletePost(post.id)}
-                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:"1px solid rgba(255,100,100,0.2)",color:"rgba(255,100,100,0.6)",fontSize:8,cursor:"pointer",fontFamily:"inherit"}}>
+                style={{padding:"4px 9px",borderRadius:5,background:"transparent",border:"1px solid rgba(255,100,100,0.2)",color:"rgba(255,100,100,0.6)",fontSize:18,cursor:"pointer",fontFamily:"inherit"}}>
                 ✕
               </button>
             </div>
@@ -2227,38 +2227,38 @@ function ScheduleTab({ b }) {
     return (
       <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
         <div style={{background:"#030803",border:`1px solid ${bc}30`,borderRadius:14,padding:24,maxWidth:520,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:16}}>
             <div style={{fontSize:18}}>{TYPE_ICONS[post.type]}</div>
             <div style={{flex:1}}>
-              <div style={{fontSize:13,fontWeight:700,color:"#e8f5e8"}}>{post.title}</div>
-              <div style={{fontSize:8,color:bc,fontFamily:"Courier New,monospace",letterSpacing:"0.1em"}}>{brandName(post.brand).toUpperCase()} · {TYPE_LABELS[post.type].toUpperCase()}</div>
+              <div style={{fontSize:18,fontWeight:700,color:"#e8f5e8"}}>{post.title}</div>
+              <div style={{fontSize:18,color:bc,fontFamily:"Courier New,monospace",letterSpacing:"0.1em"}}>{brandName(post.brand).toUpperCase()} · {TYPE_LABELS[post.type].toUpperCase()}</div>
             </div>
-            <button onClick={onClose} style={{padding:"4px 10px",borderRadius:5,background:"transparent",border:"1px solid #1a1a1a",color:"#444",fontSize:12,cursor:"pointer"}}>✕</button>
+            <button onClick={onClose} style={{padding:"4px 10px",borderRadius:5,background:"transparent",border:"1px solid #1a1a1a",color:"#444",fontSize:17,cursor:"pointer"}}>✕</button>
           </div>
           <div style={{padding:"10px 12px",borderRadius:8,background:"#070707",border:"1px solid #0d0d0d",marginBottom:12}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>SCHEDULED FOR</div>
-            <div style={{fontSize:10,color:bc,fontWeight:700}}>{fmtDate(post.scheduledFor)}</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>SCHEDULED FOR</div>
+            <div style={{fontSize:15,color:bc,fontWeight:700}}>{fmtDate(post.scheduledFor)}</div>
           </div>
           <div style={{marginBottom:12}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:5}}>CAPTION</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:5}}>CAPTION</div>
             <div style={{fontSize:9.5,color:"rgba(255,255,255,0.6)",lineHeight:1.7,background:"#070707",borderRadius:7,padding:"10px 12px",border:"1px solid #0d0d0d",whiteSpace:"pre-line"}}>{post.caption}</div>
           </div>
           <div style={{marginBottom:16}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:5}}>PLATFORMS</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:5}}>PLATFORMS</div>
             <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
               {(post.platforms||[]).map(pid=>{
                 const pl=ALL_PLATFORMS.find(p=>p.id===pid);
-                return pl?<span key={pid} style={{fontSize:8,color:pl.color,padding:"3px 9px",borderRadius:5,border:`1px solid ${pl.color}30`,background:`${pl.color}0a`}}>{pl.icon} {pl.label}</span>:null;
+                return pl?<span key={pid} style={{fontSize:18,color:pl.color,padding:"3px 9px",borderRadius:5,border:`1px solid ${pl.color}30`,background:`${pl.color}0a`}}>{pl.icon} {pl.label}</span>:null;
               })}
             </div>
           </div>
-          <div style={{display:"flex",gap:8}}>
+          <div style={{display:"flex",gap:12}}>
             <button onClick={()=>{onClose();setEditPost({...post});}}
-              style={{flex:1,padding:"9px",borderRadius:7,background:`${bc}10`,border:`1px solid ${bc}30`,color:bc,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+              style={{flex:1,padding:"9px",borderRadius:7,background:`${bc}10`,border:`1px solid ${bc}30`,color:bc,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
               ✏ Edit
             </button>
             <button onClick={()=>deletePost(post.id)}
-              style={{flex:1,padding:"9px",borderRadius:7,background:"rgba(255,80,80,0.06)",border:"1px solid rgba(255,80,80,0.2)",color:"rgba(255,100,100,0.8)",fontSize:9,cursor:"pointer",fontFamily:"inherit"}}>
+              style={{flex:1,padding:"9px",borderRadius:7,background:"rgba(255,80,80,0.06)",border:"1px solid rgba(255,80,80,0.2)",color:"rgba(255,100,100,0.8)",fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>
               🗑 Delete
             </button>
           </div>
@@ -2296,34 +2296,34 @@ function ScheduleTab({ b }) {
         <div style={{background:"#030803",border:`1px solid ${bc}30`,borderRadius:14,padding:24,maxWidth:540,width:"100%",maxHeight:"90vh",overflowY:"auto"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
             <div>
-              <div style={{fontSize:12,fontWeight:700,color:"#e8f5e8",marginBottom:2}}>Edit Scheduled Post</div>
-              <div style={{fontSize:8,color:bc,fontFamily:"Courier New,monospace"}}>{brandName(draft.brand).toUpperCase()} · {TYPE_LABELS[draft.type]}</div>
+              <div style={{fontSize:17,fontWeight:700,color:"#e8f5e8",marginBottom:2}}>Edit Scheduled Post</div>
+              <div style={{fontSize:18,color:bc,fontFamily:"Courier New,monospace"}}>{brandName(draft.brand).toUpperCase()} · {TYPE_LABELS[draft.type]}</div>
             </div>
-            <button onClick={onClose} style={{padding:"4px 10px",borderRadius:5,background:"transparent",border:"1px solid #1a1a1a",color:"#444",fontSize:12,cursor:"pointer"}}>✕</button>
+            <button onClick={onClose} style={{padding:"4px 10px",borderRadius:5,background:"transparent",border:"1px solid #1a1a1a",color:"#444",fontSize:17,cursor:"pointer"}}>✕</button>
           </div>
 
           {/* Title */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>TITLE</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>TITLE</div>
             <input value={draft.title} onChange={e=>setDraft(d=>({...d,title:e.target.value}))}
-              style={{width:"100%",background:"#000",border:`1px solid ${bc}30`,borderRadius:6,padding:"9px 11px",color:"#fff",fontSize:11,fontFamily:"inherit",outline:"none",boxSizing:"border-box"}}/>
+              style={{width:"100%",background:"#000",border:`1px solid ${bc}30`,borderRadius:6,padding:"12px 14px",color:"#fff",fontSize:16,fontFamily:"inherit",outline:"none",boxSizing:"border-box"}}/>
           </div>
 
           {/* Caption */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>CAPTION</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>CAPTION</div>
             <textarea value={draft.caption} rows={5} onChange={e=>setDraft(d=>({...d,caption:e.target.value}))}
-              style={{width:"100%",background:"#000",border:`1px solid ${bc}30`,borderRadius:6,padding:"9px 11px",color:"rgba(255,255,255,0.7)",fontSize:9.5,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
+              style={{width:"100%",background:"#000",border:`1px solid ${bc}30`,borderRadius:6,padding:"12px 14px",color:"rgba(255,255,255,0.7)",fontSize:9.5,fontFamily:"inherit",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.7}}/>
           </div>
 
           {/* Reschedule */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>RESCHEDULE</div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:4}}>RESCHEDULE</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
               <input type="date" value={schedDate2} onChange={e=>setSchedDate2(e.target.value)}
-                style={{background:"#000",border:`1px solid ${bc}22`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
+                style={{background:"#000",border:`1px solid ${bc}22`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",colorScheme:"dark",boxSizing:"border-box"}}/>
               <select value={schedTime2} onChange={e=>setSchedTime2(e.target.value)}
-                style={{background:"#000",border:`1px solid ${bc}22`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:9,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
+                style={{background:"#000",border:`1px solid ${bc}22`,borderRadius:6,padding:"11px 13px",color:"#fff",fontSize:14,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer",boxSizing:"border-box"}}>
                 {TIMES.map(t=><option key={t}>{t}</option>)}
               </select>
             </div>
@@ -2331,30 +2331,30 @@ function ScheduleTab({ b }) {
 
           {/* Platforms */}
           <div style={{marginBottom:16}}>
-            <div style={{fontSize:7,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:6}}>PLATFORMS</div>
+            <div style={{fontSize:17,color:"rgba(255,255,255,0.3)",fontFamily:"Courier New,monospace",marginBottom:6}}>PLATFORMS</div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:5}}>
               {ALL_PLATFORMS.map(pl=>{
                 const sel = (draft.platforms||[]).includes(pl.id);
                 return (
                   <div key={pl.id} onClick={()=>setDraft(d=>({...d,platforms:sel?d.platforms.filter(x=>x!==pl.id):[...(d.platforms||[]),pl.id]}))}
-                    style={{display:"flex",alignItems:"center",gap:6,padding:"7px 9px",borderRadius:6,cursor:"pointer",
+                    style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:6,cursor:"pointer",
                       background:sel?`${pl.color}10`:"transparent",border:sel?`1px solid ${pl.color}44`:"1px solid #111"}}>
-                    <span style={{fontSize:10,color:sel?pl.color:"#1a1a1a"}}>{pl.icon}</span>
-                    <span style={{fontSize:8.5,color:sel?pl.color:"#1a1a1a",fontWeight:sel?700:400}}>{pl.label}</span>
-                    {sel&&<span style={{marginLeft:"auto",fontSize:8,color:pl.color}}>✓</span>}
+                    <span style={{fontSize:15,color:sel?pl.color:"#1a1a1a"}}>{pl.icon}</span>
+                    <span style={{fontSize:14,color:sel?pl.color:"#1a1a1a",fontWeight:sel?700:400}}>{pl.label}</span>
+                    {sel&&<span style={{marginLeft:"auto",fontSize:18,color:pl.color}}>✓</span>}
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div style={{display:"flex",gap:8}}>
+          <div style={{display:"flex",gap:12}}>
             <button onClick={onClose}
-              style={{flex:1,padding:"10px",borderRadius:7,background:"transparent",border:`1px solid ${bc}22`,color:bc,fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+              style={{flex:1,padding:"10px",borderRadius:7,background:"transparent",border:`1px solid ${bc}22`,color:bc,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
               Cancel
             </button>
             <button onClick={handleSave}
-              style={{flex:2,padding:"10px",borderRadius:7,fontFamily:"inherit",fontWeight:900,fontSize:10,cursor:"pointer",
+              style={{flex:2,padding:"10px",borderRadius:7,fontFamily:"inherit",fontWeight:900,fontSize:15,cursor:"pointer",
                 background:`linear-gradient(135deg,rgba(46,204,113,0.8),rgba(57,255,20,0.5))`,border:"none",color:"#000",
                 boxShadow:"0 0 16px rgba(57,255,20,0.2)"}}>
               ✓ Save Changes
@@ -2381,14 +2381,14 @@ function ScheduleTab({ b }) {
         {/* Month nav */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,padding:"0 2px"}}>
           <button onClick={prevMonth}
-            style={{padding:"5px 12px",borderRadius:6,background:"transparent",border:"1px solid #111",color:"#333",cursor:"pointer",fontSize:12,fontFamily:"inherit"}}>
+            style={{padding:"5px 12px",borderRadius:6,background:"transparent",border:"1px solid #111",color:"#333",cursor:"pointer",fontSize:17,fontFamily:"inherit"}}>
             ←
           </button>
-          <div style={{fontSize:13,fontWeight:700,color:"#e8f5e8",letterSpacing:"0.04em",fontFamily:"Courier New,monospace"}}>
+          <div style={{fontSize:18,fontWeight:700,color:"#e8f5e8",letterSpacing:"0.04em",fontFamily:"Courier New,monospace"}}>
             {monthNames[calMonth]} {calYear}
           </div>
           <button onClick={nextMonth}
-            style={{padding:"5px 12px",borderRadius:6,background:"transparent",border:"1px solid #111",color:"#333",cursor:"pointer",fontSize:12,fontFamily:"inherit"}}>
+            style={{padding:"5px 12px",borderRadius:6,background:"transparent",border:"1px solid #111",color:"#333",cursor:"pointer",fontSize:17,fontFamily:"inherit"}}>
             →
           </button>
         </div>
@@ -2396,7 +2396,7 @@ function ScheduleTab({ b }) {
         {/* Day headers */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:3}}>
           {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>(
-            <div key={d} style={{textAlign:"center",fontSize:8,color:"rgba(255,255,255,0.25)",fontFamily:"Courier New,monospace",padding:"4px 0"}}>{d}</div>
+            <div key={d} style={{textAlign:"center",fontSize:18,color:"rgba(255,255,255,0.25)",fontFamily:"Courier New,monospace",padding:"4px 0"}}>{d}</div>
           ))}
         </div>
 
@@ -2415,7 +2415,7 @@ function ScheduleTab({ b }) {
                   background:isSelected?"rgba(57,255,20,0.08)":hasPosts?"rgba(4,12,4,0.9)":"rgba(4,8,4,0.5)",
                   border:isSelected?"1px solid rgba(57,255,20,0.4)":isToday?"1px solid rgba(57,255,20,0.2)":"1px solid rgba(255,255,255,0.03)",
                   transition:"all 0.15s"}}>
-                <div style={{fontSize:9,fontWeight:isToday?700:400,color:isToday?"#39ff14":hasPosts?"rgba(255,255,255,0.7)":"rgba(255,255,255,0.2)",marginBottom:3,textAlign:"center",fontFamily:isToday?"Courier New,monospace":"inherit"}}>
+                <div style={{fontSize:14,fontWeight:isToday?700:400,color:isToday?"#39ff14":hasPosts?"rgba(255,255,255,0.7)":"rgba(255,255,255,0.2)",marginBottom:3,textAlign:"center",fontFamily:isToday?"Courier New,monospace":"inherit"}}>
                   {isToday?`[${day}]`:day}
                 </div>
                 {/* Post dots / pills */}
@@ -2425,13 +2425,13 @@ function ScheduleTab({ b }) {
                       style={{display:"flex",alignItems:"center",gap:3,padding:"2px 4px",borderRadius:3,
                         background:`${brandColor(post.brand)}14`,overflow:"hidden"}}>
                       <div style={{width:4,height:4,borderRadius:"50%",background:brandColor(post.brand),flexShrink:0}}/>
-                      <span style={{fontSize:7,color:brandColor(post.brand),overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",lineHeight:1.2}}>
+                      <span style={{fontSize:17,color:brandColor(post.brand),overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",lineHeight:1.2}}>
                         {post.title}
                       </span>
                     </div>
                   ))}
                   {dayPosts.length>3&&(
-                    <div style={{fontSize:7,color:"rgba(255,255,255,0.25)",paddingLeft:4}}>+{dayPosts.length-3} more</div>
+                    <div style={{fontSize:17,color:"rgba(255,255,255,0.25)",paddingLeft:4}}>+{dayPosts.length-3} more</div>
                   )}
                 </div>
               </div>
@@ -2449,7 +2449,7 @@ function ScheduleTab({ b }) {
           if(!dayPosts2.length) return null;
           return (
             <div style={{marginTop:14,padding:"14px 16px",borderRadius:10,background:"rgba(4,12,4,0.95)",border:"1px solid rgba(57,255,20,0.12)"}}>
-              <div style={{fontSize:8,color:"rgba(57,255,20,0.7)",fontFamily:"Courier New,monospace",letterSpacing:"0.15em",marginBottom:10}}>
+              <div style={{fontSize:18,color:"rgba(57,255,20,0.7)",fontFamily:"Courier New,monospace",letterSpacing:"0.15em",marginBottom:10}}>
                 {new Date(sy,sm-1,sd).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:7}}>
@@ -2477,7 +2477,7 @@ function ScheduleTab({ b }) {
       {editPost && <EditModal post={editPost} onSave={updatePost} onClose={()=>setEditPost(null)}/>}
 
       {/* Stats bar */}
-      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:18}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:18}}>
         {[
           {label:"QUEUED",    val:upcomingCount,         color:"#39ff14"},
           {label:"TODAY",     val:todayCount,            color:"#ffd700"},
@@ -2485,21 +2485,21 @@ function ScheduleTab({ b }) {
           {label:"TOTAL",     val:posts.length,          color:"rgba(255,255,255,0.4)"},
         ].map(stat=>(
           <div key={stat.label} style={{background:"rgba(4,10,4,0.98)",border:"1px solid rgba(57,255,20,0.08)",borderRadius:9,padding:"12px 14px",textAlign:"center"}}>
-            <div style={{fontSize:22,fontWeight:900,color:stat.color,fontFamily:"Courier New,monospace",lineHeight:1,marginBottom:4}}>{stat.val}</div>
-            <div style={{fontSize:7.5,color:"rgba(255,255,255,0.25)",letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>{stat.label}</div>
+            <div style={{fontSize:32,fontWeight:900,color:stat.color,fontFamily:"Courier New,monospace",lineHeight:1,marginBottom:4}}>{stat.val}</div>
+            <div style={{fontSize:18,color:"rgba(255,255,255,0.25)",letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>{stat.label}</div>
           </div>
         ))}
       </div>
 
       {/* Controls bar */}
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:16,flexWrap:"wrap"}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16,flexWrap:"wrap"}}>
         {/* View toggle */}
         <div style={{display:"flex",gap:4,background:"rgba(4,10,4,0.98)",border:"1px solid rgba(57,255,20,0.08)",borderRadius:7,padding:3}}>
           {[{id:"calendar",icon:"📅",label:"Calendar"},{id:"list",icon:"≡",label:"List"}].map(v=>(
             <button key={v.id} onClick={()=>setView(v.id)}
               style={{padding:"5px 12px",borderRadius:5,background:view===v.id?"rgba(57,255,20,0.1)":"transparent",
                 border:view===v.id?"1px solid rgba(57,255,20,0.25)":"1px solid transparent",
-                color:view===v.id?"#39ff14":"#333",fontSize:9,cursor:"pointer",fontFamily:"inherit",fontWeight:view===v.id?700:400}}>
+                color:view===v.id?"#39ff14":"#333",fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:view===v.id?700:400}}>
               {v.icon} {v.label}
             </button>
           ))}
@@ -2509,7 +2509,7 @@ function ScheduleTab({ b }) {
         <div style={{display:"flex",gap:4}}>
           {[{v:"all",l:"All Brands"},{v:"trading",l:"Trading"},{v:"capital",l:"Capital"}].map(f=>(
             <button key={f.v} onClick={()=>setFilterBrand(f.v)}
-              style={{padding:"5px 11px",borderRadius:20,fontSize:8.5,cursor:"pointer",fontFamily:"inherit",
+              style={{padding:"5px 11px",borderRadius:20,fontSize:14,cursor:"pointer",fontFamily:"inherit",
                 background:filterBrand===f.v?"rgba(57,255,20,0.08)":"transparent",
                 border:filterBrand===f.v?"1px solid rgba(57,255,20,0.25)":"1px solid #111",
                 color:filterBrand===f.v?"#39ff14":"#2a2a2a",fontWeight:filterBrand===f.v?700:400}}>
@@ -2522,7 +2522,7 @@ function ScheduleTab({ b }) {
         <div style={{display:"flex",gap:4}}>
           {[{v:"all",l:"All Types"},{v:"carousel",l:"⊞ Carousel"},{v:"reel",l:"◈ Reel"},{v:"youtube",l:"▶ YouTube"}].map(f=>(
             <button key={f.v} onClick={()=>setFilterType(f.v)}
-              style={{padding:"5px 11px",borderRadius:20,fontSize:8.5,cursor:"pointer",fontFamily:"inherit",
+              style={{padding:"5px 11px",borderRadius:20,fontSize:14,cursor:"pointer",fontFamily:"inherit",
                 background:filterType===f.v?"rgba(57,255,20,0.06)":"transparent",
                 border:filterType===f.v?"1px solid rgba(57,255,20,0.2)":"1px solid #111",
                 color:filterType===f.v?"#2ecc71":"#2a2a2a",fontWeight:filterType===f.v?700:400}}>
@@ -2531,7 +2531,7 @@ function ScheduleTab({ b }) {
           ))}
         </div>
 
-        <div style={{marginLeft:"auto",fontSize:8,color:"rgba(255,255,255,0.2)",fontFamily:"Courier New,monospace"}}>
+        <div style={{marginLeft:"auto",fontSize:18,color:"rgba(255,255,255,0.2)",fontFamily:"Courier New,monospace"}}>
           {filtered.filter(p=>p.status==="scheduled").length} SCHEDULED
         </div>
       </div>
@@ -2544,13 +2544,13 @@ function ScheduleTab({ b }) {
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}}>
           {/* Upcoming */}
           <div>
-            <div style={{fontSize:8,color:"#39ff14",letterSpacing:"0.2em",fontFamily:"Courier New,monospace",marginBottom:10,display:"flex",alignItems:"center",gap:8}}>
+            <div style={{fontSize:18,color:"#39ff14",letterSpacing:"0.2em",fontFamily:"Courier New,monospace",marginBottom:10,display:"flex",alignItems:"center",gap:12}}>
               UPCOMING
               <div style={{flex:1,height:1,background:"rgba(57,255,20,0.1)"}}/>
               <span style={{color:"rgba(255,255,255,0.2)"}}>{scheduled.length}</span>
             </div>
             {scheduled.length===0
-              ? <div style={{padding:"20px",textAlign:"center",color:"rgba(255,255,255,0.2)",fontSize:9,border:"1px dashed rgba(255,255,255,0.05)",borderRadius:8}}>No scheduled posts</div>
+              ? <div style={{padding:"20px",textAlign:"center",color:"rgba(255,255,255,0.2)",fontSize:14,border:"1px dashed rgba(255,255,255,0.05)",borderRadius:8}}>No scheduled posts</div>
               : <div style={{display:"flex",flexDirection:"column",gap:7}}>
                   {scheduled.map(post=><PostCard key={post.id} post={post}/>)}
                 </div>
@@ -2559,13 +2559,13 @@ function ScheduleTab({ b }) {
 
           {/* Published */}
           <div>
-            <div style={{fontSize:8,color:"#2ecc71",letterSpacing:"0.2em",fontFamily:"Courier New,monospace",marginBottom:10,display:"flex",alignItems:"center",gap:8}}>
+            <div style={{fontSize:18,color:"#2ecc71",letterSpacing:"0.2em",fontFamily:"Courier New,monospace",marginBottom:10,display:"flex",alignItems:"center",gap:12}}>
               PUBLISHED
               <div style={{flex:1,height:1,background:"rgba(46,204,113,0.1)"}}/>
               <span style={{color:"rgba(255,255,255,0.2)"}}>{published.length}</span>
             </div>
             {published.length===0
-              ? <div style={{padding:"20px",textAlign:"center",color:"rgba(255,255,255,0.2)",fontSize:9,border:"1px dashed rgba(255,255,255,0.05)",borderRadius:8}}>No published posts yet</div>
+              ? <div style={{padding:"20px",textAlign:"center",color:"rgba(255,255,255,0.2)",fontSize:14,border:"1px dashed rgba(255,255,255,0.05)",borderRadius:8}}>No published posts yet</div>
               : <div style={{display:"flex",flexDirection:"column",gap:7}}>
                   {published.map(post=><PostCard key={post.id} post={post}/>)}
                 </div>
@@ -2986,12 +2986,12 @@ function AnalyticsTab({ b, keys }) {
     <div style={{animation:"fadeIn 0.3s ease"}}>
 
       {/* Brand selector + controls */}
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:18,flexWrap:"wrap"}}>
-        <div style={{display:"flex",gap:6}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18,flexWrap:"wrap"}}>
+        <div style={{display:"flex",gap:10}}>
           {Object.values(BRANDS).map(br=>(
             <button key={br.id} onClick={()=>setBrand(br.id)}
               style={{padding:"7px 16px",borderRadius:20,fontFamily:"inherit",fontWeight:brand===br.id?900:400,
-                fontSize:9,cursor:"pointer",letterSpacing:"0.06em",
+                fontSize:14,cursor:"pointer",letterSpacing:"0.06em",
                 background:brand===br.id?`${br.accent}12`:"transparent",
                 border:brand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,
                 color:brand===br.id?br.accent:"#333"}}>
@@ -3003,7 +3003,7 @@ function AnalyticsTab({ b, keys }) {
         <div style={{display:"flex",gap:4}}>
           {["7d","30d","90d"].map(p=>(
             <button key={p} onClick={()=>setState(s=>({...s,period:p}))}
-              style={{padding:"5px 10px",borderRadius:6,fontFamily:"Courier New,monospace",fontSize:8,cursor:"pointer",
+              style={{padding:"5px 10px",borderRadius:6,fontFamily:"Courier New,monospace",fontSize:18,cursor:"pointer",
                 background:state.period===p?`${ac}10`:"transparent",
                 border:state.period===p?`1px solid ${aborder}`:"1px solid #111",
                 color:state.period===p?ac:"#2a2a2a"}}>
@@ -3012,19 +3012,19 @@ function AnalyticsTab({ b, keys }) {
           ))}
         </div>
         <button onClick={pullAll} disabled={state.pullingAll}
-          style={{padding:"6px 14px",borderRadius:6,fontFamily:"inherit",fontSize:8.5,fontWeight:700,
+          style={{padding:"6px 14px",borderRadius:6,fontFamily:"inherit",fontSize:14,fontWeight:700,
             cursor:state.pullingAll?"not-allowed":"pointer",
             background:`${ac}12`,border:`1px solid ${aborder}`,color:ac}}>
           {state.pullingAll ? state.pullMsg : "📡 Pull All Platforms"}
         </button>
-        <div style={{marginLeft:"auto",display:"flex",gap:6,alignItems:"center"}}>
+        <div style={{marginLeft:"auto",display:"flex",gap:10,alignItems:"center"}}>
           {ANALYTICS_PLATFORMS.map(p=>{
             const pulled = state.platforms[p.id]?._pulled;
             const hasKey = !!keys[p.keyRequired];
             return (
               <div key={p.id} title={`${p.label}: ${pulled?"synced":hasKey?"ready — click Pull":"no API key"}`}
                 style={{width:22,height:22,borderRadius:5,display:"flex",alignItems:"center",justifyContent:"center",
-                  fontSize:9,fontWeight:700,
+                  fontSize:14,fontWeight:700,
                   background:pulled?`${p.color}18`:hasKey?`${p.color}08`:"rgba(255,255,255,0.03)",
                   border:`1px solid ${pulled?p.color:hasKey?`${p.color}40`:"rgba(255,255,255,0.06)"}`,
                   color:pulled?p.color:hasKey?`${p.color}80`:"#1a1a1a"}}>
@@ -3035,29 +3035,29 @@ function AnalyticsTab({ b, keys }) {
         </div>
       </div>
 
-      {state.error && <div style={{marginBottom:12,padding:"8px 12px",borderRadius:7,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:8.5,color:"#ff7777",lineHeight:1.6}}>{state.error}</div>}
+      {state.error && <div style={{marginBottom:12,padding:"8px 12px",borderRadius:7,background:"rgba(255,60,60,0.06)",border:"1px solid rgba(255,60,60,0.18)",fontSize:14,color:"#ff7777",lineHeight:1.6}}>{state.error}</div>}
 
       {/* ── UNIFIED TOTALS ── */}
       <div style={{marginBottom:20}}>
-        <div style={{fontSize:7.5,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
-          marginBottom:10,display:"flex",alignItems:"center",gap:10}}>
+        <div style={{fontSize:18,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
+          marginBottom:10,display:"flex",alignItems:"center",gap:16}}>
           UNIFIED TOTALS — ALL PLATFORMS
           <div style={{flex:1,height:1,background:`${ac}18`}}/>
-          <span style={{fontSize:8,color:"rgba(255,255,255,0.2)"}}>30 days</span>
+          <span style={{fontSize:18,color:"rgba(255,255,255,0.2)"}}>30 days</span>
         </div>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12}}>
           {UNIFIED_DEFS.map(def=>{
             const val = unified[def.key]||0;
             return (
               <div key={def.key} style={{background:"rgba(4,10,4,0.98)",
                 border:`1px solid ${val>0?"rgba(57,255,20,0.1)":"rgba(255,255,255,0.04)"}`,
                 borderRadius:9,padding:"12px 14px"}}>
-                <div style={{fontSize:10,marginBottom:3}}>{def.icon}</div>
-                <div style={{fontSize:22,fontWeight:900,color:val>0?def.color:"#1a1a1a",
+                <div style={{fontSize:15,marginBottom:3}}>{def.icon}</div>
+                <div style={{fontSize:32,fontWeight:900,color:val>0?def.color:"#1a1a1a",
                   fontFamily:"Courier New,monospace",lineHeight:1,marginBottom:4}}>
                   {val>0?fmtNum(val):"—"}
                 </div>
-                <div style={{fontSize:7.5,color:"rgba(255,255,255,0.25)"}}>{def.label}</div>
+                <div style={{fontSize:18,color:"rgba(255,255,255,0.25)"}}>{def.label}</div>
               </div>
             );
           })}
@@ -3066,12 +3066,12 @@ function AnalyticsTab({ b, keys }) {
 
       {/* ── PER-PLATFORM BREAKDOWN ── */}
       <div style={{marginBottom:20}}>
-        <div style={{fontSize:7.5,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
-          marginBottom:10,display:"flex",alignItems:"center",gap:10}}>
+        <div style={{fontSize:18,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
+          marginBottom:10,display:"flex",alignItems:"center",gap:16}}>
           PER-PLATFORM BREAKDOWN
           <div style={{flex:1,height:1,background:`${ac}18`}}/>
         </div>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
           {ANALYTICS_PLATFORMS.map(plat=>{
             const pd = state.platforms[plat.id]||{};
             const pulled = pd._pulled;
@@ -3083,32 +3083,32 @@ function AnalyticsTab({ b, keys }) {
                 {/* Platform header */}
                 <div style={{padding:"10px 14px",background:`${plat.color}0a`,
                   borderBottom:`1px solid ${pulled?`${plat.color}20`:"rgba(255,255,255,0.04)"}`,
-                  display:"flex",alignItems:"center",gap:8}}>
+                  display:"flex",alignItems:"center",gap:12}}>
                   <div style={{width:24,height:24,borderRadius:6,background:`${plat.color}15`,
                     border:`1px solid ${plat.color}30`,display:"flex",alignItems:"center",
-                    justifyContent:"center",fontSize:11,color:plat.color,fontWeight:700}}>
+                    justifyContent:"center",fontSize:16,color:plat.color,fontWeight:700}}>
                     {plat.icon}
                   </div>
                   <div style={{flex:1}}>
-                    <div style={{fontSize:10,fontWeight:700,color:"#e8f5e8"}}>{plat.label}</div>
-                    <div style={{fontSize:7.5,color:pulled?"#2ecc71":hasKey?"rgba(255,255,255,0.25)":"rgba(255,80,80,0.5)",fontFamily:"Courier New,monospace"}}>
+                    <div style={{fontSize:15,fontWeight:700,color:"#e8f5e8"}}>{plat.label}</div>
+                    <div style={{fontSize:18,color:pulled?"#2ecc71":hasKey?"rgba(255,255,255,0.25)":"rgba(255,80,80,0.5)",fontFamily:"Courier New,monospace"}}>
                       {pulled?"✓ synced":hasKey?"ready — click Pull All":"⚠ add API key in Settings"}
                     </div>
                   </div>
-                  {pulled && <div style={{fontSize:8,color:plat.color,fontFamily:"Courier New,monospace"}}>LIVE</div>}
+                  {pulled && <div style={{fontSize:18,color:plat.color,fontFamily:"Courier New,monospace"}}>LIVE</div>}
                 </div>
                 {/* Metrics */}
-                <div style={{padding:"10px 14px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+                <div style={{padding:"10px 14px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
                   {plat.metrics.map(mkey=>{
                     const val = pd[mkey];
                     const hasVal = val!==undefined && val!=="" && val!=="0";
                     return (
                       <div key={mkey}>
-                        <div style={{fontSize:7,color:"rgba(255,255,255,0.2)",marginBottom:2,fontFamily:"Courier New,monospace"}}>
+                        <div style={{fontSize:17,color:"rgba(255,255,255,0.2)",marginBottom:2,fontFamily:"Courier New,monospace"}}>
                           {METRIC_LABELS[mkey]||mkey}
                         </div>
                         <div style={{display:"flex",alignItems:"center",gap:5}}>
-                          <div style={{fontSize:13,fontWeight:900,color:hasVal?plat.color:"#1a1a1a",
+                          <div style={{fontSize:18,fontWeight:900,color:hasVal?plat.color:"#1a1a1a",
                             fontFamily:"Courier New,monospace",lineHeight:1}}>
                             {hasVal?fmtNum(val):"—"}
                           </div>
@@ -3118,7 +3118,7 @@ function AnalyticsTab({ b, keys }) {
                           style={{width:"100%",marginTop:3,background:"#000",
                             border:`1px solid ${hasVal?`${plat.color}20`:"rgba(255,255,255,0.04)"}`,
                             borderRadius:4,padding:"3px 6px",color:"rgba(255,255,255,0.35)",
-                            fontSize:8.5,fontFamily:"Courier New,monospace",outline:"none",boxSizing:"border-box"}}/>
+                            fontSize:14,fontFamily:"Courier New,monospace",outline:"none",boxSizing:"border-box"}}/>
                       </div>
                     );
                   })}
@@ -3131,13 +3131,13 @@ function AnalyticsTab({ b, keys }) {
 
       {/* ── TOP POSTS (CROSS-PLATFORM) ── */}
       <div style={{marginBottom:20}}>
-        <div style={{fontSize:7.5,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
-          marginBottom:10,display:"flex",alignItems:"center",gap:10}}>
+        <div style={{fontSize:18,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
+          marginBottom:10,display:"flex",alignItems:"center",gap:16}}>
           TOP PERFORMING POSTS — ALL PLATFORMS
           <div style={{flex:1,height:1,background:`${ac}18`}}/>
           <button onClick={addPost}
             style={{padding:"3px 10px",borderRadius:4,background:`${ac}10`,border:`1px solid ${aborder}`,
-              color:ac,fontSize:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+              color:ac,fontSize:18,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
             + Add
           </button>
         </div>
@@ -3145,7 +3145,7 @@ function AnalyticsTab({ b, keys }) {
         <div style={{display:"grid",gridTemplateColumns:"1fr 80px 68px 68px 64px 64px 60px 60px 64px 24px",
           gap:4,padding:"5px 10px",marginBottom:4}}>
           {["TITLE","PLATFORM","TYPE","REACH","LIKES","COMMENTS","SAVES","SHARES","ENG %",""].map((h,i)=>(
-            <div key={i} style={{fontSize:6.5,color:"rgba(255,255,255,0.18)",fontFamily:"Courier New,monospace",letterSpacing:"0.08em"}}>{h}</div>
+            <div key={i} style={{fontSize:16,color:"rgba(255,255,255,0.18)",fontFamily:"Courier New,monospace",letterSpacing:"0.08em"}}>{h}</div>
           ))}
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:4}}>
@@ -3156,20 +3156,20 @@ function AnalyticsTab({ b, keys }) {
             return (
               <div key={post.id} style={{display:"grid",
                 gridTemplateColumns:"1fr 80px 68px 68px 64px 64px 60px 60px 64px 24px",
-                gap:4,padding:"8px 10px",borderRadius:7,alignItems:"center",
+                gap:4,padding:"11px 13px",borderRadius:7,alignItems:"center",
                 background:"rgba(4,10,4,0.98)",border:"1px solid rgba(255,255,255,0.04)"}}>
                 <input value={post.title} onChange={e=>setPost(post.id,"title",e.target.value)}
                   placeholder="Post title..."
-                  style={{background:"transparent",border:"none",color:"rgba(255,255,255,0.7)",fontSize:10,fontFamily:"inherit",outline:"none",width:"100%"}}/>
+                  style={{background:"transparent",border:"none",color:"rgba(255,255,255,0.7)",fontSize:15,fontFamily:"inherit",outline:"none",width:"100%"}}/>
                 {/* Platform */}
                 <select value={post.platform} onChange={e=>setPost(post.id,"platform",e.target.value)}
                   style={{background:"#000",border:`1px solid ${pl.color}30`,borderRadius:4,padding:"3px 5px",
-                    color:pl.color,fontSize:8,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer"}}>
+                    color:pl.color,fontSize:18,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer"}}>
                   {ANALYTICS_PLATFORMS.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}
                 </select>
                 {/* Type */}
                 <select value={post.type} onChange={e=>setPost(post.id,"type",e.target.value)}
-                  style={{background:"#000",border:"1px solid #111",borderRadius:4,padding:"3px 5px",color:"rgba(255,255,255,0.4)",fontSize:8,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer"}}>
+                  style={{background:"#000",border:"1px solid #111",borderRadius:4,padding:"3px 5px",color:"rgba(255,255,255,0.4)",fontSize:18,fontFamily:"inherit",outline:"none",appearance:"none",cursor:"pointer"}}>
                   <option value="carousel">⊞ Car.</option>
                   <option value="reel">◈ Reel</option>
                   <option value="youtube">▶ YT</option>
@@ -3179,12 +3179,12 @@ function AnalyticsTab({ b, keys }) {
                     placeholder="—"
                     style={{background:"transparent",border:"none",color:"rgba(255,255,255,0.4)",fontSize:9.5,fontFamily:"Courier New,monospace",outline:"none",width:"100%",textAlign:"right"}}/>
                 ))}
-                <div style={{fontSize:10,fontWeight:900,fontFamily:"Courier New,monospace",textAlign:"right",
+                <div style={{fontSize:15,fontWeight:900,fontFamily:"Courier New,monospace",textAlign:"right",
                   color:isHigh?ac:parseFloat(eng)>=5?"#ffd700":"rgba(255,255,255,0.25)"}}>
                   {eng?`${eng}%`:"—"}
                 </div>
                 <button onClick={()=>removePost(post.id)}
-                  style={{background:"transparent",border:"none",color:"rgba(255,80,80,0.3)",fontSize:12,cursor:"pointer",padding:0}}>
+                  style={{background:"transparent",border:"none",color:"rgba(255,80,80,0.3)",fontSize:17,cursor:"pointer",padding:0}}>
                   ✕
                 </button>
               </div>
@@ -3195,13 +3195,13 @@ function AnalyticsTab({ b, keys }) {
 
       {/* ── CLAUDE SUGGESTIONS ── */}
       <div style={{marginBottom:20}}>
-        <div style={{fontSize:7.5,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
-          marginBottom:10,display:"flex",alignItems:"center",gap:10}}>
+        <div style={{fontSize:18,letterSpacing:"0.25em",color:ac,fontFamily:"Courier New,monospace",
+          marginBottom:10,display:"flex",alignItems:"center",gap:16}}>
           CLAUDE AI TOPIC SUGGESTIONS
           <div style={{flex:1,height:1,background:`${ac}18`}}/>
           <button onClick={getSuggestions} disabled={state.pullingAll}
             style={{padding:"4px 12px",borderRadius:5,background:`${ac}12`,border:`1px solid ${aborder}`,
-              color:ac,fontSize:8.5,cursor:state.pullingAll?"not-allowed":"pointer",fontFamily:"inherit",fontWeight:700}}>
+              color:ac,fontSize:14,cursor:state.pullingAll?"not-allowed":"pointer",fontFamily:"inherit",fontWeight:700}}>
             {state.pullingAll&&state.pullMsg.includes("Claude") ? state.pullMsg : "✦ Analyse & Suggest"}
           </button>
         </div>
@@ -3209,7 +3209,7 @@ function AnalyticsTab({ b, keys }) {
         {state.insight && (
           <div style={{padding:"10px 14px",borderRadius:8,background:`${ac}06`,border:`1px solid ${aborder}`,
             marginBottom:12,fontSize:9.5,color:"rgba(255,255,255,0.65)",lineHeight:1.7}}>
-            <span style={{color:ac,fontWeight:700,fontFamily:"Courier New,monospace",fontSize:8}}>KEY INSIGHT · </span>
+            <span style={{color:ac,fontWeight:700,fontFamily:"Courier New,monospace",fontSize:13}}>KEY INSIGHT · </span>
             {state.insight}
           </div>
         )}
@@ -3217,14 +3217,14 @@ function AnalyticsTab({ b, keys }) {
         {!state.suggestions ? (
           <div style={{padding:"22px",textAlign:"center",border:`1px dashed ${aborder}`,borderRadius:10,background:`${ac}03`}}>
             <div style={{fontSize:20,marginBottom:8}}>✦</div>
-            <div style={{fontSize:10,color:ac,fontWeight:700,marginBottom:4}}>Cross-platform intelligence</div>
-            <div style={{fontSize:8.5,color:"rgba(255,255,255,0.3)",lineHeight:1.7}}>
+            <div style={{fontSize:15,color:ac,fontWeight:700,marginBottom:4}}>Cross-platform intelligence</div>
+            <div style={{fontSize:14,color:"rgba(255,255,255,0.3)",lineHeight:1.7}}>
               Pull platform data or enter metrics manually, then click Analyse & Suggest.<br/>
               Claude identifies what content and which platforms are driving the best results across all 6 platforms.
             </div>
           </div>
         ) : (
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
             {state.suggestions.map((s,i)=>{
               const isHigh = s.priority==="high";
               const tColor = s.type==="carousel"?"#833AB4":s.type==="reel"?"#E1306C":"#FF0000";
@@ -3234,24 +3234,24 @@ function AnalyticsTab({ b, keys }) {
                   background:"rgba(4,10,4,0.98)",
                   border:`1px solid ${isHigh?aborder:"rgba(255,255,255,0.05)"}`,
                   borderLeft:`3px solid ${isHigh?ac:"rgba(255,255,255,0.08)"}`,
-                  display:"flex",gap:10,alignItems:"flex-start"}}>
+                  display:"flex",gap:16,alignItems:"flex-start"}}>
                   <div style={{width:26,height:26,borderRadius:6,background:`${tColor}12`,
                     border:`1px solid ${tColor}28`,display:"flex",alignItems:"center",justifyContent:"center",
-                    fontSize:12,flexShrink:0}}>
+                    fontSize:17,flexShrink:0}}>
                     {TYPE_ICONS3[s.type]||"⊞"}
                   </div>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:3,flexWrap:"wrap"}}>
-                      <span style={{fontSize:10,fontWeight:700,color:"#e8f5e8"}}>{s.topic}</span>
-                      {isHigh&&<span style={{fontSize:7,color:ac,padding:"1px 5px",borderRadius:3,background:`${ac}12`,border:`1px solid ${aborder}`}}>HIGH</span>}
+                      <span style={{fontSize:15,fontWeight:700,color:"#e8f5e8"}}>{s.topic}</span>
+                      {isHigh&&<span style={{fontSize:17,color:ac,padding:"1px 5px",borderRadius:3,background:`${ac}12`,border:`1px solid ${aborder}`}}>HIGH</span>}
                     </div>
                     <div style={{display:"flex",gap:5,marginBottom:3,flexWrap:"wrap"}}>
-                      <span style={{fontSize:7.5,color:tColor}}>{s.type}</span>
-                      <span style={{fontSize:7.5,color:platDef.color}}>→ {s.platform||platDef.label}</span>
+                      <span style={{fontSize:18,color:tColor}}>{s.type}</span>
+                      <span style={{fontSize:18,color:platDef.color}}>→ {s.platform||platDef.label}</span>
                     </div>
-                    <div style={{fontSize:8,color:"rgba(255,255,255,0.3)",lineHeight:1.5}}>{s.reason}</div>
+                    <div style={{fontSize:18,color:"rgba(255,255,255,0.3)",lineHeight:1.5}}>{s.reason}</div>
                   </div>
-                  <div style={{flexShrink:0,fontSize:10,color:"rgba(255,255,255,0.15)",cursor:"pointer",paddingTop:1}}
+                  <div style={{flexShrink:0,fontSize:15,color:"rgba(255,255,255,0.15)",cursor:"pointer",paddingTop:1}}
                     title="Copy topic" onClick={()=>navigator.clipboard?.writeText(s.topic)}>⎘</div>
                 </div>
               );
@@ -3262,10 +3262,10 @@ function AnalyticsTab({ b, keys }) {
 
       {/* ── EXPORT ── */}
       <div style={{padding:"12px 16px",borderRadius:9,background:"rgba(4,10,4,0.98)",
-        border:"1px solid rgba(255,255,255,0.04)",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+        border:"1px solid rgba(255,255,255,0.04)",display:"flex",alignItems:"center",gap:16,flexWrap:"wrap"}}>
         <div style={{flex:1}}>
-          <div style={{fontSize:8,color:"rgba(255,255,255,0.2)",fontFamily:"Courier New,monospace",marginBottom:2}}>EXPORT REPORT</div>
-          <div style={{fontSize:8.5,color:"rgba(255,255,255,0.3)"}}>All metrics across all 6 platforms copied as text</div>
+          <div style={{fontSize:18,color:"rgba(255,255,255,0.2)",fontFamily:"Courier New,monospace",marginBottom:2}}>EXPORT REPORT</div>
+          <div style={{fontSize:14,color:"rgba(255,255,255,0.3)"}}>All metrics across all 6 platforms copied as text</div>
         </div>
         <button onClick={()=>{
           const lines=[
@@ -3285,7 +3285,7 @@ function AnalyticsTab({ b, keys }) {
           alert("Cross-platform report copied!");
         }}
           style={{padding:"7px 14px",borderRadius:6,background:`${ac}10`,border:`1px solid ${aborder}`,
-            color:ac,fontSize:8.5,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
+            color:ac,fontSize:14,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>
           ⎘ Copy Full Report
         </button>
       </div>
@@ -3314,18 +3314,18 @@ export default function KCEHub() {
 
   return (
     <div style={{minHeight:"100vh",background:"#000",color:"#fff",fontFamily:"Arial,sans-serif"}}>
-      <div style={{background:"rgba(0,0,0,0.98)",borderBottom:`1px solid ${b.cardBorder}`,padding:"10px 18px",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",position:"sticky",top:0,zIndex:50}}>
-        <div style={{display:"flex",alignItems:"center",gap:8}}>
-          <div style={{width:28,height:28,borderRadius:7,background:`${b.accent}12`,border:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13}}>⚡</div>
+      <div style={{background:"rgba(0,0,0,0.98)",borderBottom:`1px solid ${b.cardBorder}`,padding:"14px 24px",display:"flex",alignItems:"center",gap:16,flexWrap:"wrap",position:"sticky",top:0,zIndex:50}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:36,height:36,borderRadius:9,background:`${b.accent}12`,border:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13}}>⚡</div>
           <div>
-            <div style={{fontSize:11,fontWeight:900,color:b.accent,letterSpacing:"0.1em",fontFamily:"Courier New,monospace"}}>KCE HUB</div>
-            <div style={{fontSize:6.5,color:b.textMuted,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>CONTENT PIPELINE</div>
+            <div style={{fontSize:16,fontWeight:900,color:b.accent,letterSpacing:"0.1em",fontFamily:"Courier New,monospace"}}>KCE HUB</div>
+            <div style={{fontSize:16,color:b.textMuted,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>CONTENT PIPELINE</div>
           </div>
         </div>
         <div style={{display:"flex",gap:4,marginRight:"auto"}}>
           {Object.values(BRANDS).map(br=>(
             <button key={br.id} onClick={()=>setActiveBrand(br.id)}
-              style={{padding:"5px 13px",borderRadius:20,background:activeBrand===br.id?`${br.accent}12`:"transparent",border:activeBrand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,color:activeBrand===br.id?br.accent:"#333",fontSize:8.5,fontFamily:"inherit",cursor:"pointer",fontWeight:activeBrand===br.id?900:400,transition:"all 0.3s"}}>
+              style={{padding:"8px 16px",borderRadius:20,background:activeBrand===br.id?`${br.accent}12`:"transparent",border:activeBrand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,color:activeBrand===br.id?br.accent:"#333",fontSize:14,fontFamily:"inherit",cursor:"pointer",fontWeight:activeBrand===br.id?900:400,transition:"all 0.3s"}}>
               {br.name.toUpperCase()}
             </button>
           ))}
@@ -3333,23 +3333,23 @@ export default function KCEHub() {
         <div style={{display:"flex",gap:2}}>
           {tabs.map(t=>(
             <button key={t.id} onClick={()=>setActiveTab(t.id)}
-              style={{padding:"5px 10px",borderRadius:5,background:activeTab===t.id?`${b.accent}12`:"transparent",border:activeTab===t.id?`1px solid ${b.accentBorder}`:"1px solid transparent",color:activeTab===t.id?b.accent:"#2a2a2a",fontSize:8.5,fontFamily:"inherit",cursor:"pointer",transition:"all 0.2s"}}>
+              style={{padding:"8px 14px",borderRadius:5,background:activeTab===t.id?`${b.accent}12`:"transparent",border:activeTab===t.id?`1px solid ${b.accentBorder}`:"1px solid transparent",color:activeTab===t.id?b.accent:"#2a2a2a",fontSize:14,fontFamily:"inherit",cursor:"pointer",transition:"all 0.2s"}}>
               {t.label}
             </button>
           ))}
         </div>
       </div>
-      <div style={{padding:"5px 18px",background:`radial-gradient(ellipse at center,${b.accent}0d,transparent)`,borderBottom:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",gap:8}}>
+      <div style={{padding:"5px 18px",background:`radial-gradient(ellipse at center,${b.accent}0d,transparent)`,borderBottom:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",gap:12}}>
         <div style={{width:4,height:4,borderRadius:"50%",background:b.accent}}/>
-        <span style={{fontSize:7,color:b.accent,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>{b.name.toUpperCase()}</span>
-        <span style={{color:b.textMuted,fontSize:7}}>·</span>
-        <span style={{fontSize:7,color:b.textMuted,fontFamily:"Courier New,monospace"}}>
+        <span style={{fontSize:17,color:b.accent,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>{b.name.toUpperCase()}</span>
+        <span style={{color:b.textMuted,fontSize:12}}>·</span>
+        <span style={{fontSize:17,color:b.textMuted,fontFamily:"Courier New,monospace"}}>
           {keys.fal?"FLUX PRO ULTRA ✓":"NO IMAGE KEY"}
           {keys.ayrshare?" · AYRSHARE ✓":" · AYRSHARE NEEDED"}
         </span>
-        <span style={{marginLeft:"auto",fontSize:7,color:b.textMuted,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER ON · {b.website}</span>
+        <span style={{marginLeft:"auto",fontSize:17,color:b.textMuted,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER ON · {b.website}</span>
       </div>
-      <div style={{padding:"16px 18px",maxWidth:1100,margin:"0 auto"}}>
+      <div style={{padding:"24px 28px",maxWidth:1400,margin:"0 auto"}}>
         {activeTab==="youtube"   && <YouTubeTab b={b} activeBrand={activeBrand} keys={keys}/>}
         {activeTab==="reels"     && <ReelsTab b={b} activeBrand={activeBrand} keys={keys}/>}
         {activeTab==="carousel"  && <CarouselTab b={b} keys={keys}/>}
