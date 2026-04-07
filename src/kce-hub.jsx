@@ -8,18 +8,22 @@ const BRANDS = {
   trading: {
     id:"trading", name:"KCE Trading", handle:"@kcetrading", website:"www.kcetrading.io",
     disclaimer:"⚠️ Not financial advice. Trading involves risk. Past performance does not guarantee future results. Always DYOR. #kcetrading #NFA",
-    accent:"#39ff14", accentSoft:"#22cc0e", accentBorder:"rgba(57,255,20,0.3)",
-    glow:"0 0 20px rgba(57,255,20,0.35)", cardBg:"rgba(3,5,3,0.97)",
-    cardBorder:"rgba(57,255,20,0.12)", textMain:"#fff",
-    textSub:"rgba(255,255,255,0.65)", textMuted:"rgba(255,255,255,0.22)",
+    accent:"#00e676", accentSoft:"#00c853", accentBorder:"rgba(0,230,118,0.35)",
+    glow:"0 0 24px rgba(0,230,118,0.3), 0 0 48px rgba(0,230,118,0.1)",
+    cardBg:"rgba(8,14,10,0.98)", cardBorder:"rgba(0,230,118,0.1)",
+    navBg:"rgba(6,10,8,0.99)", surfaceBg:"rgba(12,20,15,0.97)",
+    textMain:"#f0faf4", textSub:"rgba(240,250,244,0.6)", textMuted:"rgba(240,250,244,0.2)",
+    divider:"rgba(0,230,118,0.08)", highlight:"rgba(0,230,118,0.06)",
   },
   capital: {
     id:"capital", name:"KCE Capital", handle:"@kcecapital", website:"www.kcecapital.io",
     disclaimer:"⚠️ Not financial advice. All investments carry risk. Consult a licensed financial advisor. #KCECapital #NFA",
-    accent:"#2ecc71", accentSoft:"#27ae60", accentBorder:"rgba(46,204,113,0.28)",
-    glow:"0 0 20px rgba(46,204,113,0.25)", cardBg:"rgba(2,6,2,0.98)",
-    cardBorder:"rgba(46,204,113,0.1)", textMain:"#e8f5e8",
-    textSub:"rgba(232,245,232,0.62)", textMuted:"rgba(232,245,232,0.22)",
+    accent:"#4ade80", accentSoft:"#22c55e", accentBorder:"rgba(74,222,128,0.3)",
+    glow:"0 0 24px rgba(74,222,128,0.25), 0 0 48px rgba(74,222,128,0.08)",
+    cardBg:"rgba(6,12,8,0.99)", cardBorder:"rgba(74,222,128,0.08)",
+    navBg:"rgba(4,8,5,0.99)", surfaceBg:"rgba(10,18,12,0.98)",
+    textMain:"#edfaf2", textSub:"rgba(237,250,242,0.58)", textMuted:"rgba(237,250,242,0.2)",
+    divider:"rgba(74,222,128,0.07)", highlight:"rgba(74,222,128,0.05)",
   },
 };
 
@@ -454,22 +458,29 @@ function CapitalSlide({slide, size="full", img}) {
 }
 
 // ─── SHARED UI ────────────────────────────────────────────────────
-function Panel({b, label, children}) {
+function Panel({b, label, children, action}) {
   return (
-    <div style={{background:b.cardBg,border:`1px solid ${b.cardBorder}`,borderRadius:14,padding:22}}>
-      <div style={{fontSize:11,letterSpacing:"0.2em",color:b.accent,marginBottom:14,fontFamily:"Courier New,monospace",fontWeight:700}}>{label}</div>
+    <div style={{background:b.cardBg,border:`1px solid ${b.cardBorder}`,borderRadius:16,padding:24,position:"relative"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <div style={{width:3,height:16,borderRadius:2,background:b.accent,opacity:0.8}}/>
+          <div style={{fontSize:11,letterSpacing:"0.2em",color:b.accent,fontFamily:"'Courier New',monospace",fontWeight:700,opacity:0.9}}>{label}</div>
+        </div>
+        {action && <div>{action}</div>}
+      </div>
       {children}
     </div>
   );
 }
-function Btn({b, disabled, onClick, label, secondary}) {
+function Btn({b, disabled, onClick, label, secondary, danger}) {
   return (
-    <button onClick={onClick} disabled={disabled} style={{width:"100%",padding:"16px",borderRadius:10,fontFamily:"inherit",
-      fontWeight:900,fontSize:15,letterSpacing:"0.08em",cursor:disabled?"not-allowed":"pointer",
-      background:disabled?"#050505":secondary?`${b.accent}10`:`linear-gradient(135deg,${b.accentSoft}cc,${b.accent}77)`,
-      border:disabled?"1px solid #0a0a0a":secondary?`1px solid ${b.accentBorder}`:"none",
-      color:disabled?"#111":secondary?b.accent:"#000",
-      boxShadow:!disabled&&!secondary?b.glow:"none",transition:"all 0.3s"}}>
+    <button onClick={onClick} disabled={disabled} style={{width:"100%",padding:"15px 20px",borderRadius:12,fontFamily:"inherit",
+      fontWeight:800,fontSize:14,letterSpacing:"0.1em",cursor:disabled?"not-allowed":"pointer",
+      background:disabled?"rgba(255,255,255,0.03)":danger?"rgba(255,80,80,0.12)":secondary?b.highlight:`linear-gradient(135deg,${b.accentSoft},${b.accent})`,
+      border:disabled?"1px solid rgba(255,255,255,0.05)":danger?"1px solid rgba(255,80,80,0.3)":secondary?`1px solid ${b.accentBorder}`:`1px solid ${b.accent}44`,
+      color:disabled?"rgba(255,255,255,0.15)":danger?"#ff5050":secondary?b.accent:"#020f05",
+      boxShadow:!disabled&&!secondary&&!danger?b.glow:"none",
+      transition:"all 0.2s",textTransform:"uppercase"}}>
       {label}
     </button>
   );
@@ -575,7 +586,7 @@ function QueueForm({b, title, slides}) {
 
       {/* Slide reorder */}
       <div>
-        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>REORDER SLIDES — drag or use arrows</div>
+        <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:10, letterSpacing:'0.15em', fontWeight:600, textTransform:'uppercase'}}>REORDER SLIDES — drag or use arrows</div>
         <div style={{display:'flex', flexDirection:'column', gap:6}}>
           {orderedSlides.map((s, i) => (
             <div key={s.num+'-'+i}
@@ -584,8 +595,8 @@ function QueueForm({b, title, slides}) {
               onDragOver={e=>onDragOver(e,i)}
               onDragEnd={onDragEnd}
               style={{display:'flex', alignItems:'center', gap:10, padding:'10px 12px', borderRadius:8,
-                background:dragIdx===i?b.accent+'11':'#080808',
-                border:dragIdx===i?`1px solid ${b.accent}`:'1px solid #181818',
+                background:dragIdx===i?b.accent+'0d':'rgba(255,255,255,0.02)',
+                border:dragIdx===i?`1px solid ${b.accent}`:'1px solid rgba(255,255,255,0.05)',
                 cursor:'grab', transition:'all 0.15s'}}>
               <div style={{color:'#333', fontSize:13, cursor:'grab', userSelect:'none'}}>⠿</div>
               <div style={{minWidth:22, height:22, borderRadius:'50%',
@@ -611,17 +622,17 @@ function QueueForm({b, title, slides}) {
 
       {/* Caption */}
       <div>
-        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>CAPTION</div>
+        <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:10, letterSpacing:'0.15em', fontWeight:600}}>CAPTION</div>
         <textarea value={caption} onChange={e=>setCaption(e.target.value)} rows={4}
-          style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'11px 13px',
+          style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px',
             color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none',
-            resize:'vertical', boxSizing:'border-box', lineHeight:1.6}} />
+            resize:'vertical', boxSizing:'border-box', lineHeight:1.7}} />
       </div>
 
       {/* Image Upload */}
       <div>
-        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>UPLOAD CAROUSEL IMAGES ({images.length} added)</div>
-        <label style={{display:'block', border:'2px dashed #222', borderRadius:9, padding:'20px', textAlign:'center', cursor:'pointer', transition:'all 0.2s', background:images.length?b.accent+'08':'transparent'}}
+        <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:10, letterSpacing:'0.15em', fontWeight:600}}>CAROUSEL IMAGES ({images.length} added)</div>
+        <label style={{display:'block', border:`2px dashed ${b.accentBorder}`, borderRadius:12, padding:'24px', textAlign:'center', cursor:'pointer', transition:'all 0.2s', background:images.length?b.accent+'06':'rgba(0,0,0,0.3)'}}
           onDragOver={e=>{e.preventDefault();e.currentTarget.style.borderColor=b.accent;}}
           onDragLeave={e=>{e.currentTarget.style.borderColor='#222';}}
           onDrop={e=>{
@@ -666,28 +677,28 @@ function QueueForm({b, title, slides}) {
       {/* Date + Time */}
       <div style={{display:'flex', gap:12, flexWrap:'wrap'}}>
         <div style={{flex:1, minWidth:140}}>
-          <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:6, letterSpacing:'0.1em'}}>DATE</div>
+          <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.15em', fontWeight:600}}>DATE</div>
           <input type='date' value={date} onChange={e=>setDate(e.target.value)}
-            style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'10px 12px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark'}} />
+            style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
         </div>
         <div style={{flex:1, minWidth:120}}>
-          <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:6, letterSpacing:'0.1em'}}>TIME</div>
+          <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.15em', fontWeight:600}}>TIME</div>
           <input type='time' value={time} onChange={e=>setTime(e.target.value)}
-            style={{width:'100%', background:'#000', border:'1px solid #222', borderRadius:7, padding:'10px 12px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark'}} />
+            style={{width:'100%', background:'rgba(0,0,0,0.5)', border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:'12px 14px', color:b.textMain, fontSize:14, fontFamily:'inherit', outline:'none', colorScheme:'dark', transition:'border-color 0.2s'}} />
         </div>
       </div>
 
       {/* Platforms */}
       <div>
-        <div style={{fontSize:12, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:8, letterSpacing:'0.1em'}}>PLATFORMS</div>
+        <div style={{fontSize:11, color:b.textMuted, fontFamily:'Courier New,monospace', marginBottom:10, letterSpacing:'0.15em', fontWeight:600}}>PLATFORMS</div>
         <div style={{display:'flex', gap:8, flexWrap:'wrap'}}>
           {platOptions.map(p => (
             <button key={p.id} onClick={()=>togglePlat(p.id)}
-              style={{padding:'8px 14px', borderRadius:20,
-                background:platforms.includes(p.id)?b.accent+'22':'transparent',
-                border:platforms.includes(p.id)?`1px solid ${b.accent}`:'1px solid #222',
-                color:platforms.includes(p.id)?b.accent:'#444',
-                fontSize:13, fontFamily:'inherit', cursor:'pointer'}}>
+              style={{padding:'7px 14px', borderRadius:8,
+                background:platforms.includes(p.id)?b.highlight:'rgba(255,255,255,0.02)',
+                border:platforms.includes(p.id)?`1px solid ${b.accentBorder}`:'1px solid rgba(255,255,255,0.06)',
+                color:platforms.includes(p.id)?b.accent:'rgba(255,255,255,0.25)',
+                fontSize:12, fontFamily:'inherit', cursor:'pointer', fontWeight:platforms.includes(p.id)?600:400}}>
               {p.icon} {p.label}
             </button>
           ))}
@@ -868,55 +879,69 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
   const slideTypes = ["hook","content","content","content","content","content","content","cta"];
 
   return (
-    <div style={{display:"flex", flexDirection:"column", gap:12, animation:"fadeIn 0.3s ease", maxWidth:720}}>
+    <div style={{display:"flex", flexDirection:"column", gap:14, animation:"fadeIn 0.3s ease", maxWidth:820}}>
 
       {/* STEP 1 — Idea input */}
-      <Panel b={b} label="STEP 1 — DROP YOUR IDEA">
+      <Panel b={b} label="STEP 1 — YOUR IDEA">
         <input
           value={idea}
           onChange={e=>setIdea(e.target.value)}
           onKeyDown={e=>{ if(e.key==="Enter") expandIdea(); }}
           placeholder="e.g. Why most traders blow their account in the first 90 days"
-          style={{width:"100%", background:"#000", border:idea?`1px solid ${b.accentBorder}`:"1px solid #111", borderRadius:7, padding:"12px 14px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:10}}
+          style={{width:"100%", background:"rgba(0,0,0,0.5)", border:idea?`1px solid ${b.accentBorder}`:"1px solid rgba(255,255,255,0.06)", borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box", marginBottom:12, transition:"border-color 0.2s"}}
         />
         <Btn b={b} disabled={!idea.trim()||expandLoading} onClick={expandIdea}
           label={expandLoading ? "⟳ EXPANDING..." : "✦ EXPAND INTO FULL BREAKDOWN"} />
         {expandStatus && (
-          <div style={{marginTop:8, fontSize:14, color:b.textMuted, textAlign:"center"}}>{expandStatus}</div>
+          <div style={{marginTop:10, fontSize:13, color:expandStatus.includes("Error")||expandStatus.includes("error")?"rgba(255,80,80,0.8)":b.textMuted, textAlign:"center", fontFamily:"Courier New,monospace", letterSpacing:"0.05em"}}>{expandStatus}</div>
         )}
       </Panel>
 
       {/* STEP 2 — Review & edit */}
       {showOutput && (
-        <Panel b={b} label="STEP 2 — REVIEW & EDIT CAROUSEL CONTENT">
+        <Panel b={b} label="STEP 2 — EDIT SLIDES">
           {/* Title */}
           <div style={{marginBottom:10}}>
-            <div style={{fontSize:17, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:4, letterSpacing:"0.1em"}}>TITLE</div>
+            <div style={{fontSize:11, color:b.textMuted, fontFamily:"Courier New,monospace", marginBottom:8, letterSpacing:"0.15em", fontWeight:600}}>CAROUSEL TITLE</div>
             <input
               value={carouselTitle}
               onChange={e=>setCarouselTitle(e.target.value)}
-              style={{width:"100%", background:"#000", border:"1px solid #111", borderRadius:7, padding:"11px 13px", color:b.textMain, fontSize:15, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
+              style={{width:"100%", background:"rgba(0,0,0,0.5)", border:`1px solid ${b.accentBorder}`, borderRadius:10, padding:"13px 16px", color:b.textMain, fontSize:16, fontWeight:600, fontFamily:"inherit", outline:"none", boxSizing:"border-box", letterSpacing:"0.02em"}}
             />
           </div>
           {/* Slides */}
-          <div style={{display:"flex", flexDirection:"column", gap:10}}>
+          <div style={{display:"flex", flexDirection:"column", gap:8}}>
             {slides.map((s,i)=>{
               const type = slideTypes[i]||"content";
               const typeColor = type==="hook"||type==="cta" ? b.accent : b.textMuted;
+              const wordCount = s.text.trim().split(/\s+/).filter(Boolean).length;
+              const overLimit = wordCount > 12;
               return (
-                <div key={i} style={{display:"flex", alignItems:"center", gap:12}}>
-                  <div style={{minWidth:20, height:20, borderRadius:"50%", background:type==="hook"||type==="cta"?b.accent:"#111", border:type==="hook"||type==="cta"?"none":"1px solid #333", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, color:type==="hook"||type==="cta"?"#000":b.textMuted, flexShrink:0, fontWeight:600}}>
+                <div key={i} style={{display:"flex", alignItems:"center", gap:10}}>
+                  <div style={{minWidth:26, height:26, borderRadius:8, background:type==="hook"||type==="cta"?b.accent:"rgba(255,255,255,0.04)", border:type==="hook"||type==="cta"?"none":"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, color:type==="hook"||type==="cta"?"#020f05":b.textMuted, flexShrink:0, fontWeight:700}}>
                     {s.num}
                   </div>
-                  <input
-                    value={s.text}
-                    onChange={e=>{const ns=[...slides]; ns[i]={...ns[i],text:e.target.value}; setSlides(ns);}}
-                    style={{flex:1, background:"#000", border:"1px solid #111", borderRadius:6, padding:"10px 13px", color:b.textMain, fontSize:14, fontFamily:"inherit", outline:"none", boxSizing:"border-box"}}
-                  />
-                  <div style={{fontSize:17, color:typeColor, width:28, textAlign:"right", flexShrink:0, fontFamily:"Courier New,monospace"}}>{type}</div>
+                  <div style={{flex:1, position:"relative"}}>
+                    <input
+                      value={s.text}
+                      onChange={e=>{const ns=[...slides]; ns[i]={...ns[i],text:e.target.value}; setSlides(ns);}}
+                      style={{width:"100%", background:"rgba(0,0,0,0.4)", border:`1px solid ${overLimit?"rgba(255,80,80,0.4)":"rgba(255,255,255,0.07)"}`, borderRadius:8, padding:"11px 44px 11px 14px", color:b.textMain, fontSize:14, fontFamily:"inherit", outline:"none", boxSizing:"border-box", transition:"border-color 0.2s"}}
+                    />
+                    <span style={{position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", fontSize:10, color:overLimit?"rgba(255,80,80,0.8)":b.textMuted, fontFamily:"Courier New,monospace", pointerEvents:"none"}}>{wordCount}w</span>
+                  </div>
+                  <div style={{fontSize:10, color:typeColor, width:38, textAlign:"center", flexShrink:0, fontFamily:"Courier New,monospace", letterSpacing:"0.06em", fontWeight:600}}>{type.toUpperCase()}</div>
+                  <button onClick={()=>setSlides(slides.filter((_,idx)=>idx!==i).map((s,idx)=>({...s,num:idx+1})))} title="Remove"
+                    style={{background:"none", border:"1px solid rgba(255,80,80,0.15)", borderRadius:6, color:"rgba(255,80,80,0.45)", cursor:"pointer", fontSize:11, width:26, height:26, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0}}>✕</button>
                 </div>
               );
             })}
+          </div>
+          <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:12, paddingTop:12, borderTop:`1px solid ${b.divider}`}}>
+            <button onClick={()=>setSlides(prev=>[...prev, {num:prev.length+1, text:""}])}
+              style={{padding:"7px 16px", borderRadius:8, background:b.highlight, border:`1px solid ${b.accentBorder}`, color:b.accent, fontSize:12, fontFamily:"inherit", cursor:"pointer", fontWeight:700, letterSpacing:"0.08em"}}>
+              + ADD SLIDE
+            </button>
+            <span style={{fontSize:11, color:b.textMuted, fontFamily:"Courier New,monospace"}}>{slides.length} slides · max 12w each</span>
           </div>
         </Panel>
       )}
@@ -928,7 +953,7 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
             <Btn b={b} disabled={canvaLoading||slides.length===0} onClick={sendToCanva}
               label={canvaLoading ? "⟳ SENDING TO CANVA..." : "◈ SEND TO CANVA — BUILD SLIDES"} />
             {canvaStatus.msg && (
-              <div style={{marginTop:10, fontSize:14, color:canvaStatusColor, textAlign:"center"}}>{canvaStatus.msg}</div>
+              <div style={{marginTop:10, fontSize:13, color:canvaStatusColor, textAlign:"center", fontFamily:"Courier New,monospace"}}>{canvaStatus.msg}</div>
             )}
           </div>
         </Panel>
@@ -936,14 +961,14 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
 
       {/* STEP 3b — Add to Queue */}
       {showOutput && (
-        <Panel b={b} label="ADD TO QUEUE">
+        <Panel b={b} label="STEP 4 — SCHEDULE & QUEUE">
           <QueueForm b={b} title={carouselTitle} slides={slides} />
         </Panel>
       )}
 
       {/* STEP 4 — Send to OpenAI (fallback) */}
       {showOutput && (
-        <Panel b={b} label="STEP 4 — SEND TO CHATGPT (FALLBACK)">
+        <Panel b={b} label="STEP 5 — SEND TO CHATGPT">
           {!apiKey && (
             <div style={{marginBottom:10, padding:"11px 13px", borderRadius:7, background:`${b.accent}07`, border:`1px solid ${b.accentBorder}`, fontSize:14, color:b.accent}}>
               ⚠ Add OpenAI API key in Settings to enable slide generation
@@ -962,7 +987,7 @@ Design each slide with proper layout, icons, and styling. Apply KCE brand identi
             </button>
           </div>
           {sendStatus.msg && (
-            <div style={{marginTop:8, fontSize:14, color:statusColor, textAlign:"center"}}>{sendStatus.msg}</div>
+            <div style={{marginTop:10, fontSize:13, color:statusColor, textAlign:"center", fontFamily:"Courier New,monospace"}}>{sendStatus.msg}</div>
           )}
         </Panel>
       )}
@@ -3576,43 +3601,59 @@ export default function KCEHub() {
   ];
 
   return (
-    <div style={{minHeight:"100vh",background:"#000",color:"#fff",fontFamily:"Arial,sans-serif"}}>
-      <div style={{background:"rgba(0,0,0,0.98)",borderBottom:`1px solid ${b.cardBorder}`,padding:"14px 24px",display:"flex",alignItems:"center",gap:16,flexWrap:"wrap",position:"sticky",top:0,zIndex:50}}>
-        <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:36,height:36,borderRadius:9,background:`${b.accent}12`,border:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13}}>⚡</div>
+    <div style={{minHeight:"100vh",background:"#060c08",color:"#f0faf4",fontFamily:"'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"}}>
+      {/* TOP NAV */}
+      <nav style={{background:b.navBg,borderBottom:`1px solid ${b.divider}`,padding:"0 28px",display:"flex",alignItems:"center",gap:0,position:"sticky",top:0,zIndex:100,height:58,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)"}}>
+        {/* Logo */}
+        <div style={{display:"flex",alignItems:"center",gap:10,paddingRight:28,borderRight:`1px solid ${b.divider}`,marginRight:20,height:"100%"}}>
+          <div style={{width:32,height:32,borderRadius:8,background:`linear-gradient(135deg,${b.accentSoft},${b.accent})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,boxShadow:b.glow}}>⚡</div>
           <div>
-            <div style={{fontSize:16,fontWeight:900,color:b.accent,letterSpacing:"0.1em",fontFamily:"Courier New,monospace"}}>KCE HUB</div>
-            <div style={{fontSize:16,color:b.textMuted,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>CONTENT PIPELINE</div>
+            <div style={{fontSize:14,fontWeight:800,color:b.accent,letterSpacing:"0.08em",lineHeight:1}}>KCE HUB</div>
+            <div style={{fontSize:10,color:b.textMuted,letterSpacing:"0.2em",fontFamily:"'Courier New',monospace",marginTop:1}}>CONTENT PIPELINE</div>
           </div>
         </div>
-        <div style={{display:"flex",gap:4,marginRight:"auto"}}>
+        {/* Brand switcher */}
+        <div style={{display:"flex",gap:6,marginRight:"auto"}}>
           {Object.values(BRANDS).map(br=>(
             <button key={br.id} onClick={()=>setActiveBrand(br.id)}
-              style={{padding:"8px 16px",borderRadius:20,background:activeBrand===br.id?`${br.accent}12`:"transparent",border:activeBrand===br.id?`1px solid ${br.accent}`:`1px solid ${br.cardBorder}`,color:activeBrand===br.id?br.accent:"#333",fontSize:14,fontFamily:"inherit",cursor:"pointer",fontWeight:activeBrand===br.id?900:400,transition:"all 0.3s"}}>
+              style={{padding:"6px 14px",borderRadius:8,background:activeBrand===br.id?br.highlight:"transparent",
+                border:activeBrand===br.id?`1px solid ${br.accentBorder}`:`1px solid transparent`,
+                color:activeBrand===br.id?br.accent:"rgba(255,255,255,0.2)",fontSize:12,fontFamily:"inherit",
+                cursor:"pointer",fontWeight:activeBrand===br.id?700:400,transition:"all 0.2s",letterSpacing:"0.05em"}}>
               {br.name.toUpperCase()}
             </button>
           ))}
         </div>
-        <div style={{display:"flex",gap:2}}>
+        {/* Tabs */}
+        <div style={{display:"flex",gap:2,height:"100%",alignItems:"center"}}>
           {tabs.map(t=>(
             <button key={t.id} onClick={()=>setActiveTab(t.id)}
-              style={{padding:"8px 14px",borderRadius:5,background:activeTab===t.id?`${b.accent}12`:"transparent",border:activeTab===t.id?`1px solid ${b.accentBorder}`:"1px solid transparent",color:activeTab===t.id?b.accent:"#2a2a2a",fontSize:14,fontFamily:"inherit",cursor:"pointer",transition:"all 0.2s"}}>
+              style={{padding:"6px 14px",borderRadius:8,height:34,
+                background:activeTab===t.id?b.highlight:"transparent",
+                border:activeTab===t.id?`1px solid ${b.accentBorder}`:"1px solid transparent",
+                color:activeTab===t.id?b.accent:"rgba(255,255,255,0.3)",
+                fontSize:12,fontFamily:"inherit",cursor:"pointer",transition:"all 0.2s",
+                fontWeight:activeTab===t.id?600:400,letterSpacing:"0.03em"}}>
               {t.label}
             </button>
           ))}
         </div>
-      </div>
-      <div style={{padding:"5px 18px",background:`radial-gradient(ellipse at center,${b.accent}0d,transparent)`,borderBottom:`1px solid ${b.accentBorder}`,display:"flex",alignItems:"center",gap:12}}>
-        <div style={{width:4,height:4,borderRadius:"50%",background:b.accent}}/>
-        <span style={{fontSize:17,color:b.accent,letterSpacing:"0.18em",fontFamily:"Courier New,monospace"}}>{b.name.toUpperCase()}</span>
-        <span style={{color:b.textMuted,fontSize:12}}>·</span>
-        <span style={{fontSize:17,color:b.textMuted,fontFamily:"Courier New,monospace"}}>
-          {keys.fal?"FLUX PRO ULTRA ✓":"NO IMAGE KEY"}
-          {keys.ayrshare?" · AYRSHARE ✓":" · AYRSHARE NEEDED"}
+      </nav>
+      {/* STATUS BAR */}
+      <div style={{padding:"8px 28px",background:`linear-gradient(90deg,${b.accent}08,transparent)`,borderBottom:`1px solid ${b.divider}`,display:"flex",alignItems:"center",gap:16}}>
+        <div style={{width:6,height:6,borderRadius:"50%",background:b.accent,boxShadow:b.glow}}/>
+        <span style={{fontSize:11,color:b.accent,letterSpacing:"0.15em",fontFamily:"'Courier New',monospace",fontWeight:600}}>{b.name.toUpperCase()}</span>
+        <span style={{color:b.divider,fontSize:10}}>|</span>
+        <span style={{fontSize:11,color:b.textMuted,fontFamily:"'Courier New',monospace"}}>
+          {keys.fal?"✓ FLUX ULTRA":"○ NO IMAGE KEY"}
         </span>
-        <span style={{marginLeft:"auto",fontSize:17,color:b.textMuted,fontFamily:"Courier New,monospace"}}>AUTO DISCLAIMER ON · {b.website}</span>
+        <span style={{color:b.divider,fontSize:10}}>|</span>
+        <span style={{fontSize:11,color:b.textMuted,fontFamily:"'Courier New',monospace"}}>
+          {keys.ayrshare?"✓ AYRSHARE":"○ AYRSHARE NEEDED"}
+        </span>
+        <span style={{marginLeft:"auto",fontSize:11,color:b.textMuted,fontFamily:"'Courier New',monospace",letterSpacing:"0.05em"}}>{b.website}</span>
       </div>
-      <div style={{padding:"24px 28px",maxWidth:1400,margin:"0 auto"}}>
+      <div style={{padding:"28px 32px",maxWidth:1440,margin:"0 auto",minHeight:"calc(100vh - 100px)"}}>
         {activeTab==="youtube"   && <YouTubeTab b={b} activeBrand={activeBrand} keys={keys}/>}
         {activeTab==="reels"     && <ReelsTab b={b} activeBrand={activeBrand} keys={keys}/>}
         {activeTab==="carousel"  && <CarouselTab b={b} keys={keys}/>}
@@ -3620,7 +3661,21 @@ export default function KCEHub() {
         {activeTab==="analytics" && <AnalyticsTab b={b} keys={keys}/>}
         {activeTab==="settings"  && <SettingsTab b={b} keys={keys} setKeys={setKeys}/>}
       </div>
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}*{box-sizing:border-box}input::placeholder,textarea::placeholder{color:#1a1a1a}::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#111;border-radius:2px}select{appearance:none}input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.2)}`}</style>
+      <style>{`
+        @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes glow{0%,100%{box-shadow:0 0 8px rgba(0,230,118,0.3)}50%{box-shadow:0 0 20px rgba(0,230,118,0.6)}}
+        *{box-sizing:border-box}
+        input,textarea,select{font-family:inherit}
+        input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.1)}
+        ::-webkit-scrollbar{width:4px;height:4px}
+        ::-webkit-scrollbar-track{background:rgba(0,0,0,0.2)}
+        ::-webkit-scrollbar-thumb{background:rgba(0,230,118,0.25);border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(0,230,118,0.45)}
+        select{appearance:none;-webkit-appearance:none}
+        input[type=date]::-webkit-calendar-picker-indicator,input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.3) sepia(1) hue-rotate(100deg);cursor:pointer}
+        button{transition:all 0.2s}
+        button:hover:not(:disabled){filter:brightness(1.1)}
+      `}</style>
     </div>
   );
 }
